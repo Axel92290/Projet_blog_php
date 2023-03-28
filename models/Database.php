@@ -45,7 +45,7 @@
                 //         PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING
                 //     )
                 // );
-                $dbh = new PDO('mysql:host=127.0.0.1;dbname=blog', 'axel', '');
+                $dbh = new PDO('mysql:host=172.20.0.4;dbname=blog', 'axel', 'axel');
             } catch (PDOException $e) {
 
                 var_dump($e->getMessage());
