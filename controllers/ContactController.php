@@ -2,7 +2,7 @@
 
 class ContactController extends BaseController
 {
-    public function index()
+    public function contact()
     {
 
         // on choisi la template à appeler

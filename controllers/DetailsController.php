@@ -1,12 +1,12 @@
 <?php
 
-class DetailController extends BaseController
+class DetailsController extends BaseController
 {
-    public function index()
+    public function details()
     {
 
         // on choisi la template à appeler
-        $template = $this->twig->load('details-posts/detail.html');
+        $template = $this->twig->load('details-posts/details.html');
 
         // $post = new Post();
         // $listPost = $post->getPosts();

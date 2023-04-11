@@ -3,7 +3,7 @@
 require 'autoload.php';
 require __DIR__ . '/../vendor/autoload.php';
 define('APP_DIRECTORY', __DIR__ . '/../');
-
+define('BASE_URL', 'http://blog.localhost');
 
 
 try {
@@ -19,10 +19,10 @@ try {
         $r->addRoute('GET', '/listing-posts/', ListingController::class . '/listing');
 
         // Page détail d'un post
-        $r->addRoute('GET', '/details-posts/{id:\d+}', DetailController::class . '/detail');
+        $r->addRoute('GET', '/details-posts/{id:\d+}', DetailsController::class . '/details');
 
         // Page de contact
-        $r->addRoute('GET', '/contact', ContactController::class . '/contact');
+        $r->addRoute('GET', '/contact/', ContactController::class . '/contact');
     });
 
     // Fetch method and URI from somewhere
