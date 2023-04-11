@@ -1,9 +1,5 @@
 <?php
 
-
-// phpinfo();
-// die;
-
 require 'autoload.php';
 require __DIR__ . '/../vendor/autoload.php';
 define('APP_DIRECTORY', __DIR__ . '/../');
@@ -20,10 +16,13 @@ try {
         $r->addRoute('GET', '/', IndexController::class . '/index');
 
         // Page des posts
-        $r->addRoute('GET', '/listing-posts/', PostsController::class . '/listing');
+        $r->addRoute('GET', '/listing-posts/', ListingController::class . '/listing');
 
         // Page détail d'un post
-        $r->addRoute('GET', '/details-posts/{id:\d+}', PostsController::class . '/detail');
+        $r->addRoute('GET', '/details-posts/{id:\d+}', DetailController::class . '/detail');
+
+        // Page de contact
+        $r->addRoute('GET', '/contact', ContactController::class . '/contact');
     });
 
     // Fetch method and URI from somewhere
