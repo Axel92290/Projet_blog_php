@@ -18,8 +18,18 @@ try {
         // Page des posts
         $r->addRoute('GET', '/listing-posts/', ListingController::class . '/listing');
 
+        // Page de création d'un post
+        $r->addRoute('GET', '/create-posts/', CreatePostsController::class . '/createPost');
+
+        // Page d'inscription
+        $r->addRoute('GET', '/inscription/', InscriptionController::class . '/inscription');
+
+        // Page de connexion
+        $r->addRoute('GET', '/connexion/', ConnexionController::class . '/connexion');
+
         // Page détail d'un post
-        $r->addRoute('GET', '/details-posts/{id:\d+}', DetailsController::class . '/details');
+        // $r->addRoute('GET', '/details-posts/{id:\d+}', DetailsController::class . '/details');
+        $r->addRoute('GET', '/details-posts/', DetailsController::class . '/details');
 
         // Page de contact
         $r->addRoute('GET', '/contact/', ContactController::class . '/contact');
