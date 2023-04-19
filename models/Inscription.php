@@ -3,10 +3,19 @@
 class Inscription extends Database
 {
 
-    public function insertData($nom, $prenom, $mail, $crypt_pword, $date_creation, $date_connexion)
+    public function insertData($nom, $prenom, $mail, $cryptPwd, $dateCreation, $dateConnexion)
     {
 
-        $req = $Database->prepare("INSERT INTO utilisateur(nom, prenom, mail, pword, date_creation, date_connexion) VALUES (?, ?, ?, ?, ?, ?)");
-        $req->execute(array($nom, $prenom, $mail, $crypt_pword, $date_creation, $date_connexion));
+        $req = $this->connexion->prepare("INSERT INTO utilisateur(nom, prenom, mail, pword, dateCreation, dateConnexion) VALUES (?, ?, ?, ?, ?, ?)");
+        $req->execute(array($nom, $prenom, $mail, $cryptPwd, $dateCreation, $dateConnexion));
+    }
+
+    public function verifMail($mail)
+    {
+
+        $req = $this->connexion->prepare("SELECT id FROM utilisateur WHERE mail = ?");
+        $req->execute(array($mail));
+        $result = $req->fetch();
+        return $result;
     }
 }
