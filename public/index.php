@@ -19,7 +19,7 @@ try {
         $r->addRoute('GET', '/listing-posts/', ListingController::class . '/listing');
 
         // Page de création d'un post
-        $r->addRoute('GET', '/create-posts/', CreatePostsController::class . '/createPost');
+        $r->addRoute(['GET', 'POST'], '/create-posts/', CreatePostsController::class . '/createPost');
 
         // Page d'inscription
         $r->addRoute('GET', '/inscription/', InscriptionController::class . '/inscription');
