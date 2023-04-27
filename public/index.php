@@ -22,10 +22,11 @@ try {
         $r->addRoute('GET', '/create-posts/', CreatePostsController::class . '/createPost');
 
         // Page d'inscription
-        $r->addRoute('GET', '/inscription/', InscriptionController::class . '/inscription');
+        $r->addRoute(['GET', 'POST'], '/inscription/', InscriptionController::class . '/inscription');
 
         // Page de connexion
-        $r->addRoute('GET', '/connexion/', ConnexionController::class . '/connexion');
+        $r->addRoute(['GET', 'POST'], '/connexion/', ConnexionController::class . '/connexion');
+        // $r->addRoute('POST', '/connexion/', ConnexionController::class . '/connexion');
 
         // Page détail d'un post
         // $r->addRoute('GET', '/details-posts/{id:\d+}', DetailsController::class . '/details');

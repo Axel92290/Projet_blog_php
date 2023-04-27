@@ -8,12 +8,23 @@ class ConnexionController extends BaseController
     private $err_nom;
     private $err_prenom;
     private $err_mail;
-    private $err_pword;
+    private $err_pwd;
 
 
     public function connexion()
     {
+        $errors = '';
 
+        if (isset($_POST['mail'])   && isset($_POST['pwd'])) {
+            $mail = $_POST['mail'];
+            $pwd = $_POST['pwd'];
+            if ($this->verif_connexion($mail, $pwd)) {
+                header('Location: /');
+                exit;
+            } else {
+                $errors = 'Identifiants incorrects';
+            }
+        }
         // on choisi la template à appeler
         $template = $this->twig->load('connexion/connexion.html');
 
@@ -22,11 +33,21 @@ class ConnexionController extends BaseController
 
 
         // Puis on affiche la page avec la méthode render
-        echo $template->render(['title' => 'Connexion']);
+        echo $template->render([
+            'title' => 'Connexion',
+            'errors' => $errors,
+        ]);
     }
 
-    public function verif_connexion($mail, $pword)
+    private function verif_connexion($mail, $pwd)
     {
+
+        $connexion = new Connexion();
+        $resultConnexion = $connexion->checkConnexion($mail, $pwd);
+        var_dump($resultConnexion);
+        return true;
+
+
 
         //Variables d'entrées
 
@@ -39,35 +60,35 @@ class ConnexionController extends BaseController
         global $DB;
 
         $mail = trim($mail);
-        $pword = trim($pword);
+        $pwd = trim($pwd);
 
         if (empty($mail)) {
             $this->valid  = false;
             $this->err_mail = "Ce champ ne peut pas être vide";
         }
 
-        if (empty($pword)) {
+        if (empty($pwd)) {
             $this->valid  = false;
-            $this->err_pword = "Ce champ ne peut pas être vide";
+            $this->err_pwd = "Ce champ ne peut pas être vide";
         }
 
 
 
         if ($this->valid) {
-            $req = $DB->prepare("SELECT pword FROM utilisateur WHERE mail =?");
+            $req = $DB->prepare("SELECT pwd FROM utilisateur WHERE mail =?");
             $req->execute(array($mail));
 
             $req = $req->fetch();
 
 
-            if (isset($req['pword'])) {
-                if (!password_verify($pword, $req['pword'])) {
+            if (isset($req['pwd'])) {
+                if (!password_verify($pwd, $req['pwd'])) {
                     $this->valid  = false;
-                    $this->err_pword = "Les informations rentrées sont incorrectes.";
+                    $this->err_pwd = "Les informations rentrées sont incorrectes.";
                 }
             } else {
                 $this->valid  = false;
-                $this->err_pword = "Les informations rentrées sont incorrectes.";
+                $this->err_pwd = "Les informations rentrées sont incorrectes.";
             }
         }
 
@@ -94,10 +115,10 @@ class ConnexionController extends BaseController
                 exit;
             } else {
                 $this->valid  = false;
-                $this->err_pword = "Les informations rentrées sont incorrectes.";
+                $this->err_pwd = "Les informations rentrées sont incorrectes.";
             }
         }
 
-        return [$this->err_mail, $this->err_pword];
+        return [$this->err_mail, $this->err_pwd];
     }
 }
