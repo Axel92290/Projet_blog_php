@@ -1,4 +1,5 @@
 <?php
+namespace Models;
 
 class Post extends Database
 {

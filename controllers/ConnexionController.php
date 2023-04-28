@@ -1,124 +1,59 @@
 <?php
 
+namespace Controllers;
+
+use Models\Users;
+
 class ConnexionController extends BaseController
 {
+    /**
+     * @var string
+     */
+    private string $errors = '';
 
-
-    private $valid;
-    private $err_nom;
-    private $err_prenom;
-    private $err_mail;
-    private $err_pwd;
-
-
-    public function connexion()
+    public function index()
     {
-        $errors = '';
+        $this->checkFormSubmitForm();
 
-        if (isset($_POST['mail'])   && isset($_POST['pwd'])) {
-            $mail = $_POST['mail'];
-            $pwd = $_POST['pwd'];
-            if ($this->verif_connexion($mail, $pwd)) {
-                header('Location: /');
-                exit;
-            } else {
-                $errors = 'Identifiants incorrects';
-            }
-        }
         // on choisi la template à appeler
         $template = $this->twig->load('connexion/connexion.html');
-
-        // $post = new Post();
-        // $listPost = $post->getPosts();
-
 
         // Puis on affiche la page avec la méthode render
         echo $template->render([
             'title' => 'Connexion',
-            'errors' => $errors,
+            'errors' => $this->errors,
         ]);
     }
 
-    private function verif_connexion($mail, $pwd)
+    /**
+     * @return void
+     */
+    private function checkFormSubmitForm()
     {
+        if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
-        $connexion = new Connexion();
-        $resultConnexion = $connexion->checkConnexion($mail, $pwd);
-        var_dump($resultConnexion);
-        return true;
+            $email = $_POST['email'];
+            $password = $_POST['password'];
 
+            $modelUser = new Users();
+            $userFound = $modelUser->loadUserByEmail($email);
 
-
-        //Variables d'entrées
-
-        //Variables déclarées
-        $this->valid = (bool) true;
-
-
-
-
-        global $DB;
-
-        $mail = trim($mail);
-        $pwd = trim($pwd);
-
-        if (empty($mail)) {
-            $this->valid  = false;
-            $this->err_mail = "Ce champ ne peut pas être vide";
-        }
-
-        if (empty($pwd)) {
-            $this->valid  = false;
-            $this->err_pwd = "Ce champ ne peut pas être vide";
-        }
-
-
-
-        if ($this->valid) {
-            $req = $DB->prepare("SELECT pwd FROM utilisateur WHERE mail =?");
-            $req->execute(array($mail));
-
-            $req = $req->fetch();
-
-
-            if (isset($req['pwd'])) {
-                if (!password_verify($pwd, $req['pwd'])) {
-                    $this->valid  = false;
-                    $this->err_pwd = "Les informations rentrées sont incorrectes.";
+            if ($userFound) {
+                $passwordHash = $userFound['pwd'];
+                if (password_verify($password, $passwordHash)) {
+                    $_SESSION['user'] = [
+                        'email' => $email,
+                        'firstname' => $userFound['firstname'],
+                        'lastname' => $userFound['lastname'],
+                    ];
+                    header('Location: /');
+                    exit;
+                } else {
+                    $this->errors = 'Mot de passe incorrect!';
                 }
             } else {
-                $this->valid  = false;
-                $this->err_pwd = "Les informations rentrées sont incorrectes.";
+                $this->errors = 'Utilisateur introuvable!';
             }
         }
-
-
-        if ($this->valid) {
-            $req = $DB->prepare("SELECT * FROM utilisateur WHERE mail =?");
-            $req->execute(array($mail));
-
-            $req_user = $req->fetch();
-
-            if (isset($req_user['id'])) {
-                $date_connexion = date('Y-m-d H:i:s');
-
-
-                $req = $DB->prepare("UPDATE utilisateur SET date_connexion = ? WHERE id = ?");
-                $req->execute(array($date_connexion, $req_user['id']));
-
-                $_SESSION['id'] = $req_user['id'];
-                $_SESSION['prenom'] = $req_user['prenom'];
-                $_SESSION['mail'] = $req_user['mail'];
-                $_SESSION['role'] = $req_user['role'];
-
-                header('Location: index.php');
-                exit;
-            } else {
-                $this->valid  = false;
-                $this->err_pwd = "Les informations rentrées sont incorrectes.";
-            }
-        }
-
-        return [$this->err_mail, $this->err_pwd];
     }
 }

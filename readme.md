@@ -16,3 +16,5 @@ Pour accéder à phpMyAdmin :
 http://localhost:8080/
 
 Accéder à votre site en tapant l'URl suivante : http://blog.localhost/
+
+composer dump-autoload

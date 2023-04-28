@@ -1,4 +1,5 @@
 <?php
+namespace Controllers;
 
 class DetailsController extends BaseController
 {
