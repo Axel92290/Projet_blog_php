@@ -2,6 +2,8 @@
 
 class CreatePostsController extends BaseController
 {
+    private string $errors = '';
+
     public function createPost()
     {
 
@@ -10,7 +12,12 @@ class CreatePostsController extends BaseController
 
 
         // Puis on affiche la page avec la méthode render
-        echo $template->render(['title' => 'Création d\'un post']);
+        echo $template->render([
+            'title' => 'Création d\'un post',
+            'errors' => $this->errors
+
+
+        ]);
 
         if (!empty($_POST['titre']) && !empty($_POST['contenu']) && !empty($_POST['submit'])) {
 
@@ -26,6 +33,8 @@ class CreatePostsController extends BaseController
 
             $post = new Post();
             $post->createPost($title, $content, $dateCreation, $dateModification, $idUser);
+        } else {
+            $this->errors = 'Veuillez remplir tous les champs';
         }
     }
 }
