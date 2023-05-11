@@ -1,7 +1,19 @@
 <?php
 
-require 'autoload.php';
+session_start();
+
+use Controllers\ConnexionController;
+use Controllers\ContactController;
+use Controllers\CreatePostsController;
+use Controllers\DetailsController;
+use Controllers\IndexController;
+use Controllers\ListingController;
+use Controllers\LogoutController;
+use Controllers\RegisterController;
+
 require __DIR__ . '/../vendor/autoload.php';
+
+
 define('APP_DIRECTORY', __DIR__ . '/../');
 define('BASE_URL', 'http://blog.localhost');
 
@@ -19,10 +31,10 @@ try {
         $r->addRoute('GET', '/listing-posts/', ListingController::class . '/listing');
 
         // Page de création d'un post
-        $r->addRoute(['GET', 'POST'], '/create-posts/', CreatePostsController::class . '/createPost');
+        $r->addRoute('GET', '/create-posts/', CreatePostsController::class . '/createPost');
 
         // Page d'inscription
-        $r->addRoute(['GET', 'POST'], '/inscription/', InscriptionController::class . '/inscription');
+        $r->addRoute(['GET', 'POST'], '/register/', RegisterController::class . '/register');
 
         // Page de connexion
         $r->addRoute(['GET', 'POST'], '/connexion/', ConnexionController::class . '/connexion');
@@ -34,6 +46,9 @@ try {
 
         // Page de contact
         $r->addRoute('GET', '/contact/', ContactController::class . '/contact');
+
+        // Page de deconnexion
+        $r->addRoute('GET', '/logout/', LogoutController::class . '/index');
     });
 
     // Fetch method and URI from somewhere

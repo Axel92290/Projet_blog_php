@@ -1,65 +1,34 @@
- <?php
+<?php
 
- // Déclaration d'une nouvelle classe
+namespace Models;
 
- class Database
- {
+use PDO;
+use Tools\Config;
 
-    private $host    = '91.170.83.130';   // nom de l'host
+class Database
+{
+    /**
+     * @var PDO
+     */
+    protected PDO $connexion;
 
-    private $port   = '5089';       // port de connexion
-
-    private $name    = 'blog';     // nom de la base de donnée
-
-    private $user    = 'axel';        // utilisateur
-
-    private $pass    = 'axel';        // mot de passe
-
-    protected $connexion;
-
-
-
-    function __construct($host = null, $port = null, $name = null, $user = null, $pass = null)
+    public function __construct()
     {
-
-       if ($host != null) {
-
-          $this->host = $host;
-
-          $this->port = $port;
-
-          $this->name = $name;
-
-          $this->user = $user;
-
-          $this->pass = $pass;
-       }
-
-       try {
-
-          $this->connexion = new PDO(
-             'mysql:host=' . $this->host . ';dbname=' . $this->name . ';port=' . $this->port,
-             $this->user,
-             $this->pass,
-             array(
-                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',
-
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING
-             )
-          );
-       } catch (PDOException $e) {
-
-          var_dump($e->getMessage());
-          echo 'Erreur : Impossible de se connecter à la BDD !';
-
-          die();
-       }
+        try {
+            $conf = new Config();
+            $this->connexion = new PDO(
+                'mysql:host=' . $conf->get('host') . ';dbname=' . $conf->get('dbname') . ';port=' . $conf->get('port'),
+                $conf->get('user'),
+                $conf->get('password'),
+                array(
+                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8',
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING
+                )
+            );
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            die;
+        }
     }
 
-
-
-    public function getConnexion()
-    {
-       return $this->connexion;
-    }
- }
+}
