@@ -13,8 +13,6 @@ class CreatePostsController extends BaseController
     private string $errors = '';
     
 
-    private string $errors = '';
-
 
     public function createPost()
     {
