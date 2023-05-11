@@ -2,6 +2,8 @@
 
 class ListingController extends BaseController
 {
+    private string $errors = '';
+
     public function listing()
     {
 
@@ -10,6 +12,13 @@ class ListingController extends BaseController
 
 
         // Puis on affiche la page avec la méthode render
-        echo $template->render(['title' => 'Liste des posts']);
+        echo $template->render([
+            'title' => 'Liste des posts',
+            'errors' => $this->errors
+        ]);
+
+
+        $post = new Post();
+        $listPost = $post->getPosts();
     }
 }
