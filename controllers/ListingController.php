@@ -1,4 +1,7 @@
 <?php
+namespace Controllers;
+
+use Models\Post;
 
 class ListingController extends BaseController
 {
@@ -9,6 +12,10 @@ class ListingController extends BaseController
 
         // on choisi la template à appeler
         $template = $this->twig->load('listing-posts/listing.html');
+
+        
+        $post = new Post();
+        $listPost = $post->getPosts();
 
 
         // Puis on affiche la page avec la méthode render

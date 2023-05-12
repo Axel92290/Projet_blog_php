@@ -51,6 +51,5 @@ class CreatePostsController extends BaseController
 
         }
 
-
     }
 }
