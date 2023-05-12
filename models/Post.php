@@ -22,7 +22,7 @@ class Post extends Database
 
     public function getPosts()
     {
-        $posts = $this->connexion->query('SELECT * FROM posts ORDER BY ordre ASC');
+        $posts = $this->connexion->query('SELECT * FROM posts ORDER BY id DESC');
         return $posts;
     }
     
