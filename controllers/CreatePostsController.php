@@ -45,7 +45,7 @@ class CreatePostsController extends BaseController
 
             $post = new Post();
             $post->createPost($title, $content, $dateCreation, $dateModification, $idUser);
-            header('Location: /');
+
         } else {
             $this->errors = 'Veuillez remplir tous les champs';
 

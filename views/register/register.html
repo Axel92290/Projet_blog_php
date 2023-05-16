@@ -12,7 +12,9 @@
     
 {% if errors is not empty %}
 <div class="alert alert-danger" role="alert">
-    Les informations saisies sont incorrectes.
+    {% for error in errors %}
+    <p>{{error}}</p>
+    {% endfor %}]]
 </div>
 {% endif %}
 
