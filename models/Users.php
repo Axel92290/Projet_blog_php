@@ -30,16 +30,17 @@ class Users extends Database
      */
     public function insertData($nom, $prenom, $email, $pwd, $createdAt, $updatedAt): mixed
     {
-        try {
+        try{
             $stmt = $this->connexion->prepare('INSERT INTO users (firstname, lastname, email, pwd, createdAt, updatedAt) VALUES (:firstname, :lastname, :email, :pwd , :createdAt, :updatedAt)');
             $stmt->bindValue('firstname', $prenom);
             $stmt->bindValue('lastname', $nom);
-            $stmt->bindValue('email', $email);
+            $stmt->bindValue('email', $mail);
             $stmt->bindValue('pwd', $pwd);
             $stmt->bindValue('createdAt', $createdAt);
             $stmt->bindValue('updatedAt', $updatedAt);
             return $stmt->execute();
-        } catch (PDOException $e) {
+
+        }catch (\PDOException $e){
             echo $e->getMessage();
             die;
         }
@@ -48,7 +49,6 @@ class Users extends Database
 
     public function updateDateConnexion($email, $updatedAt) : mixed
     {
-
         try {
             $stmt = $this->connexion->prepare('UPDATE users SET updatedAt = :updatedAt WHERE email = :email');
             $stmt->bindValue('updatedAt', $updatedAt);
@@ -58,7 +58,8 @@ class Users extends Database
             echo $e->getMessage();
             die;
         }
-    }
+
+
 
     public function checkUserByEmail($email) : mixed
     {      
@@ -72,11 +73,11 @@ class Users extends Database
             echo $e->getMessage();
             die;
         }
-
     }
 
     public function checkConnexion($email, $pwd) : mixed
     {
+
         try {
             $req = $this->connexion->prepare("SELECT * FROM users WHERE email = ? AND pwd = ?");
             $req->bindValue('email', $email);
