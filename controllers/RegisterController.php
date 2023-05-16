@@ -20,7 +20,6 @@ class RegisterController extends BaseController
         ]);
 
 
-        // if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['pwd']) && isset($_POST['confPwd'])) {
         if (isset($_REQUEST['inscription'])) {
 
             if(empty($_POST['nom'])){
@@ -43,8 +42,8 @@ class RegisterController extends BaseController
                 $this->errors = 'Veuillez entrer un email valide';
             }elseif(!empty($_POST['mail'])) {
                 $modelUser = new Users();
-                $mailFound = $modelUser->checkUserByEmail($_POST['mail'] );
-                if (!empty($mailFound)) {
+                $mailFound = $modelUser->checkUserByEmail($_POST['mail']);
+                if (($mailFound)) {
                     $this->errors = 'Cet email est déjà utilisé';
                 }else{
                     $mail = $_POST['mail'];
@@ -72,15 +71,15 @@ class RegisterController extends BaseController
             }            
             
             $createdAt = date('Y-m-d H:i:s');
-            $UpdateAt = date('Y-m-d H:i:s');
+            $updatedAt = date('Y-m-d H:i:s');
             $pwd = password_hash($pwd, PASSWORD_ARGON2ID);
 
 
             $modelUser = new Users();
-            $insertUser = $modelUser->insertData($nom, $prenom, $mail, $pwd, $confpassword, $createdAt, $UpdateAt);
+            $insertUser = $modelUser->insertData($nom, $prenom, $mail, $pwd, $createdAt, $updatedAt);
 
             if ($insertUser) {
-                header('Location: /connexion');
+                // header('Location: /connexion');
                 exit;
             } else {
                 $this->errors = 'Erreur lors de l\'inscription';

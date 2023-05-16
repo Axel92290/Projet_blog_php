@@ -49,7 +49,6 @@ class ConnexionController extends BaseController
                         'lastname' => $userFound['lastname'],
                     ];
                     $modelUser->updateDateConnexion($email, $updatedAt);
-                    header('Location: /');
                     exit;
                 } else {
                     $this->errors = 'Mot de passe incorrect!';
