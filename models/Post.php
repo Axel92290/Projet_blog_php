@@ -37,7 +37,7 @@ class Post extends Database
     }
 
 
-    public function getPost($id)
+    public function getDetailPost($id)
     {
         try{
         $req = $this->connexion->prepare("SELECT * FROM posts WHERE id = :id");

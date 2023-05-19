@@ -29,10 +29,11 @@
                                     <div class="post-preview">
                                         <a href="{{base_url}}/details-posts/{{post.id}}">
                                             <h2 class="post-title">{{post.titre}}</h2>
+                                            <h3 class="post-subtitle">{{post.contenu}}</h3>
                                         </a>
                                         <p class="post-meta">
-                                            Posted by {{post.idUser}}
-                                            on {{post.dateCreation}}
+                                            Posté par {{post.idUser}}
+                                            Modifié le {{post.dateModification|date("d/m/Y")}} à {{post.dateModification|date("H:i:s")}}
                                         </p>
                                     </div>
                                     <!-- Divider-->
