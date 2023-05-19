@@ -10,6 +10,8 @@ class RegisterController extends BaseController
 
     public function register()
     {
+
+        $this->checkSession();
         // on choisi la template à appeler
         $template = $this->twig->load('register/register.html');
 
@@ -87,6 +89,14 @@ class RegisterController extends BaseController
         ]);
 
         
+    }
+
+    private function checkSession()
+    {
+        if (isset($_SESSION['user'])) {
+            header('Location: /connexion/');
+            exit;
+        }
     }
 
 

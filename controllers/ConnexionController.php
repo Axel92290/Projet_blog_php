@@ -13,6 +13,7 @@ class ConnexionController extends BaseController
 
     public function connexion()
     {
+        $this->checkSession();
         $this->checkFormSubmitForm();
 
         // on choisi la template à appeler
@@ -45,9 +46,17 @@ class ConnexionController extends BaseController
                     $updatedAt = date('Y-m-d H:i:s');
                     $_SESSION['user'] = [
                         'id' => $userFound['id'],
-                        'email' => $email,
+                        'email' => $userFound['email'],
                         'firstname' => $userFound['firstname'],
                         'lastname' => $userFound['lastname'],
+                        'catchphrase' => $userFound['catchphrase'],
+                        'facebook' => $userFound['facebook'],
+                        'linkedin' => $userFound['linkedin'],
+                        'github' => $userFound['github'],
+                        'twitter' => $userFound['twitter'],
+                        'instagram' => $userFound['instagram'],
+                        'cv' => $userFound['cv'],
+                        'role' => $userFound['role'],
                     ];
                     $modelUser->updateDateConnexion($email, $updatedAt);
                     
@@ -60,6 +69,14 @@ class ConnexionController extends BaseController
             } else {
                 $this->errors = 'Utilisateur introuvable!';
             }
+        }
+    }
+
+    private function checkSession()
+    {
+        if (isset($_SESSION['user'])) {
+            header('Location: /connexion/');
+            exit;
         }
     }
 }
