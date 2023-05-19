@@ -23,7 +23,7 @@
                 <div class="card shadow-2-strong" style="border-radius: 1rem;">
                     <div class="card-body p-5 text-center">
 
-                        <h3 class="mb-5">Se connecter</h3>
+                        <h3 class="mb-5">Mot de passe oublié</h3>
 
                         <div class="form-outline mb-4">
                             <input type="email" id="typeEmailX-2" class="form-control form-control-lg"
@@ -32,19 +32,16 @@
 
                         <div class="form-outline mb-4">
                             <input type="password" id="typePasswordX-2" class="form-control form-control-lg"
-                                placeholder="Mot de passe" name="pwd" />
+                                placeholder="Nouveau mot de passe" name="newPwd" />
                         </div>
 
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                        <div class="form-outline mb-4">
+                            <input type="password" id="typePasswordX-2" class="form-control form-control-lg"
+                                placeholder="Confirmez le nouveau mot de passe" name="confNewPwd" />
+                        </div>
 
-                        <hr>
-                        
-                        <a href="{{base_url}}/register/">
-                            <button type="button" class="btn btn-primary btn-sm">S'inscrire</button>
-                        </a>
-                        <a href="{{base_url}}/forgotpwd/">
-                            <button type="button" class="btn btn-primary btn-sm">Mot de passe oublié</button>
-                        </a>
+                        <button class="btn btn-primary btn-lg btn-block" type="update">Update</button>
+
                     </div>
                 </div>
             </div>

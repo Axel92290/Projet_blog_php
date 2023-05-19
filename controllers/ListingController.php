@@ -16,7 +16,7 @@ class ListingController extends BaseController
         
         $post = new Post();
         $listPosts = $post->getPosts();
-        var_dump($listPosts);
+        // var_dump($listPosts);
 
 
         // Puis on affiche la page avec la méthode render

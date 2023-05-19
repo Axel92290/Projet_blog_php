@@ -6,14 +6,14 @@ class Post extends Database
 {
 
     
-    public function createPost($title, $content,$id_user)
+    public function createPost($title, $content,$idUser)
     {
         try{
 
-            $req = $this->connexion->prepare("INSERT INTO post(title, contenu, dateCreation, idUser) VALUES (:title, :content, NOW(), :idUser)");
-            $req->bindValue('title', $title);
+            $req = $this->connexion->prepare("INSERT INTO posts (titre, contenu, dateModification, idUser) VALUES (:titre, :content, NOW(), :idUser)");
+            $req->bindValue('titre', $title);
             $req->bindValue('content', $content);
-            $req->bindValue('idUser', $id_user);
+            $req->bindValue('idUser', $idUser);
             return $req->execute();
 
         }catch(\PDOException $e){
@@ -24,26 +24,36 @@ class Post extends Database
 
     public function getPosts()
     {
+        try{
         $req = $this->connexion->prepare("SELECT * FROM posts ORDER BY dateCreation DESC");
         $req->execute();
         $result = $req->fetchAll(PDO::FETCH_ASSOC);
         return $result;
-     
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
 
     }
 
 
     public function getPost($id)
     {
+        try{
         $req = $this->connexion->prepare("SELECT * FROM posts WHERE id = :id");
         $req->bindValue('id', $id);
         $req->execute();
         $result = $req->fetch(PDO::FETCH_ASSOC);
         return $result;
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
     }
 
     public function updatePost($id, $titre, $contenu, $dateModification)
     {
+        try{
         $req = $this->connexion->prepare("UPDATE posts SET titre = :titre, contenu = :contenu, dateModification = :dateModification WHERE id = :id");
         $req->bindValue('id', $id);
         $req->bindValue('titre', $titre);
@@ -52,6 +62,10 @@ class Post extends Database
         $req->execute();
         $result = $req->fetch(PDO::FETCH_ASSOC);
         return $result;
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
     }
 
     public function deletePost($id)
@@ -72,8 +86,9 @@ class Post extends Database
     public function getDatas(){
         $req = $this->connexion->prepare("SELECT p.*, u.prenom,
                                           FROM posts p 
-                                          INNER JOIN utilisateur u ON u.id = p.idUsers 
-                                          ORDER BY p.dateCreation DESC");
+                                          INNER JOIN users u ON u.id = p.idUsers 
+                                          ");
+
         $req->execute();
         $result = $req->fetchAll(PDO::FETCH_ASSOC);
         return $result;

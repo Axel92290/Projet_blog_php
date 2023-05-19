@@ -11,6 +11,7 @@ use Controllers\IndexController;
 use Controllers\ListingController;
 use Controllers\LogoutController;
 use Controllers\RegisterController;
+use Controllers\ForgotPwdController;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -39,17 +40,18 @@ try {
 
         // Page de connexion
         $r->addRoute(['GET', 'POST'], '/connexion/', ConnexionController::class . '/connexion');
-        // $r->addRoute('POST', '/connexion/', ConnexionController::class . '/connexion');
+
+        // Page de mot de passe oublié
+        $r->addRoute(['GET', 'POST'], '/forgotpwd/', ForgotPwdController::class . '/forgotpwd');
 
         // Page détail d'un post
         $r->addRoute(['GET', 'POST'], '/details-posts/{id:\d+}', DetailsController::class . '/details');
-        // $r->addRoute(['GET', 'POST'], '/details-posts/', DetailsController::class . '/details');
 
         // Page de contact
         $r->addRoute(['GET', 'POST'], '/contact/', ContactController::class . '/contact');
 
         // Page de deconnexion
-        $r->addRoute(['GET', 'POST'], '/logout/', LogoutController::class . '/index');
+        $r->addRoute(['GET', 'POST'], '/logout/', LogoutController::class . '/logout');
     });
 
     // Fetch method and URI from somewhere

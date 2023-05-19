@@ -2,6 +2,9 @@
 
 namespace Controllers;
 
+use Models\Post;
+use Models\User;
+
 class IndexController extends BaseController
 {
     public function index()

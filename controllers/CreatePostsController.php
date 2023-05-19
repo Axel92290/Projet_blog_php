@@ -10,8 +10,8 @@ class CreatePostsController extends BaseController
     /**
      * @var string
      */
-    private string $errors = '';
-    
+    private array $errors = [];
+
 
 
     public function createPost()
@@ -21,35 +21,40 @@ class CreatePostsController extends BaseController
         // on choisi la template à appeler
         $template = $this->twig->load('create-posts/create.html');
 
+        $this->checkSession();
 
-        // Puis on affiche la page avec la méthode render
 
+        if (!empty($_POST)) {
 
+            if (empty($_POST['title'])) {
+                $this->errors[] = 'Veuillez remplir le champ titre';
+            } elseif (empty($_POST['content'])) {
+                $this->errors[] = 'Veuillez remplir le champ contenu';
+            } else {
+                $title = ucfirst(trim($_POST['title']));
+                $content = ucfirst(trim($_POST['content']));
+                $idUser = $_SESSION['user']['id'];
+                $post = new Post();
+                $post->createPost($title, $content, $idUser);
+                header('Location: /listing-posts/');
+                exit;
+            }
+        } else {
+            $this->errors[] = 'Veuillez remplir tous les champs';
+        }
 
         echo $template->render([
             'title' => 'Création d\'un post',
-            'errors' => $this->errors
+            'errors' => $this->errors,
 
         ]);
+    }
 
-        if (!empty($_POST['titre']) && !empty($_POST['contenu']) && !empty($_POST['submit'])) {
-
-
-            $title = $_POST['titre'];
-            $title = ucfirst(trim($title));
-            $content = $_POST['contenu'];
-            $content = ucfirst(trim($content));
-            $idUser = $_SESSION['id'];
-
-            $post = new Post();
-
-            $post->createPost($title, $content, $idUser);
-            header('Location: /');
-
-        } else {
-            $this->errors = 'Veuillez remplir tous les champs';
-
+    private function checkSession()
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /connexion/');
+            exit;
         }
-
     }
 }

@@ -32,7 +32,7 @@ class ConnexionController extends BaseController
     {
         if (!empty($_POST['mail']) && !empty($_POST['pwd'])) {
 
-            $email = $_POST['mail'];
+            $email = lcfirst($_POST['mail']);
             $password = $_POST['pwd'];
 
             $modelUser = new Users();
