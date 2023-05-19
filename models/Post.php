@@ -6,12 +6,13 @@ class Post extends Database
 {
 
     
-    public function createPost($title, $content,$idUser)
+    public function createPost($title,$chapô, $content, $idUser)
     {
         try{
 
-            $req = $this->connexion->prepare("INSERT INTO posts (titre, contenu, dateModification, idUser) VALUES (:titre, :content, NOW(), :idUser)");
+            $req = $this->connexion->prepare("INSERT INTO posts (titre, chapô, contenu, dateModification, idUser) VALUES (:titre, :chapô, :content, NOW(), :idUser)");
             $req->bindValue('titre', $title);
+            $req->bindValue('chapô', $chapô);
             $req->bindValue('content', $content);
             $req->bindValue('idUser', $idUser);
             return $req->execute();
@@ -84,9 +85,9 @@ class Post extends Database
     }
 
     public function getDatas(){
-        $req = $this->connexion->prepare("SELECT p.*, u.prenom,
+        $req = $this->connexion->prepare("SELECT p.*, u.firstname, u.id
                                           FROM posts p 
-                                          INNER JOIN users u ON u.id = p.idUsers 
+                                          INNER JOIN users u ON u.id = p.idUser 
                                           ");
 
         $req->execute();
