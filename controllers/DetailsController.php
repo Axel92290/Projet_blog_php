@@ -13,16 +13,14 @@ class DetailsController extends BaseController
         $template = $this->twig->load('details-posts/details.html');
 
 
+        $post = new Post();
+        $detailPost = $post->getDetailPost($id);
 
 
-        $detailPost = new Post();
-        $detailPost = $detailPost->getPost($id);
-
-                // Puis on affiche la page avec la méthode render
-                echo $template->render([
-                    'title' => 'Détail d\'un post',
-                    'detailPost' => $detailPost,
-                ]);
-
+        // Puis on affiche la page avec la méthode render
+        echo $template->render([
+            'title' => 'Détail d\'un post',
+            'detailPost' => $detailPost,
+        ]);
     }
 }
