@@ -98,11 +98,11 @@ class Users extends Database
         }
     }
 
-    public function forgotPwd($mail, $pwd) :mixed
+    public function updatePwd($mail, $newPwd) :mixed
     {
         try{
             $req = $this->connexion->prepare("UPDATE users SET pwd = :pwd WHERE email = :email");
-            $req->bindValue('pwd', $pwd);
+            $req->bindValue('pwd', $newPwd);
             $req->bindValue('email', $mail);
             return $req->execute();
         }catch(\PDOException $e){

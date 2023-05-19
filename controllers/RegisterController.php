@@ -43,8 +43,7 @@ class RegisterController extends BaseController
                 if (!empty($mailFound)) {
                     $this->errors[] = 'Cet email est déjà utilisé';
                 }else{
-                    $mail = $_POST['mail'];
-                    $mail = (string) trim($mail);
+                    $mail = (string) lcfirst(trim($_POST['mail']));
                 }
             }
 
