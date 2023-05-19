@@ -50,6 +50,9 @@ try {
 
         // Page de deconnexion
         $r->addRoute(['GET', 'POST'], '/logout/', LogoutController::class . '/index');
+
+        // Page de mot de passe oublié
+        $r->addRoute(['GET', 'POST'], '/forgotpwd/', LogoutController::class . '/index');
     });
 
     // Fetch method and URI from somewhere
