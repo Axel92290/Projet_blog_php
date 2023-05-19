@@ -17,7 +17,7 @@ class Users extends Database
             $stmt->bindParam('email', $email);
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             die;
         }
@@ -53,17 +53,18 @@ class Users extends Database
             $stmt->bindValue('updatedAt', $updatedAt);
             $stmt->bindValue('email', $email);
             return $stmt->execute();
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             die;
         }
 
         $req = $this->connexion->prepare("SELECT id FROM users WHERE email = :email");
-        $req->bindValue('email', $mail);
+        $req->bindValue('email', $email);
         $req->execute();
         $result = $req->fetch(PDO::FETCH_ASSOC);
         
         return $result;
+    }
 
 
     public function checkUserByEmail($email) : mixed
@@ -74,7 +75,7 @@ class Users extends Database
             $req->execute();
             $result = $req->fetch(PDO::FETCH_ASSOC);
             return $result;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             die;
         }
@@ -91,7 +92,7 @@ class Users extends Database
             $req->execute();
             $result = $req->fetch(PDO::FETCH_ASSOC);
             return $result;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             die;
         }

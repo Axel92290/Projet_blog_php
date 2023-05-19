@@ -20,6 +20,7 @@ class Post extends Database
             echo $e->getMessage();
             die;
         }
+    }
 
     public function getPosts()
     {

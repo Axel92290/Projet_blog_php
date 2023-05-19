@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+// var_dump($_SESSION['user']);
 
 use Controllers\ConnexionController;
 use Controllers\ContactController;
@@ -41,8 +42,8 @@ try {
         // $r->addRoute('POST', '/connexion/', ConnexionController::class . '/connexion');
 
         // Page détail d'un post
-        // $r->addRoute('GET', '/details-posts/{id:\d+}', DetailsController::class . '/details');
-        $r->addRoute(['GET', 'POST'], '/details-posts/', DetailsController::class . '/details');
+        $r->addRoute(['GET', 'POST'], '/details-posts/{id:\d+}', DetailsController::class . '/details');
+        // $r->addRoute(['GET', 'POST'], '/details-posts/', DetailsController::class . '/details');
 
         // Page de contact
         $r->addRoute(['GET', 'POST'], '/contact/', ContactController::class . '/contact');

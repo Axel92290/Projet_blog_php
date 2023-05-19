@@ -30,10 +30,10 @@ class ConnexionController extends BaseController
      */
     private function checkFormSubmitForm()
     {
-        if (!empty($_POST['email']) && !empty($_POST['password'])) {
+        if (!empty($_POST['mail']) && !empty($_POST['pwd'])) {
 
-            $email = $_POST['email'];
-            $password = $_POST['password'];
+            $email = $_POST['mail'];
+            $password = $_POST['pwd'];
 
             $modelUser = new Users();
             $userFound = $modelUser->loadUserByEmail($email);
@@ -44,13 +44,17 @@ class ConnexionController extends BaseController
 
                     $updatedAt = date('Y-m-d H:i:s');
                     $_SESSION['user'] = [
+                        'id' => $userFound['id'],
                         'email' => $email,
                         'firstname' => $userFound['firstname'],
                         'lastname' => $userFound['lastname'],
                     ];
                     $modelUser->updateDateConnexion($email, $updatedAt);
+                    
+                    header('Location: /');
                     exit;
                 } else {
+
                     $this->errors = 'Mot de passe incorrect!';
                 }
             } else {

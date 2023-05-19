@@ -15,17 +15,18 @@ class ListingController extends BaseController
 
         
         $post = new Post();
-        $listPost = $post->getPosts();
+        $listPosts = $post->getPosts();
+        var_dump($listPosts);
 
 
         // Puis on affiche la page avec la méthode render
         echo $template->render([
             'title' => 'Liste des posts',
-            'errors' => $this->errors
+            'listPosts' => $listPosts
+
         ]);
 
 
-        $post = new Post();
-        $listPost = $post->getPosts();
+
     }
 }
