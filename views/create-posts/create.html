@@ -21,9 +21,18 @@
                     name="content"></textarea>
                 <label for="message">Message</label>
             </div>
+
+        </br>
+            {% if errors is not empty %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in errors %}
+                <p>{{error}}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
             <br />
             <!-- Submit Button-->
-            <button class="btn btn-primary text-uppercase" value="submit" type="submit" name="creer">Créer un
+            <button class="btn btn-primary text-uppercase"  type="submit" name="creer">Créer un
                 post</button>
         </form>
 
