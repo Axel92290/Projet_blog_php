@@ -39,12 +39,10 @@ class CreatePostsController extends BaseController
             $title = ucfirst(trim($title));
             $content = $_POST['contenu'];
             $content = ucfirst(trim($content));
-            $dateCreation = date('Y-m-d H:i:s');
-            $dateModification = date('Y-m-d H:i:s');
             $idUser = $_SESSION['id'];
 
             $post = new Post();
-            $post->createPost($title, $content, $dateCreation, $dateModification, $idUser);
+            $post->createPost($title, $content, $idUser);
             header('Location: /');
         } else {
             $this->errors = 'Veuillez remplir tous les champs';

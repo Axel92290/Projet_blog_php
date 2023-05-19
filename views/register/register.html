@@ -11,9 +11,11 @@
 <main class="mb-4">
     
 {% if errors is not empty %}
-<div class="alert alert-danger" role="alert">
-    Les informations saisies sont incorrectes.
-</div>
+    {% for error in errors  %}
+    <div class="alert alert-danger" role="alert">
+        {{error}}
+    </div>
+    {% endfor %}
 {% endif %}
 
 

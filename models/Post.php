@@ -6,32 +6,54 @@ use PDO;
 class Post extends Database
 {
     
-    public function insertPost($title, $content, $dateCreation, $dateModification, $id_user)
+    public function createPost($title, $content,$id_user)
     {
-        $req = $this->connexion->prepare("INSERT INTO post(title, contenu, dateCreation, dateModification, idUser) VALUES (?, ?, ?, ?, ?)");
-        $req->execute(array($title, $content, $dateCreation, $dateModification, $id_user));
+        try{
+
+            $req = $this->connexion->prepare("INSERT INTO post(title, contenu, dateCreation, idUser) VALUES (:title, :content, NOW(), :idUser)");
+            $req->bindValue('title', $title);
+            $req->bindValue('content', $content);
+            $req->bindValue('idUser', $id_user);
+            return $req->execute();
+
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
+
 
     }
 
-
-    public function createPost($title, $content, $dateCreation, $dateModification, $idUser)
-    {
-        $req = $this->connexion->prepare("INSERT INTO posts(titre, contenu, dateCreation, dateModification, idUser ) VALUES (?, ?, ?, ?, ?)");
-        $req->execute(array($title, $content, $dateCreation, $dateModification, $idUser));
-    }
 
     public function getPosts()
     {
-        $posts = $this->connexion->query('SELECT * FROM posts ORDER BY id DESC');
-        return $posts;
+        try{
+
+            $req = $this->connexion->prepare('SELECT * FROM posts ORDER BY id DESC');
+            $req->execute();
+            $posts = $req->fetchAll(PDO::FETCH_ASSOC);
+            return $posts;
+
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
+
     }
     
 
     public function getPost($id)
     {
-        $req = $this->connexion->prepare('SELECT * FROM posts WHERE id = ?');
-        $req->execute(array($id));
-        $post = $req->fetch();
-        return $post;
+        try{
+            $req = $this->connexion->prepare('SELECT * FROM posts WHERE id = :id');
+            $req->bindValue('id', $id);
+            $req->execute();
+            $getPost = $req->fetch(PDO::FETCH_ASSOC);
+            return $getPost;
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
+
     }
 }

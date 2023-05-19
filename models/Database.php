@@ -25,7 +25,7 @@ class Database
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING
                 )
             );
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             echo $e->getMessage();
             die;
         }
