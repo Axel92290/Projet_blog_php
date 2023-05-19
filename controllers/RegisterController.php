@@ -15,6 +15,7 @@ class RegisterController extends BaseController
 
 
 
+
         // if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['pwd']) && isset($_POST['confPwd'])) {
         if (!empty($_POST)) {
 
@@ -38,6 +39,7 @@ class RegisterController extends BaseController
                 $this->errors[] = 'Veuillez entrer un email valide';
             }elseif(!empty($_POST['mail'])) {
                 $modelUser = new Users();
+         
                 $mailFound = $modelUser->checkUserByEmail($_POST['mail'] );
                 if (!empty($mailFound)) {
                     $this->errors[] = 'Cet email est déjà utilisé';

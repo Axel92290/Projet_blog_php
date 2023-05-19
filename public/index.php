@@ -46,10 +46,10 @@ try {
         // $r->addRoute(['GET', 'POST'], '/details-posts/', DetailsController::class . '/details');
 
         // Page de contact
-        $r->addRoute('GET', '/contact/', ContactController::class . '/contact');
+        $r->addRoute(['GET', 'POST'], '/contact/', ContactController::class . '/contact');
 
         // Page de deconnexion
-        $r->addRoute('GET', '/logout/', LogoutController::class . '/index');
+        $r->addRoute(['GET', 'POST'], '/logout/', LogoutController::class . '/index');
     });
 
     // Fetch method and URI from somewhere

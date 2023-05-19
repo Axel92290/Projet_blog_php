@@ -42,8 +42,10 @@ class CreatePostsController extends BaseController
             $idUser = $_SESSION['id'];
 
             $post = new Post();
+
             $post->createPost($title, $content, $idUser);
             header('Location: /');
+
         } else {
             $this->errors = 'Veuillez remplir tous les champs';
 

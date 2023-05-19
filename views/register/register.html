@@ -11,11 +11,12 @@
 <main class="mb-4">
     
 {% if errors is not empty %}
-    {% for error in errors  %}
-    <div class="alert alert-danger" role="alert">
-        {{error}}
-    </div>
-    {% endfor %}
+
+<div class="alert alert-danger" role="alert">
+    {% for error in errors %}
+    <p>{{error}}</p>
+    {% endfor %}]]
+</div>
 {% endif %}
 
 
