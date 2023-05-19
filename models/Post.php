@@ -5,22 +5,21 @@ use PDO;
 class Post extends Database
 {
 
-
-    public function createPost($title, $contenu, $dateCreation, $dateModification, $idUser)
+    
+    public function createPost($title, $content,$id_user)
     {
-        $req = $this->connexion->prepare("INSERT INTO posts (titre, contenu, dateCreation, dateModification, idUser) VALUES (:title, :contenu, :dateCreation, :dateModification, :idUser)");
-        $req->bindValue('titre', $title);
-        $req->bindValue('contenu', $contenu);
-        $req->bindValue('dateCreation', $dateCreation);
-        $req->bindValue('dateModification', $dateModification);
-        $req->bindValue('idUser', $idUser);
-        $req->execute();
-        $result = $req->fetch(PDO::FETCH_ASSOC);
-        return $result;
+        try{
 
+            $req = $this->connexion->prepare("INSERT INTO post(title, contenu, dateCreation, idUser) VALUES (:title, :content, NOW(), :idUser)");
+            $req->bindValue('title', $title);
+            $req->bindValue('content', $content);
+            $req->bindValue('idUser', $id_user);
+            return $req->execute();
 
-       
-    }
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
 
     public function getPosts()
     {
@@ -31,6 +30,7 @@ class Post extends Database
      
 
     }
+
 
     public function getPost($id)
     {
@@ -55,11 +55,17 @@ class Post extends Database
 
     public function deletePost($id)
     {
+        try{
         $req = $this->connexion->prepare("DELETE FROM posts WHERE id = :id");
         $req->bindValue('id', $id);
         $req->execute();
         $result = $req->fetch(PDO::FETCH_ASSOC);
         return $result;
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
+
     }
 
     public function getDatas(){

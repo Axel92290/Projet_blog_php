@@ -28,17 +28,16 @@ class Users extends Database
      * @param $pwd
      * @return bool
      */
-    public function insertData($nom, $prenom, $email, $pwd, $createdAt, $updatedAt): mixed
+
+    public function insertData($nom, $prenom, $mail, $pwd): mixed
     {
         try{
-            $stmt = $this->connexion->prepare('INSERT INTO users (firstname, lastname, email, pwd, createdAt, updatedAt) VALUES (:firstname, :lastname, :email, :pwd , :createdAt, :updatedAt)');
-            $stmt->bindValue('firstname', $prenom);
-            $stmt->bindValue('lastname', $nom);
-            $stmt->bindValue('email', $mail);
-            $stmt->bindValue('pwd', $pwd);
-            $stmt->bindValue('createdAt', $createdAt);
-            $stmt->bindValue('updatedAt', $updatedAt);
-            return $stmt->execute();
+        $stmt = $this->connexion->prepare('INSERT INTO users (firstname, lastname, email, pwd, createdAt) VALUES (:firstname, :lastname, :email, :pwd , NOW())');
+        $stmt->bindValue('firstname', $prenom);
+        $stmt->bindValue('lastname', $nom);
+        $stmt->bindValue('email', $mail);
+        $stmt->bindValue('pwd', $pwd);
+        return $stmt->execute();
 
         }catch (\PDOException $e){
             echo $e->getMessage();
@@ -59,6 +58,12 @@ class Users extends Database
             die;
         }
 
+        $req = $this->connexion->prepare("SELECT id FROM users WHERE email = :email");
+        $req->bindValue('email', $mail);
+        $req->execute();
+        $result = $req->fetch(PDO::FETCH_ASSOC);
+        
+        return $result;
 
 
     public function checkUserByEmail($email) : mixed
@@ -73,6 +78,7 @@ class Users extends Database
             echo $e->getMessage();
             die;
         }
+
     }
 
     public function checkConnexion($email, $pwd) : mixed
