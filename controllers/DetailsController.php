@@ -2,6 +2,8 @@
 
 namespace Controllers;
 
+use Models\Post;
+
 class DetailsController extends BaseController
 {
     public function details($id)
@@ -10,9 +12,17 @@ class DetailsController extends BaseController
         // on choisi la template à appeler
         $template = $this->twig->load('details-posts/details.html');
 
-        var_dump($id);  
 
-        // Puis on affiche la page avec la méthode render
-        echo $template->render(['title' => 'Détail d\'un post']);
+
+
+        $detailPost = new Post();
+        $detailPost = $detailPost->getPost($id);
+
+                // Puis on affiche la page avec la méthode render
+                echo $template->render([
+                    'title' => 'Détail d\'un post',
+                    'detailPost' => $detailPost,
+                ]);
+
     }
 }
