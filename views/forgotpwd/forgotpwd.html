@@ -9,8 +9,11 @@
 {% block content %}
 <!-- Main Content-->
 {% if errors is not empty %}
+
 <div class="alert alert-danger" role="alert">
-    Les informations saisies sont incorrectes.
+    {% for error in errors %}
+    <p>{{error}}</p>
+    {% endfor %}
 </div>
 {% endif %}
 <form method="post">
@@ -34,10 +37,10 @@
 
                         <div class="form-outline mb-4">
                             <input type="password" id="typePasswordX-2" class="form-control form-control-lg"
-                                placeholder="Confirmez le nouveau mot de passe" name="ConfnewPwd" />
+                                placeholder="Confirmez le nouveau mot de passe" name="confNewPwd" />
                         </div>
 
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                        <button class="btn btn-primary btn-lg btn-block" type="update">Update</button>
 
                     </div>
                 </div>
