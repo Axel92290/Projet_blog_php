@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+// var_dump($_SESSION['user']);
 
 use Controllers\ConnexionController;
 use Controllers\ContactController;
@@ -25,13 +26,13 @@ try {
     $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
 
         // page d'accueil
-        $r->addRoute('GET', '/', IndexController::class . '/index');
+        $r->addRoute(['GET', 'POST'], '/', IndexController::class . '/index');
 
         // Page des posts
-        $r->addRoute('GET', '/listing-posts/', ListingController::class . '/listing');
+        $r->addRoute(['GET', 'POST'], '/listing-posts/', ListingController::class . '/listing');
 
         // Page de création d'un post
-        $r->addRoute('GET', '/create-posts/', CreatePostsController::class . '/createPost');
+        $r->addRoute(['GET', 'POST'], '/create-posts/', CreatePostsController::class . '/createPost');
 
         // Page d'inscription
         $r->addRoute(['GET', 'POST'], '/register/', RegisterController::class . '/register');
@@ -41,8 +42,8 @@ try {
         // $r->addRoute('POST', '/connexion/', ConnexionController::class . '/connexion');
 
         // Page détail d'un post
-        // $r->addRoute('GET', '/details-posts/{id:\d+}', DetailsController::class . '/details');
-        $r->addRoute('GET', '/details-posts/', DetailsController::class . '/details');
+        $r->addRoute(['GET', 'POST'], '/details-posts/{id:\d+}', DetailsController::class . '/details');
+        // $r->addRoute(['GET', 'POST'], '/details-posts/', DetailsController::class . '/details');
 
         // Page de contact
         $r->addRoute('GET', '/contact/', ContactController::class . '/contact');

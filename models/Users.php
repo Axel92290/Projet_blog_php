@@ -13,7 +13,8 @@ class Users extends Database
     {
 
         $stmt = $this->connexion->prepare('SELECT * FROM users WHERE email = :email');
-        $stmt->execute(array('email' => $email));
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
