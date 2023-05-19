@@ -97,4 +97,17 @@ class Users extends Database
             die;
         }
     }
+
+    public function forgotPwd($mail, $pwd) :mixed
+    {
+        try{
+            $req = $this->connexion->prepare("UPDATE users SET pwd = :pwd WHERE email = :email");
+            $req->bindValue('pwd', $pwd);
+            $req->bindValue('email', $mail);
+            return $req->execute();
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
+    }
 }
