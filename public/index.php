@@ -3,8 +3,8 @@
 session_start();
 // var_dump($_SESSION['user']);
 
+
 use Controllers\ConnexionController;
-use Controllers\ContactController;
 use Controllers\CreatePostsController;
 use Controllers\DetailsController;
 use Controllers\IndexController;
@@ -12,6 +12,7 @@ use Controllers\ListingController;
 use Controllers\LogoutController;
 use Controllers\RegisterController;
 use Controllers\ForgotPwdController;
+use Controllers\EditProfileController;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -29,12 +30,6 @@ try {
         // page d'accueil
         $r->addRoute(['GET', 'POST'], '/', IndexController::class . '/index');
 
-        // Page des posts
-        $r->addRoute(['GET', 'POST'], '/listing-posts/', ListingController::class . '/listing');
-
-        // Page de création d'un post
-        $r->addRoute(['GET', 'POST'], '/create-posts/', CreatePostsController::class . '/createPost');
-
         // Page d'inscription
         $r->addRoute(['GET', 'POST'], '/register/', RegisterController::class . '/register');
 
@@ -44,11 +39,22 @@ try {
         // Page de mot de passe oublié
         $r->addRoute(['GET', 'POST'], '/forgotpwd/', ForgotPwdController::class . '/forgotpwd');
 
+
+        // Page de création d'un post
+        $r->addRoute(['GET', 'POST'], '/create-posts/', CreatePostsController::class . '/createPost');
+
+
+        // Page du listing des posts
+        $r->addRoute(['GET', 'POST'], '/listing-posts/', ListingController::class . '/listing');
+
+
         // Page détail d'un post
         $r->addRoute(['GET', 'POST'], '/details-posts/{id:\d+}', DetailsController::class . '/details');
 
-        // Page de contact
-        $r->addRoute(['GET', 'POST'], '/contact/', ContactController::class . '/contact');
+        // Page de modification du profil
+        $r->addRoute(['GET', 'POST'], '/edit-profile/', EditProfileController::class . '/editProfile');
+        // $r->addRoute(['GET', 'POST'], '/edit-profile/{id:\d+}', EditProfileController::class . '/editProfile');
+
 
         // Page de deconnexion
         $r->addRoute(['GET', 'POST'], '/logout/', LogoutController::class . '/logout');

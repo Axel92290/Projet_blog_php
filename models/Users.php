@@ -57,13 +57,7 @@ class Users extends Database
             echo $e->getMessage();
             die;
         }
-
-        $req = $this->connexion->prepare("SELECT id FROM users WHERE email = :email");
-        $req->bindValue('email', $email);
-        $req->execute();
-        $result = $req->fetch(PDO::FETCH_ASSOC);
         
-        return $result;
     }
 
 
@@ -110,4 +104,28 @@ class Users extends Database
             die;
         }
     }
+
+    public function updateProfile($facebook, $twitter, $instagram, $linkedin, $github, $catchPhrase, $cv, $id) :mixed 
+    {
+        try{
+
+            $req = $this->connexion->prepare("UPDATE users SET facebook = :facebook, twitter = :twitter, instagram = :instagram, linkedin = :linkedin, github = :github, catchPhrase = :catchPhrase, cv = :cv WHERE id = :id");
+            $req->bindValue('facebook', $facebook);
+            $req->bindValue('twitter', $twitter);
+            $req->bindValue('instagram', $instagram);
+            $req->bindValue('linkedin', $linkedin);
+            $req->bindValue('github', $github);
+            $req->bindValue('catchPhrase', $catchPhrase);
+            $req->bindValue('cv', $cv);
+            $req->bindValue('id', $id);
+            return $req->execute();
+
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
+
+    }
+
+
 }
