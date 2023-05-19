@@ -8,45 +8,49 @@
 
 {% block content %}
 
-    <header class="masthead" style="background-image: url('{{base_url}}/assets/img/post-bg.jpg')">
-        <div class="container position-relative px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    <div class="site-heading">
-                        <h1>Liste des posts</h1>
-                        
-                    </div>
+<header class="masthead" style="background-image: url('{{base_url}}/assets/img/post-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Liste des posts</h1>
+
                 </div>
             </div>
         </div>
-    </header>
-    <!-- Main Content-->
-    <div class="container px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <!-- Post preview-->
-                {% for post in listPosts %}
-                                    <div class="post-preview">
-                                        <a href="{{base_url}}/details-posts/{{post.id}}">
-                                            <h2 class="post-title">{{post.titre}}</h2>
-                                            <h3 class="post-subtitle">{{post.contenu}}</h3>
-                                        </a>
-                                        <p class="post-meta">
-                                            Posté par {{post.idUser}}
-                                            Modifié le {{post.dateModification|date("d/m/Y")}} à {{post.dateModification|date("H:i:s")}}
-                                        </p>
-                                    </div>
-                                    <!-- Divider-->
-                                    <hr class="my-4" />
-                {% endfor %}
-
-                <!-- Pager-->
-                {% if user is not empty %}
-                <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{{base_url}}/create-posts/">Creer un nouveau post</a></div>
-                {% endif %}
-            </div>
-
-        </div>
     </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Post preview-->
+            {% for post in listPosts %}
+            <div class="post-preview">
+                <a href="{{base_url}}/details-posts/{{post.id}}">
+                    <h1 class="post-title">{{post.titre}}</h1>
+                    <h2 class="post-subtitle">{{post.chapô}}</h2>
+                    <h4 class="post-subtitle">{{post.contenu}}</h4>
+                </a>
+                <samp class="post-meta">
+                    Posté par {{getDatas.firstname}}
+                    Modifié le {{post.dateModification|date("d/m/Y")}} à {{post.dateModification|date("H:i:s")}}
+                </samp>
+            </div>
+            <!-- Divider-->
+            <hr class="my-4" />
+
+            {% endfor %}
+
+
+            <!-- Pager-->
+            {% if user is not empty %}
+            <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase"
+                    href="{{base_url}}/create-posts/">Creer un nouveau post</a></div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
 
 {% endblock %}
