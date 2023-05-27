@@ -38,6 +38,7 @@ class BaseController
         // On passe dans la vue Twig l'url de connexion
         $this->twig->addGlobal('base_url', $this->conf->get('siteUrl'));
 
+
         // Si session active, on passe les infos dans la vue Twig
         if (isset($_SESSION['user'])) {
             $this->twig->addGlobal('user', $_SESSION['user']);

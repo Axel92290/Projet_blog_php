@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-// var_dump($_SESSION['user']);
+
 
 
 use Controllers\ConnexionController;
@@ -13,6 +13,8 @@ use Controllers\LogoutController;
 use Controllers\RegisterController;
 use Controllers\ForgotPwdController;
 use Controllers\EditProfileController;
+use Controllers\ErrorController;
+use Controllers\AdminController;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -53,8 +55,12 @@ try {
 
         // Page de modification du profil
         $r->addRoute(['GET', 'POST'], '/edit-profile/', EditProfileController::class . '/editProfile');
-        // $r->addRoute(['GET', 'POST'], '/edit-profile/{id:\d+}', EditProfileController::class . '/editProfile');
 
+        // Page d'administration
+        $r->addRoute(['GET', 'POST'], '/admin/', AdminController::class . '/admin');
+
+        // Page d'erreur
+        $r->addRoute('GET', '/error/', ErrorController::class . '/error');
 
         // Page de deconnexion
         $r->addRoute(['GET', 'POST'], '/logout/', LogoutController::class . '/logout');

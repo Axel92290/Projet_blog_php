@@ -27,7 +27,7 @@ class IndexController extends BaseController
             $nom = ucfirst(trim($_POST['nom']));
             $prenom = ucfirst(trim($_POST['prenom']));
             $email = lcfirst(trim($_POST['email']));
-            $message = $_POST['message'];
+            $message = htmlspecialchars($_POST['message']);
 
             $to  = 'axel.chasseloup@gmail.com';
 

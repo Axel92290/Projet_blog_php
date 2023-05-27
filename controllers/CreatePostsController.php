@@ -30,16 +30,17 @@ class CreatePostsController extends BaseController
                 $this->errors[] = 'Veuillez remplir le champ titre';
             } elseif (empty($_POST['content'])) {
                 $this->errors[] = 'Veuillez remplir le champ contenu';
-            }elseif (empty($_POST['chapô'])) {
-                $this->errors[] = 'Veuillez remplir le champ chapô';
+            }elseif (empty($_POST['chapo'])) {
+                $this->errors[] = 'Veuillez remplir le champ chapo';
             } 
             else {
-                $title = ucfirst(trim($_POST['title']));
-                $content = ucfirst(trim($_POST['content']));
-                $chapô = ucfirst(trim($_POST['chapô']));
+              
+                $titre = ucfirst(trim($_POST['title']));
+                $contenu = ucfirst(trim($_POST['content']));
+                $chapo = ucfirst(trim($_POST['chapo']));
                 $idUser = $_SESSION['user']['id'];
                 $post = new Post();
-                $post->createPost($title, $chapô, $content, $idUser);
+                $post->createPost($titre, $chapo, $contenu, $idUser);
                 header('Location: /listing-posts/');
                 exit;
             }
