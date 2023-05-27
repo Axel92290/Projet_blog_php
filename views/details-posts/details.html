@@ -5,23 +5,60 @@
 <title> {{title}} </title>
 {% endblock %}
 
-
 {% block content %}
+
+
+<header class="masthead" style="background-image: url('{{base_url}}/assets/img/post-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1 class="text-center mt-4">{{detailPost.titre}}</h1>
+                </div>
+            </div>
+        </div>
+
+    </br>
+
+
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+                <p class="h5 text-center text-white">{{detailPost.chapô}}</p>
+            
+        </div>
+    </br>
+</br>
+
+        <!-- {% if user.id == detailPost.idUser or user.role == "admin"%} Faire ça dans le controller !!! -->
+        <div class="d-flex justify-content-center mb-4">
+            <a href="#" class="btn btn-primary text-uppercase btn-sm" type="submit" name="delete">Editer le post</a>
+            &nbsp;
+
+            <button class="btn btn-primary text-uppercase btn-sm" type="submit" name="delete">Supprimer le post</button>
+        </div>
+        <!-- {% endif %}   -->
+    </div>
+</header>
 <!-- Post Content-->
-<article class="mb-4">
+<article class="border border-dark mb-4">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                <h1 class="text-center mt-4">{{detailPost.titre}}</h1>
+                
                 </br>
-                <p>{{detailPost.contenu}}</p>
-                </br>
-                <p>{{detailPost.chapô}}</p>
-                </br>
-                <samp>Modifié par {{detailPost.idUser}} le {{detailPost.dateModification|date("d/m/Y")}} à
-                    {{detailPost.dateModification|date("H:i:s")}}</samp>
             </div>
+            <p class="">{{detailPost.contenu}}</p>
+
+
+            </br>
+            <samp class="text-end">Modifié par {{detailPost.firstname}} le {{detailPost.dateModification|date("d/m/Y")}} à
+                {{detailPost.dateModification|date("H:i:s")}}</samp>
+            </br>
+
         </div>
     </div>
+    </div>
 </article>
+
+<!-- Comments-->
+
 {% endblock %}

@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Models\Post;
 
+
 class DetailsController extends BaseController
 {
     public function details($id)
@@ -14,13 +15,20 @@ class DetailsController extends BaseController
 
 
         $post = new Post();
-        $detailPost = $post->getDetailPost($id);
+        $detailPost = $post->getPosts($id);
+
+        if(empty($detailPost)){
+            header('Location: /error/');
+            exit;
+        }
 
 
         // Puis on affiche la page avec la méthode render
         echo $template->render([
             'title' => 'Détail d\'un post',
-            'detailPost' => $detailPost,
+            'detailPost' => $detailPost[0],
         ]);
     }
+
+
 }

@@ -29,12 +29,13 @@
             <div class="post-preview">
                 <a href="{{base_url}}/details-posts/{{post.id}}">
                     <h1 class="post-title">{{post.titre}}</h1>
-                    <h2 class="post-subtitle">{{post.chapô}}</h2>
-                    <h4 class="post-subtitle">{{post.contenu}}</h4>
+                    <h2 class="post-subtitle">{{post.chapo}}</h2>
                 </a>
                 <samp class="post-meta">
-                    Posté par {{getDatas.firstname}}
+
+                    Posté par {{post.firstname}}
                     Modifié le {{post.dateModification|date("d/m/Y")}} à {{post.dateModification|date("H:i:s")}}
+
                 </samp>
             </div>
             <!-- Divider-->
