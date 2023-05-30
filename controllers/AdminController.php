@@ -29,12 +29,14 @@ class AdminController extends BaseController
 
         if(isset($_POST['action']) &&  $_POST['action'] === "refuser"){
             $id = $comment[0]['id'];
-            $this->updateStatut($id, 2);
+            $statut = 'refuser';
+            $this->updateStatut($id, $statut);
             header('Location: /admin/');
             exit;
         }elseif(isset($_POST['action']) &&  $_POST['action'] === "valider"){
             $id = $comment[0]['id'];
-            $this->updateStatut($id, 1);
+            $statut = 'valider';
+            $this->updateStatut($id, $statut);
             header('Location: /admin/');
             exit;
         }
