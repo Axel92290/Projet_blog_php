@@ -35,9 +35,9 @@ class CreatePostsController extends BaseController
             } 
             else {
               
-                $titre = ucfirst(trim($_POST['title']));
-                $contenu = ucfirst(trim($_POST['content']));
-                $chapo = ucfirst(trim($_POST['chapo']));
+                $titre = htmlspecialchars(ucfirst(trim($_POST['title'])));
+                $contenu = htmlspecialchars(ucfirst(trim($_POST['content'])));
+                $chapo = htmlspecialchars(ucfirst(trim($_POST['chapo'])));
                 $idUser = $_SESSION['user']['id'];
                 $post = new Post();
                 $post->createPost($titre, $chapo, $contenu, $idUser);

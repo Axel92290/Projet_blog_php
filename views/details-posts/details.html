@@ -7,7 +7,6 @@
 
 {% block content %}
 
-
 <header class="masthead" style="background-image: url('{{base_url}}/assets/img/post-bg.jpg')">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -18,47 +17,118 @@
             </div>
         </div>
 
-    </br>
+        </br>
 
 
         <div class="row gx-4 gx-lg-5 justify-content-center">
-                <p class="h5 text-center text-white">{{detailPost.chapô}}</p>
-            
-        </div>
-    </br>
-</br>
+            <p class="h5 text-center text-white">{{detailPost.chapo}}</p>
 
-        <!-- {% if user.id == detailPost.idUser or user.role == "admin"%} Faire ça dans le controller !!! -->
+        </div>
+        </br>
+        </br>
+        {% if canEditPost and canDeletePost %}
         <div class="d-flex justify-content-center mb-4">
-            <a href="#" class="btn btn-primary text-uppercase btn-sm" type="submit" name="delete">Editer le post</a>
+            <a href="{{base_url}}/update-post/{{detailPost.id}}" class="h-50 btn btn-primary text-uppercase btn-sm"
+                type="button">Editer le
+                post</a>
             &nbsp;
 
-            <button class="btn btn-primary text-uppercase btn-sm" type="submit" name="delete">Supprimer le post</button>
+            <form method="post" action="">
+                <button class="btn btn-primary text-uppercase btn-sm" type="submit" value="delete"
+                    name="action">Supprimer le post</button>
+            </form>
         </div>
-        <!-- {% endif %}   -->
+        {% endif %}
     </div>
 </header>
+
+
 <!-- Post Content-->
 <article class="border border-dark mb-4">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                
                 </br>
             </div>
             <p class="">{{detailPost.contenu}}</p>
-
-
             </br>
-            <samp class="text-end">Modifié par {{detailPost.firstname}} le {{detailPost.dateModification|date("d/m/Y")}} à
+            <samp class="text-end">Modifié par {{detailPost.firstname}} le {{detailPost.dateModification|date("d/m/Y")}}
+                à
                 {{detailPost.dateModification|date("H:i:s")}}</samp>
             </br>
+            
 
         </div>
+
     </div>
-    </div>
+
+
+
 </article>
 
 <!-- Comments-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5">
+        <div class="col-md-10 col-lg-8 col-xl-7">
 
-{% endblock %}
+            <h1 class="text-center">Commentaires</h1>
+            </br>
+            {% for comment in listComments %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p class="card-text">{{comment.contenu}}</p>
+                </div>
+                <div class="card-footer text-muted small">
+                    Posté par {{comment.firstname}} le {{comment.dateModification|date("d/m/Y")}} à
+                    {{comment.dateModification|date("H:i:s")}}
+                </div>
+            </div>
+
+            <!-- <div class="input-group">
+                <span class="input-group-text">
+                    Posté par {{comment.firstname}} <br> 
+                    le {{comment.dateModification|date("d/m/Y")}} à
+                    {{comment.dateModification|date("H:i:s")}}
+                </span>
+                <textarea class="form-control text-center" aria-label="With textarea" disabled style="background-color: white;">
+                    {{comment.contenu}}
+                </textarea>
+              </div>
+              <br> -->
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <hr>
+    <!-- Create Comment Content   -->
+    <article class=" mb-4">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <!-- Comments-->
+                    <form method="post">
+                        </br>
+                        <h4 class="text-center">Votre commentaire</h4>
+                        <div class="form-floating">
+                            <textarea class="form-control" id="message" placeholder="" rows="3"
+                                name="comment"></textarea>
+
+                        </div>
+                        <br />
+                        <!-- Submit Button-->
+                        <button class="btn btn-primary text-uppercase" type="submit"
+                            name="submitComment" value="envoyer">Envoyer</button>
+                        </br>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </article>
+
+
+
+
+    {% endblock %}
