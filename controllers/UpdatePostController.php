@@ -14,14 +14,16 @@ class UpdatePostController extends BaseController
     public function updatePost($id)
     {
 
+        $this->checkSession();
+        
 
         $detailPost = $this->getPost($id); ;
 
         $userId = $_SESSION['user']['id'];
         $userRole = $_SESSION['user']['role'];
         $postUserId = $detailPost[0]['id'];
+        $this->checkRole($userRole, $userId, $postUserId);
         
-        $this->verifRole($userRole, $userId, $postUserId);
 
         if(!empty($_POST)){
             if (empty($_POST['title'])) {
@@ -43,7 +45,6 @@ class UpdatePostController extends BaseController
         }
 
 
-
         // on choisi la template à appeler
         $template = $this->twig->load('update-post/update.html');
 
@@ -62,7 +63,7 @@ class UpdatePostController extends BaseController
     }
 
 
-    private function verifRole($userRole, $userId, $postUserId)
+    private function checkRole($userRole, $userId, $postUserId)
     {
         if ($userRole === "admin" || $userId === $postUserId) {
 
@@ -71,6 +72,16 @@ class UpdatePostController extends BaseController
             exit;}
 
     }
+
+    private function checkSession()
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /connexion/');
+            exit;
+        }
+    }
+
+
 
     private function getPost($id)
     {

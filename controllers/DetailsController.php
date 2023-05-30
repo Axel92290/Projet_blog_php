@@ -19,6 +19,7 @@ class DetailsController extends BaseController
 
         if(isset($_POST['submitComment']) &&  $_POST['submitComment'] === "envoyer"){
             $this->createComment($id);
+            header('Location: /details-posts/'.$id);
             exit;
         }
         

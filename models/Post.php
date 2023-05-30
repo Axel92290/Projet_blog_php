@@ -122,8 +122,7 @@ class Post extends Database
             $req->execute();   
 
             $result = $req->fetchAll(PDO::FETCH_ASSOC);
-            // var_dump($result);
-            // die;
+
 
             return $result;
     
@@ -133,18 +132,19 @@ class Post extends Database
         }
     }
 
-    public function updateStatut($idComment, $action)
+    public function updateStatut($idComment, $statut)
     {
         
         try{
-            $statut = ($action === 'refuser') ? 2 : 1;
             $sql = "UPDATE comments SET statut = :statut WHERE id = :idComment";
+            if($statut == 'refuser'){
+                $sql = "UPDATE comments SET statut = 2 WHERE id = :idComment";
+            }else{
+                $sql = "UPDATE comments SET statut = 1 WHERE id = :idComment";
+            }
             $req = $this->connexion->prepare($sql);
             $req->bindValue('idComment', $idComment);
-            $req->bindValue('statut', $statut);
             $req->execute();
-            $result = $req->fetch(PDO::FETCH_ASSOC);
-            return $result;
         }catch(\PDOException $e){
             echo $e->getMessage();
             die;
