@@ -49,13 +49,6 @@ class ConnexionController extends BaseController
                         'email' => $userFound['email'],
                         'firstname' => $userFound['firstname'],
                         'lastname' => $userFound['lastname'],
-                        'catchphrase' => $userFound['catchphrase'],
-                        'facebook' => $userFound['facebook'],
-                        'linkedin' => $userFound['linkedin'],
-                        'github' => $userFound['github'],
-                        'twitter' => $userFound['twitter'],
-                        'instagram' => $userFound['instagram'],
-                        'cv' => $userFound['cv'],
                         'role' => $userFound['role'],
                     ];
                     $modelUser->updateDateConnexion($email, $updatedAt);

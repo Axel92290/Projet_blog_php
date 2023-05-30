@@ -11,7 +11,7 @@
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="text-center mt-4">Dashboard</h1>
+            <h1 class="text-center mt-4">Dashboard Commentaires</h1>
             <div class="row">
 
                 <div class="card mb-4">
@@ -28,7 +28,7 @@
                                 <tr>
                                     <th>Contenu</th>
                                     <th>Date de création</th>
-                                    <th>idUser</th>
+                                    <th>Prénom de l'auteur</th>
                                     <th>idPost</th>
                                     <th>Statut</th>
                                     <th>Valider</th>
@@ -38,11 +38,21 @@
 
 
                             <tbody>
-
+                                {% for comment in listComments %}
                                 <tr>
-                                    <td>1</td>
+                                    <td>{{comment.contenu}}</td>
+                                    <td>{{comment.dateCreation|date("d/m/Y")}}</td>
+                                    <td>{{comment.firstname}}</td>
+                                    <td>{{comment.idPost}}</td>
+                                    <td>{{comment.statut}}</td>
+                                    <form method="post" action="">
+                                        <td><button type="submit" class="btn btn-success" name="action"
+                                                value="valider">Valider</button></td>
+                                        <td><button type="submit" class="btn btn-danger" name="action"
+                                                value="refuser">Refuser</button></td>
+                                    </form>
                                 </tr>
-
+                                {% endfor %}
                             </tbody>
                         </table>
 
@@ -56,13 +66,13 @@
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="text-center mt-4">Dashboard</h1>
+            <h1 class="text-center mt-4">Dashboard Rôle</h1>
             <div class="row">
 
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        Commentaires
+                        Rôle Utilisateur
                     </div>
                     <div class="alert">
 
@@ -71,20 +81,39 @@
                         <table class='table' id="datatablesSimple">
                             <thead>
                                 <tr>
+                                    <th>Id</th>
                                     <th>Nom</th>
                                     <th>Prénom</th>
-                                    <th>email</th>
+                                    <th>Email</th>
                                     <th>Rôle</th>
                                 </tr>
                             </thead>
 
 
                             <tbody>
-
+                                {% for user in listUsers %}
                                 <tr>
-                                    <td>1</td>
-                                </tr>
+                                    <td>{{user.id}}</td>
+                                    <td>{{user.lastname}}</td>
+                                    <td>{{user.firstname}}</td>
+                                    <td>{{user.email}}</td>
+                                    <td>{{user.role}}</td>
+                                    <td>
+                                        <form method="post">
+                                            <input type="hidden" name="id" value="{{user.id}}">
+                                            <select class="form-select" name="role">
+                                                <optgroup label="Choisissez un rôle">
+                                                    <option value="admin">admin</option>
+                                                    <option value="user">user</option>
+                                                </optgroup>
+                                            </select>
+                                            <button type="submit" class="btn btn-success" value="newRole"
+                                                name="action">Valider</button>
+                                        </form>
+                                    </td>
 
+                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
 

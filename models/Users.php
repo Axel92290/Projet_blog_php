@@ -126,6 +126,38 @@ class Users extends Database
         }
 
     }
+    public function getUsers($id = null)
+    {
+        try {
+            $sql = "SELECT id, firstname, lastname, email, role FROM users";
+            if ($id != null) {
+                $sql .= " WHERE id = :id";
+            }
+            $req = $this->connexion->prepare($sql);
+            if ($id != null) {
+                $req->bindValue('id', $id);
+            }
+            $req->execute();
+            $result = $req->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            die;
+        }
+    }
+
+    public function updateRole($role, $id)
+    {
+        try{
+            $req = $this->connexion->prepare("UPDATE users SET role = :role WHERE id = :id");
+            $req->bindValue('role', $role);
+            $req->bindValue('id', $id);
+            return $req->execute();
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
+    }
 
 
 }
