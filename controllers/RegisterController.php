@@ -17,7 +17,6 @@ class RegisterController extends BaseController
 
 
 
-
         if (!empty($_POST)) {
 
             if(empty($_POST['nom'])){
@@ -98,6 +97,8 @@ class RegisterController extends BaseController
             exit;
         }
     }
+
+    
 
 
 }

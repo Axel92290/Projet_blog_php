@@ -18,6 +18,8 @@ class AdminController extends BaseController
         $comment = $this->getComment();
         $users = $this->getUsers();
 
+        // var_dump($comment);
+        // die;
  
 
         if (isset($_POST['action']) && $_POST['action'] === "newRole") {
@@ -26,15 +28,17 @@ class AdminController extends BaseController
             exit;
         }
 
-
+            //0 : par défaut non publié 
+            // 1: publié 
+            // 2: refusé
         if(isset($_POST['action']) &&  $_POST['action'] === "refuser"){
-            $id = $comment[0]['id'];
+            $id = $_POST['idComment'];
             $statut = 'refuser';
             $this->updateStatut($id, $statut);
             header('Location: /admin/');
             exit;
         }elseif(isset($_POST['action']) &&  $_POST['action'] === "valider"){
-            $id = $comment[0]['id'];
+            $id = $_POST['idComment'];
             $statut = 'valider';
             $this->updateStatut($id, $statut);
             header('Location: /admin/');

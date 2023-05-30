@@ -46,6 +46,7 @@
                                     <td>{{comment.idPost}}</td>
                                     <td>{{comment.statut}}</td>
                                     <form method="post" action="">
+                                        <input type="hidden" name="idComment" value="{{comment.id}}">
                                         <td><button type="submit" class="btn btn-success" name="action"
                                                 value="valider">Valider</button></td>
                                         <td><button type="submit" class="btn btn-danger" name="action"
