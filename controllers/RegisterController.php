@@ -16,20 +16,19 @@ class RegisterController extends BaseController
         $template = $this->twig->load('register/register.html');
 
 
-
-        if (!empty($_POST)) {
-
+        if($this->httpRequest->isMethod('POST')){
+            $nom = $this->cleanXSS($this->httpRequest->request->get('nom'));
             if(empty($_POST['nom'])){
                 $this->errors[] = 'Veuillez remplir le champ nom';
             }else{
-                $nom = $_POST['nom']; 
+                $nom = $this->antiXss->xss_clean($_POST['nom']); 
                 $nom = (string) ucfirst(trim($nom)); 
             }
 
             if(empty($_POST['prenom'])){
                 $this->errors[] = 'Veuillez remplir le champ prenom';
             }else{
-                $prenom = $_POST['prenom'];
+                $prenom = $this->antiXss->xss_clean($_POST['prenom']);
                 $prenom = (string) ucfirst(trim($prenom));
             }
 
@@ -44,7 +43,7 @@ class RegisterController extends BaseController
                 if (!empty($mailFound)) {
                     $this->errors[] = 'Cet email est déjà utilisé';
                 }else{
-                    $mail = (string) lcfirst(trim($_POST['mail']));
+                    $mail = (string) $this->antiXss->xss_clean(lcfirst(trim($_POST['mail'])));
                 }
             }
 
@@ -53,7 +52,7 @@ class RegisterController extends BaseController
                 $this->errors[] = 'Veuillez remplir le champ mot de passe ';
             }else{
                 $pwd = $_POST['pwd'];
-                $pwd = (string) trim($pwd);
+                $pwd = (string) $this->antiXss->xss_clean(trim($pwd));
                 
             }
 
@@ -63,7 +62,7 @@ class RegisterController extends BaseController
                 $this->errors[] = 'Les mots de passe ne correspondent pas';
             }else{
                 $confpassword = $_POST['confPwd'];
-                $confpassword = (string) trim($confpassword);
+                $confpassword = (string) $this->antiXss->xss_clean(trim($confpassword));
                 
             }            
 
@@ -98,7 +97,7 @@ class RegisterController extends BaseController
         }
     }
 
-    
+
 
 
 }

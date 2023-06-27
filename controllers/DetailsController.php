@@ -16,16 +16,17 @@ class DetailsController extends BaseController
 
         $post = new Post();
         $detailPost = $post->getPosts($id);
-
-        if(isset($_POST['submitComment']) &&  $_POST['submitComment'] === "envoyer"){
-            $this->createComment($id);
-            header('Location: /details-posts/'.$id);
-            exit;
+        if ($this->httpRequest->isMethod('POST')) {
+            if (isset($_POST['submitComment']) &&  $_POST['submitComment'] === "envoyer") {
+                $this->createComment($id);
+                header('Location: /details-posts/' . $id);
+                exit;
+            }
         }
-        
+
         $comment = $this->getComment($id);
 
-    
+
         $userId = $_SESSION['user']['id'];
         $userRole = $_SESSION['user']['role'];
         $postUserId = $detailPost[0]['id'];
@@ -37,14 +38,14 @@ class DetailsController extends BaseController
 
 
 
-        if(empty($detailPost)){
+        if (empty($detailPost)) {
             header('Location: /error/');
             exit;
         }
 
 
 
-        if(isset($_POST['action']) &&  $_POST['action'] === "delete"){
+        if (isset($_POST['action']) &&  $_POST['action'] === "delete") {
             $this->deletePost($id);
             header('Location: /listing-posts/');
             exit;
@@ -65,44 +66,39 @@ class DetailsController extends BaseController
     private function createComment($id)
     {
 
-            //0 : par défaut non publié 
-            // 1: publié 
-            // 2: refusé
+        //0 : par défaut non publié 
+        // 1: publié 
+        // 2: refusé
 
-            if (!empty($_POST)) {
-                $comment = htmlspecialchars($_POST['comment']);
-                $idUser = $_SESSION['user']['id'];
-                $idPost = $id;
+        if (!empty($_POST)) {
+            $comment = $this->cleanXSS($this->httpRequest->request->get('comment'));
+            $comment = htmlspecialchars($_POST['comment']);
+            $idUser = $_SESSION['user']['id'];
+            $idPost = $id;
 
-                $createComment = new Post();
-                $createComment->createComment($comment, $idUser, $idPost);
-            }
-
-
-           
+            $createComment = new Post();
+            $createComment->createComment($comment, $idUser, $idPost);
+        }
     }
 
-    private function getComment($id){
+    private function getComment($id)
+    {
 
         $getComment = new Post();
         $getComment = $getComment->getComments($id);
         return $getComment;
-
-        
-
     }
 
     private function verifRole($userRole, $userId, $postUserId)
     {
 
         if ($userId == $postUserId || $userRole == "admin") {
-            
+
             $canEditPost = true;
             $canDeletePost = true;
         }
 
         return [$canEditPost, $canDeletePost];
-
     }
 
 
@@ -111,12 +107,4 @@ class DetailsController extends BaseController
         $deletePost = new Post();
         $deletePost->deletePost($id);
     }
-
-
-
-
-
 }
-
-
-
