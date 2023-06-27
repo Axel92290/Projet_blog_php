@@ -1,9 +1,5 @@
 <?php
 
-session_start();
-
-
-
 use Controllers\ConnexionController;
 use Controllers\CreatePostsController;
 use Controllers\DetailsController;
@@ -14,7 +10,7 @@ use Controllers\RegisterController;
 use Controllers\ForgotPwdController;
 use Controllers\ErrorController;
 use Controllers\AdminController;
-use Controllers\UpdatePostController;
+use Controllers\EditPostController;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -41,20 +37,20 @@ try {
         // Page de mot de passe oublié
         $r->addRoute(['GET', 'POST'], '/forgotpwd/', ForgotPwdController::class . '/forgotpwd');
 
-        // Page de création d'un post
-        $r->addRoute(['GET', 'POST'], '/create-posts/', CreatePostsController::class . '/createPost');
-
         // Page du listing des posts
         $r->addRoute(['GET', 'POST'], '/listing-posts/', ListingController::class . '/listing');
-
-        // Page de modification d'un post
-        $r->addRoute(['GET', 'POST'], '/update-post/{id:\d+}', UpdatePostController::class . '/updatePost');
 
         // Page détail d'un post
         $r->addRoute(['GET', 'POST'], '/details-posts/{id:\d+}', DetailsController::class . '/details');
 
         // Page d'administration
         $r->addRoute(['GET', 'POST'], '/admin/', AdminController::class . '/admin');
+
+        // Page de création d'un post
+        $r->addRoute(['GET', 'POST'], '/admin/create-posts/', CreatePostsController::class . '/createPost');
+
+        // Page de modification d'un post
+        $r->addRoute(['GET', 'POST'], '/admin/edit-post/{id:\d+}', EditPostController::class . '/editPost');
 
         // Page d'erreur
         $r->addRoute('GET', '/error/', ErrorController::class . '/error');

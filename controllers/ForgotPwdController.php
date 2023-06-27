@@ -8,52 +8,54 @@ class ForgotPwdController extends BaseController
 {
     private array $errors = [];
 
-    public function forgotpwd(){
+    public function forgotpwd()
+    {
 
-         $template = $this->twig->load('forgotpwd/forgotpwd.html');
+        $template = $this->twig->load('forgotpwd/forgotpwd.html');
 
-            $this->checkFormSubmit();
+        $this->checkFormSubmit();
 
-         echo $template->render([
+        echo $template->render([
             'title' => 'Mot de passe oublié',
             'errors' => $this->errors
 
         ]);
-
     }
 
-    private function checkFormSubmit(){
-            
+    private function checkFormSubmit()
+    {
+
+        if ($this->httpRequest->isMethod('POST')) {
             if (!empty($_POST)) {
-    
-                if(empty($_POST['mail'])){
+
+                if (empty($_POST['mail'])) {
                     $this->errors[] = 'Veuillez remplir le champ email ';
-                }elseif(!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
+                } elseif (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
                     $this->errors[] = 'Veuillez entrer un email valide';
-                }elseif(empty($_POST['newPwd'])){
+                } elseif (empty($_POST['newPwd'])) {
                     $this->errors[] = 'Veuillez remplir le champ mot de passe ';
-                }elseif(empty($_POST['confNewPwd'])){
+                } elseif (empty($_POST['confNewPwd'])) {
                     $this->errors[] = 'Veuillez remplir le champ confirmation du mot de passe ';
-                }elseif($_POST['confNewPwd'] != $_POST['newPwd']) {
+                } elseif ($_POST['confNewPwd'] != $_POST['newPwd']) {
                     $this->errors[] = 'Les mots de passe ne correspondent pas';
-                }elseif(!empty($_POST['mail'])) {
+                } elseif (!empty($_POST['mail'])) {
                     $modelUser = new Users();
-                    $mailFound = $modelUser->checkUserByEmail($_POST['mail'] );
+                    $mailFound = $modelUser->checkUserByEmail($_POST['mail']);
                     if (empty($mailFound)) {
                         $this->errors[] = 'Cet email n\'existe pas';
-                    }else{
-                        $mail = (string) trim($_POST['mail']);
-                        $newPwd = (string) trim($_POST['newPwd']);
+                    } else {
+                        $mail = $this->cleanXSS($this->httpRequest->request->get('mail'));
+                        $mail = (string) trim($mail);
+                        $newPwd = $this->cleanXSS($this->httpRequest->request->get('newPwd'));
+                        $newPwd = (string) trim($newPwd);
                         $newPwd = password_hash($newPwd, PASSWORD_ARGON2ID);
                         $udpatePwd = $modelUser->updatePwd($mail, $newPwd);
-                        if($udpatePwd){
+                        if ($udpatePwd) {
                             header('Location: /connexion/');
                         }
                     }
                 }
-    
             }
-
+        }
     }
-
 }

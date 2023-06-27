@@ -18,31 +18,33 @@ class AdminController extends BaseController
         $comment = $this->getComment();
         $users = $this->getUsers();
 
-        // var_dump($comment);
-        // die;
- 
 
-        if (isset($_POST['action']) && $_POST['action'] === "newRole") {
-            $this->updateRole($_POST['role'], $_POST['id']);
-            header('Location: /admin/');
-            exit;
-        }
+        if ($this->httpRequest->isMethod('POST')) {
+            if (isset($_POST['action']) && $_POST['action'] === "newRole") {
+
+                $role = $this->cleanXSS($this->httpRequest->request->get('action'));
+                $id = $this->cleanXSS($this->httpRequest->request->get('id'));
+                $this->updateRole($role, $id);
+                header('Location: /admin/');
+                exit;
+            }
 
             //0 : par défaut non publié 
             // 1: publié 
             // 2: refusé
-        if(isset($_POST['action']) &&  $_POST['action'] === "refuser"){
-            $id = $_POST['idComment'];
-            $statut = 'refuser';
-            $this->updateStatut($id, $statut);
-            header('Location: /admin/');
-            exit;
-        }elseif(isset($_POST['action']) &&  $_POST['action'] === "valider"){
-            $id = $_POST['idComment'];
-            $statut = 'valider';
-            $this->updateStatut($id, $statut);
-            header('Location: /admin/');
-            exit;
+            if (isset($_POST['action']) &&  $_POST['action'] === "refuser") {
+                $id = $this->cleanXSS($this->httpRequest->request->get('idComment'));
+                $statut = 'refuser';
+                $this->updateStatut($id, $statut);
+                header('Location: /admin/');
+                exit;
+            } elseif (isset($_POST['action']) &&  $_POST['action'] === "valider") {
+                $id = $this->cleanXSS($this->httpRequest->request->get('idComment'));
+                $statut = 'valider';
+                $this->updateStatut($id, $statut);
+                header('Location: /admin/');
+                exit;
+            }
         }
 
 

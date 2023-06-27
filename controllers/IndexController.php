@@ -23,19 +23,23 @@ class IndexController extends BaseController
     private function contact()
     {
 
-        if (!empty($_POST)) {
-            $nom = ucfirst(trim($_POST['nom']));
-            $prenom = ucfirst(trim($_POST['prenom']));
-            $email = lcfirst(trim($_POST['email']));
-            $message = htmlspecialchars($_POST['message']);
+        if ($this->httpRequest->isMethod('POST')) {
+            if (!empty($_POST)) {
 
-            $to  = 'axel.chasseloup@gmail.com';
+                $nom = $this->cleanXSS($this->httpRequest->request->get('nom'));
+                $prenom = $this->cleanXSS($this->httpRequest->request->get('prenom'));
+                $prenom = ucfirst(trim($_POST['prenom']));
+                $email = $this->cleanXSS($this->httpRequest->request->get('email'));
+                $email = lcfirst(trim($_POST['email']));
+                $message = $this->cleanXSS($this->httpRequest->request->get('message'));
+                $message = htmlspecialchars($_POST['message']);
+                $to  = 'axel.chasseloup@gmail.com';
 
-            // Sujet
-            $subject = 'Message de' . $nom . ' ' . $prenom . ' ';
+                // Sujet
+                $subject = 'Message de' . $nom . ' ' . $prenom . ' ';
 
-            // message
-            $message = '
+                // message
+                $message = '
                         <html>
                         <body>
                         <p>' . $message . '</p>
@@ -43,16 +47,17 @@ class IndexController extends BaseController
                         </html>
                         ';
 
-            // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
-            $headers[] = 'MIME-Version: 1.0';
-            $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+                // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
+                $headers[] = 'MIME-Version: 1.0';
+                $headers[] = 'Content-type: text/html; charset=iso-8859-1';
 
-            // En-têtes additionnels
-            $headers[] = 'To:' . $to . ' ';
-            $headers[] = 'From: ' . $email . '';
+                // En-têtes additionnels
+                $headers[] = 'To:' . $to . ' ';
+                $headers[] = 'From: ' . $email . '';
 
-            // Envoi
-            mail($to, $subject, $message, implode("\r\n", $headers));
+                // Envoi
+                mail($to, $subject, $message, implode("\r\n", $headers));
+            }
         }
     }
 }
