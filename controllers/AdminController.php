@@ -5,6 +5,7 @@ namespace Controllers;
 use Models\Post;
 use Models\Users;
 
+
 class AdminController extends BaseController
 {
     public function admin()
@@ -19,8 +20,10 @@ class AdminController extends BaseController
         $users = $this->getUsers();
 
 
-        if ($this->httpRequest->isMethod('POST')) {
-            if (isset($_POST['action']) && $_POST['action'] === "newRole") {
+        $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
+        if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
+
+            if ($this->httpRequest->request->get('action') === "newRole") {
 
                 $role = $this->cleanXSS($this->httpRequest->request->get('action'));
                 $id = $this->cleanXSS($this->httpRequest->request->get('id'));
@@ -29,16 +32,13 @@ class AdminController extends BaseController
                 exit;
             }
 
-            //0 : par défaut non publié 
-            // 1: publié 
-            // 2: refusé
-            if (isset($_POST['action']) &&  $_POST['action'] === "refuser") {
+            if ($this->httpRequest->request->get('action') === "refuser") {
                 $id = $this->cleanXSS($this->httpRequest->request->get('idComment'));
                 $statut = 'refuser';
                 $this->updateStatut($id, $statut);
                 header('Location: /admin/');
                 exit;
-            } elseif (isset($_POST['action']) &&  $_POST['action'] === "valider") {
+            } elseif ($this->httpRequest->request->get('action') === "valider") {
                 $id = $this->cleanXSS($this->httpRequest->request->get('idComment'));
                 $statut = 'valider';
                 $this->updateStatut($id, $statut);
@@ -61,7 +61,7 @@ class AdminController extends BaseController
     private function verifRole()
     {
         $getRoleUser = new Users();
-        $role = $getRoleUser->getUsers($_SESSION['user']['id']);
+        $role = $getRoleUser->getUsers($this->httpSession->get('user')['id']);
         if ($role[0]['role'] != "admin") {
             header('Location: /error/');
             exit;

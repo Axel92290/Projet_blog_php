@@ -4,12 +4,10 @@ namespace Controllers;
 
 use Models\Users;
 
+
 class ConnexionController extends BaseController
 {
-    /**
-     * @var string
-     */
-    private string $errors = '';
+
 
     public function connexion()
     {
@@ -31,8 +29,10 @@ class ConnexionController extends BaseController
      */
     private function checkFormSubmitForm()
     {
-        if ($this->httpRequest->isMethod('POST')) {
-            if (!empty($_POST['mail']) && !empty($_POST['pwd'])) {
+        $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
+        if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
+
+            if ($this->httpRequest->request->get('mail') && $this->httpRequest->request->get('pwd')) {
 
                 $email = $this->cleanXSS($this->httpRequest->request->get('mail'));
                 $password = $this->cleanXSS($this->httpRequest->request->get('pwd'));
@@ -45,13 +45,13 @@ class ConnexionController extends BaseController
                     if (password_verify($password, $passwordHash)) {
 
                         $updatedAt = date('Y-m-d H:i:s');
-                        $_SESSION['user'] = [
+                        $this->httpSession->set('user', [
                             'id' => $userFound['id'],
                             'email' => $userFound['email'],
                             'firstname' => $userFound['firstname'],
                             'lastname' => $userFound['lastname'],
                             'role' => $userFound['role'],
-                        ];
+                        ]);
                         $modelUser->updateDateConnexion($email, $updatedAt);
 
                         header('Location: /');
@@ -69,8 +69,8 @@ class ConnexionController extends BaseController
 
     private function checkSession()
     {
-        if (isset($_SESSION['user'])) {
-            header('Location: /connexion/');
+        if ($this->httpSession->has('user')) {
+            header('Location: /');
             exit;
         }
     }

@@ -7,9 +7,7 @@ use Tools\Config;
 
 class Database
 {
-    /**
-     * @var PDO
-     */
+    private static ?Database $instance = null;
     protected PDO $connexion;
 
     public function __construct()
@@ -31,4 +29,15 @@ class Database
         }
     }
 
+    public function getConnexion() : PDO{
+        return $this->connexion;
+    }
+
+    public static function getInstance(): Database
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
 }

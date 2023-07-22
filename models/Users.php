@@ -13,7 +13,9 @@ class Users extends Database
     public function loadUserByEmail($email): mixed
     {
         try {
-            $stmt = $this->connexion->prepare('SELECT * FROM users WHERE email = :email');
+            // var_dump(self::getInstance());
+            // die;
+            $stmt = self::getInstance()->getConnexion()->prepare('SELECT * FROM users WHERE email = :email');
             $stmt->bindParam('email', $email);
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -32,7 +34,7 @@ class Users extends Database
     public function insertData($nom, $prenom, $mail, $pwd): mixed
     {
         try{
-        $stmt = $this->connexion->prepare('INSERT INTO users (firstname, lastname, email, pwd, createdAt) VALUES (:firstname, :lastname, :email, :pwd , NOW())');
+        $stmt = self::getInstance()->getConnexion()->prepare('INSERT INTO users (firstname, lastname, email, pwd, createdAt) VALUES (:firstname, :lastname, :email, :pwd , NOW())');
         $stmt->bindValue('firstname', $prenom);
         $stmt->bindValue('lastname', $nom);
         $stmt->bindValue('email', $mail);
@@ -49,7 +51,7 @@ class Users extends Database
     public function updateDateConnexion($email, $updatedAt) : mixed
     {
         try {
-            $stmt = $this->connexion->prepare('UPDATE users SET updatedAt = :updatedAt WHERE email = :email');
+            $stmt = self::getInstance()->getConnexion()->prepare('UPDATE users SET updatedAt = :updatedAt WHERE email = :email');
             $stmt->bindValue('updatedAt', $updatedAt);
             $stmt->bindValue('email', $email);
             return $stmt->execute();
@@ -64,7 +66,7 @@ class Users extends Database
     public function checkUserByEmail($email) : mixed
     {      
         try {    
-            $req = $this->connexion->prepare("SELECT id FROM users WHERE email = :email ");
+            $req = self::getInstance()->getConnexion()->prepare("SELECT id FROM users WHERE email = :email ");
             $req->bindValue('email', $email);
             $req->execute();
             $result = $req->fetch(PDO::FETCH_ASSOC);
@@ -80,7 +82,7 @@ class Users extends Database
     {
 
         try {
-            $req = $this->connexion->prepare("SELECT * FROM users WHERE email = ? AND pwd = ?");
+            $req = self::getInstance()->getConnexion()->prepare("SELECT * FROM users WHERE email = ? AND pwd = ?");
             $req->bindValue('email', $email);
             $req->bindValue('pwd', $pwd);
             $req->execute();
@@ -95,7 +97,7 @@ class Users extends Database
     public function updatePwd($mail, $newPwd) :mixed
     {
         try{
-            $req = $this->connexion->prepare("UPDATE users SET pwd = :pwd WHERE email = :email");
+            $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET pwd = :pwd WHERE email = :email");
             $req->bindValue('pwd', $newPwd);
             $req->bindValue('email', $mail);
             return $req->execute();
@@ -109,7 +111,7 @@ class Users extends Database
     {
         try{
 
-            $req = $this->connexion->prepare("UPDATE users SET facebook = :facebook, twitter = :twitter, instagram = :instagram, linkedin = :linkedin, github = :github, catchPhrase = :catchPhrase, cv = :cv WHERE id = :id");
+            $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET facebook = :facebook, twitter = :twitter, instagram = :instagram, linkedin = :linkedin, github = :github, catchPhrase = :catchPhrase, cv = :cv WHERE id = :id");
             $req->bindValue('facebook', $facebook);
             $req->bindValue('twitter', $twitter);
             $req->bindValue('instagram', $instagram);
@@ -133,7 +135,7 @@ class Users extends Database
             if ($id != null) {
                 $sql .= " WHERE id = :id";
             }
-            $req = $this->connexion->prepare($sql);
+            $req = self::getInstance()->getConnexion()->prepare($sql);
             if ($id != null) {
                 $req->bindValue('id', $id);
             }
@@ -149,7 +151,7 @@ class Users extends Database
     public function updateRole($role, $id)
     {
         try{
-            $req = $this->connexion->prepare("UPDATE users SET role = :role WHERE id = :id");
+            $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET role = :role WHERE id = :id");
             $req->bindValue('role', $role);
             $req->bindValue('id', $id);
             return $req->execute();

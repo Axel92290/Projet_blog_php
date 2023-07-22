@@ -8,14 +8,7 @@
 
 {% block content %}
 <!-- Main Content-->
-{% if errors is not empty %}
 
-<div class="alert alert-danger" role="alert">
-    {% for error in errors %}
-    <p>{{error}}</p>
-    {% endfor %}
-</div>
-{% endif %}
 <form method="post">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -30,16 +23,6 @@
                                 placeholder="Email" name="mail" />
                         </div>
 
-                        <div class="form-outline mb-4">
-                            <input type="password" id="typePasswordX-2" class="form-control form-control-lg"
-                                placeholder="Nouveau mot de passe" name="newPwd" />
-                        </div>
-
-                        <div class="form-outline mb-4">
-                            <input type="password" id="typePasswordX-2" class="form-control form-control-lg"
-                                placeholder="Confirmez le nouveau mot de passe" name="confNewPwd" />
-                        </div>
-
                         <button class="btn btn-primary btn-lg btn-block" type="update">Update</button>
 
                     </div>
@@ -48,6 +31,8 @@
         </div>
     </div>
     </div>
+
+    {{ form_token("") }}
 </form>
 
 

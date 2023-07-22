@@ -41,15 +41,19 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto py-4 py-lg-0">
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{base_url}}">Accueil</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{base_url}}/listing-posts/">Posts</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                            href="{{base_url}}/listing-posts/">Posts</a></li>
                     {% if user is empty %}
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{base_url}}/register/">Inscription</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{base_url}}/connexion/">Connexion</a></li>
-                    {% endif %}                   
-                    {% if user is not empty %}
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{base_url}}/logout/">Déconnexion</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                            href="{{base_url}}/register/">Inscription</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                            href="{{base_url}}/connexion/">Connexion</a></li>
                     {% endif %}
-                    
+                    {% if user is not empty %}
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                            href="{{base_url}}/logout/">Déconnexion</a></li>
+                    {% endif %}
+
                 </ul>
             </div>
         </div>
@@ -64,11 +68,34 @@
         </div>
     </header>
     <!-- Main Content-->
-        <div class="container position-relative px-4 px-lg-5">
-            {% block content %}
-            
-            {% endblock %}
+    <div class="container position-relative px-4 px-lg-5">
+        {% block content %}
+
+
+
+        {% endblock %}
+
+        {% if successes is not empty %}
+        
+        <div class="alert alert-success" role="alert">
+            {% for success in successes %}
+            <p>{{success}}</p>
+            {% endfor %}
         </div>
+
+        {% endif %}
+
+        {% if errors is not empty %}
+
+        <div class="alert alert-danger" role="alert">
+            {% for error in errors %}
+            <p>{{error}}</p>
+            {% endfor %}
+        </div>
+
+        {% endif %}
+
+    </div>
 
 
 </body>
@@ -79,7 +106,7 @@
 {% block footer %}
 <!-- Footer-->
 <br>
- <footer class="border-top">
+<footer class="border-top">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
@@ -87,9 +114,11 @@
                     <li class="list-inline-item">
                         {% if user.role is not empty %}
                         <a href="{{base_url}}/admin/">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person-lock" viewBox="0 0 16 16">
-                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 5.996V14H3s-1 0-1-1 1-4 6-4c.564 0 1.077.038 1.544.107a4.524 4.524 0 0 0-.803.918A10.46 10.46 0 0 0 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h5ZM9 13a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-2Zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1Z"/>
-                              </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+                                class="bi bi-person-lock" viewBox="0 0 16 16">
+                                <path
+                                    d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 5.996V14H3s-1 0-1-1 1-4 6-4c.564 0 1.077.038 1.544.107a4.524 4.524 0 0 0-.803.918A10.46 10.46 0 0 0 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h5ZM9 13a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-2Zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1Z" />
+                            </svg>
                         </a>
                         {% endif %}
                     </li>

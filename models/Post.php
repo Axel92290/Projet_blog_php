@@ -10,7 +10,8 @@ class Post extends Database
     {
         try{
 
-            $req = $this->connexion->prepare("INSERT INTO posts (titre, chapo, contenu, dateModification, idUser) VALUES (:titre, :chapo, :contenu, NOW(), :idUser)");
+
+            $req = self::getInstance()->getConnexion()->prepare("INSERT INTO posts (titre, chapo, contenu, dateModification, idUser) VALUES (:titre, :chapo, :contenu, NOW(), :idUser)");
             $req->bindValue('titre', $titre);
             $req->bindValue('chapo', $chapo);
             $req->bindValue('contenu', $contenu);
@@ -25,7 +26,10 @@ class Post extends Database
 
     public function getPosts($idPost = null)
     {
+
         try{
+            // var_dump(self::getInstance()->getConnexion());
+            // die;
         $sql = "SELECT p.id, p.titre, p.chapo, p.contenu, p.dateCreation, p.dateModification, u.firstname FROM posts p INNER JOIN users u ON u.id = p.idUser";
 
         if($idPost){
@@ -35,7 +39,7 @@ class Post extends Database
             $sql .= " ORDER BY dateCreation DESC";
         }
 
-        $req = $this->connexion->prepare($sql);
+        $req = self::getInstance()->getConnexion()->prepare($sql);
 
         if($idPost){
             $req->bindValue('idPost', $idPost);
@@ -55,7 +59,7 @@ class Post extends Database
     public function updatePost($titre, $chapo, $contenu, $id)
     {
         try{
-        $req = $this->connexion->prepare("UPDATE posts SET titre = :titre, chapo = :chapo, contenu = :contenu WHERE id = :id");
+        $req = self::getInstance()->getConnexion()->prepare("UPDATE posts SET titre = :titre, chapo = :chapo, contenu = :contenu WHERE id = :id");
         $req->bindValue('id', $id);
         $req->bindValue('titre', $titre);
         $req->bindValue('chapo', $chapo);
@@ -72,7 +76,7 @@ class Post extends Database
     public function deletePost($id)
     {
         try{
-        $req = $this->connexion->prepare("DELETE FROM posts WHERE id = :id");
+        $req = self::getInstance()->getConnexion()->prepare("DELETE FROM posts WHERE id = :id");
         $req->bindValue('id', $id);
         return $req->execute();
 
@@ -86,7 +90,7 @@ class Post extends Database
     public function createComment($comment, $idUser, $idPost)
     {
         try{
-            $req = $this->connexion->prepare("INSERT INTO comments (contenu, dateCreation, idUser, idPost) VALUES (:comment, NOW(), :idUser, :idPost)");
+            $req = self::getInstance()->getConnexion()->prepare("INSERT INTO comments (contenu, dateCreation, idUser, idPost) VALUES (:comment, NOW(), :idUser, :idPost)");
             $req->bindValue('comment', $comment);
             $req->bindValue('idUser', $idUser);
             $req->bindValue('idPost', $idPost);
@@ -112,7 +116,7 @@ class Post extends Database
                 $sql .= " WHERE c.idPost = :idPost AND c.statut = 1 ORDER BY c.dateModification DESC";
             }
     
-            $req = $this->connexion->prepare($sql);
+            $req = self::getInstance()->getConnexion()->prepare($sql);
 
     
             if($idPost){
@@ -142,7 +146,7 @@ class Post extends Database
             }else{
                 $sql = "UPDATE comments SET statut = 1 WHERE id = :idComment";
             }
-            $req = $this->connexion->prepare($sql);
+            $req = self::getInstance()->getConnexion()->prepare($sql);
             $req->bindValue('idComment', $idComment);
             $req->execute();
         }catch(\PDOException $e){

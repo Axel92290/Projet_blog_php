@@ -37,6 +37,9 @@ try {
         // Page de mot de passe oublié
         $r->addRoute(['GET', 'POST'], '/forgotpwd/', ForgotPwdController::class . '/forgotpwd');
 
+        // Page de mot de passe oublié
+        $r->addRoute(['GET', 'POST'], '/resetpwd/', ResetPwdController::class . '/resetpwd');
+
         // Page du listing des posts
         $r->addRoute(['GET', 'POST'], '/listing-posts/', ListingController::class . '/listing');
 
