@@ -10,14 +10,6 @@
 <!-- Main Content-->
 <main class="mb-4">
     
-{% if errors is not empty %}
-
-<div class="alert alert-danger" role="alert">
-    {% for error in errors %}
-    <p>{{error}}</p>
-    {% endfor %}
-</div>
-{% endif %}
 
 
     <form class="mx-1 mx-md-4" method="post">
@@ -63,6 +55,8 @@
         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
             <button type="submit" class="btn btn-primary btn-lg" name="inscription">Register</button>
         </div>
+
+        {{ form_token("") }}
 
     </form>
 

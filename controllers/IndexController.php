@@ -2,7 +2,8 @@
 
 namespace Controllers;
 
-use Models\Users;
+use Tools\Config;
+
 
 class IndexController extends BaseController
 {
@@ -14,6 +15,7 @@ class IndexController extends BaseController
 
         $this->contact();
 
+
         // Puis on affiche la page avec la méthode render
         echo $template->render([
             'title' => 'Accueil du blog',
@@ -22,42 +24,46 @@ class IndexController extends BaseController
 
     private function contact()
     {
+        $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
+        if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
 
-        if ($this->httpRequest->isMethod('POST')) {
-            if (!empty($_POST)) {
 
-                $nom = $this->cleanXSS($this->httpRequest->request->get('nom'));
-                $prenom = $this->cleanXSS($this->httpRequest->request->get('prenom'));
-                $prenom = ucfirst(trim($_POST['prenom']));
-                $email = $this->cleanXSS($this->httpRequest->request->get('email'));
-                $email = lcfirst(trim($_POST['email']));
-                $message = $this->cleanXSS($this->httpRequest->request->get('message'));
-                $message = htmlspecialchars($_POST['message']);
-                $to  = 'axel.chasseloup@gmail.com';
+            $conf = new Config();
 
-                // Sujet
-                $subject = 'Message de' . $nom . ' ' . $prenom . ' ';
 
-                // message
-                $message = '
-                        <html>
-                        <body>
-                        <p>' . $message . '</p>
-                        </body>
-                        </html>
-                        ';
+            $nom = $this->cleanXSS($this->httpRequest->request->get('nom'));
+            $prenom = ucfirst($this->cleanXSS($this->httpRequest->request->get('prenom')));
+            $email = lcfirst($this->cleanXSS($this->httpRequest->request->get('email')));
+            $message = $this->cleanXSS($this->httpRequest->request->get('message'));
 
-                // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
-                $headers[] = 'MIME-Version: 1.0';
-                $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+            // Sujet
+            $subject = 'Message de ' . $nom . ' ' . $prenom . ' ';
 
-                // En-têtes additionnels
-                $headers[] = 'To:' . $to . ' ';
-                $headers[] = 'From: ' . $email . '';
-
-                // Envoi
-                mail($to, $subject, $message, implode("\r\n", $headers));
+            try{
+                ini_set(
+                    'SMTP',
+                    'localhost'
+                );
+                ini_set('smtp_port', 1025);
+        
+                // Envoi d'un e-mail de test
+                $to = $email ;
+                $subject = $subject;
+                $message = $message;
+                $headers = 'From: ' . $conf->get('admin.mailhog') ;
+        
+                // Envoi de l'e-mail
+                if (mail($to, $subject, $message,
+                    $headers
+                )) {
+                    echo 'Email sent successfully!';
+                } else {
+                    echo 'Failed to send email.';
+                }
+            } catch(\Exception $e){
+                echo $e->getMessage();
             }
+    
         }
     }
 }

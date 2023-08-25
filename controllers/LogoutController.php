@@ -5,8 +5,8 @@ class LogoutController extends BaseController
 {
     public function logout()
     {
-        session_unset();
-        session_destroy();
+        $this->httpSession->invalidate();
+        $this->httpSession->clear();
         header('Location: /');
         exit;
     }

@@ -3,58 +3,95 @@
 namespace Controllers;
 
 use Models\Users;
+use Tools\Config;
+
+
 
 class ForgotPwdController extends BaseController
 {
-    private array $errors = [];
+
 
     public function forgotpwd()
     {
 
-        $template = $this->twig->load('forgotpwd/forgotpwd.html');
-
+        
         $this->checkFormSubmit();
-
+        $template = $this->twig->load('forgotpwd/forgotpwd.html');
         echo $template->render([
             'title' => 'Mot de passe oublié',
-            'errors' => $this->errors
+            'errors' => $this->errors,
+            'successes' => $this->successes
+
 
         ]);
+
     }
 
     private function checkFormSubmit()
     {
 
-        if ($this->httpRequest->isMethod('POST')) {
-            if (!empty($_POST)) {
-
-                if (empty($_POST['mail'])) {
-                    $this->errors[] = 'Veuillez remplir le champ email ';
-                } elseif (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
-                    $this->errors[] = 'Veuillez entrer un email valide';
-                } elseif (empty($_POST['newPwd'])) {
-                    $this->errors[] = 'Veuillez remplir le champ mot de passe ';
-                } elseif (empty($_POST['confNewPwd'])) {
-                    $this->errors[] = 'Veuillez remplir le champ confirmation du mot de passe ';
-                } elseif ($_POST['confNewPwd'] != $_POST['newPwd']) {
-                    $this->errors[] = 'Les mots de passe ne correspondent pas';
-                } elseif (!empty($_POST['mail'])) {
-                    $modelUser = new Users();
-                    $mailFound = $modelUser->checkUserByEmail($_POST['mail']);
-                    if (empty($mailFound)) {
-                        $this->errors[] = 'Cet email n\'existe pas';
-                    } else {
-                        $mail = $this->cleanXSS($this->httpRequest->request->get('mail'));
-                        $mail = (string) trim($mail);
-                        $newPwd = $this->cleanXSS($this->httpRequest->request->get('newPwd'));
-                        $newPwd = (string) trim($newPwd);
-                        $newPwd = password_hash($newPwd, PASSWORD_ARGON2ID);
-                        $udpatePwd = $modelUser->updatePwd($mail, $newPwd);
-                        if ($udpatePwd) {
-                            header('Location: /connexion/');
-                        }
-                    }
+        $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
+        if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
+            if (!$this->httpRequest->request->get('mail')) {
+                $this->errors[] = 'Veuillez remplir le champ email ';
+            } elseif (filter_var(!$this->httpRequest->request->get('mail'), FILTER_VALIDATE_EMAIL)) {
+                $this->errors[] = 'Veuillez entrer un email valide';
+            } else{
+                $conf = new Config();  
+                $modelUser = new Users();
+    
+                $mail = $this->cleanXSS($this->httpRequest->request->get('mail'));
+                $token = md5(time().uniqid());
+                $expireAt = date('Y-m-d H:i:s', strtotime('+2 day'));
+                $forgotpwd = $modelUser->forgotpwd($token, $expireAt, $mail);
+                if(!$forgotpwd){
+                    $this->errors[] = 'Erreur lors de la réinitialisation du mot de passe';
+                }else{
+                    $lien = $this->conf->get('siteUrl') .'/resetpwd/' . $token;
                 }
+                
+    
+                // Sujet
+                $subject = 'Réinitialisation de votre mot de passe';
+    
+                // message
+                $message = 'Bonjour,
+
+                            
+                            Voici le lien vous permettant de réinitialiser votre mot de passe :
+                            
+                            '. $lien .'
+                            
+                            Cordialement,
+                            l\'Equipe du blog
+                            ';
+    
+
+
+                            try{
+                                ini_set(
+                                    'SMTP',
+                                    'localhost'
+                                );
+                                ini_set('smtp_port', $this->conf->get('port.mailhog'));
+                        
+                                $to = $mail ;
+                                $subject = $subject;
+                                $message = $message;
+                                $headers = 'From: ' . $conf->get('admin.mailhog');
+                        
+                                // Envoi de l'e-mail
+                                if (mail($to, $subject, $message,
+                                    $headers
+                                )) {
+                                    $this->successes[] = 'Email envoyé avec succès. ';
+
+                                } else {
+                                    $this->errors[] = 'Erreur lors de l\'envoi de l\'email';
+                                }
+                            } catch(\Exception $e){
+                                echo $e->getMessage();
+                            }
             }
         }
     }

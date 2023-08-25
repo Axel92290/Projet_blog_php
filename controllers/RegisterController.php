@@ -5,64 +5,63 @@ use Models\Users;
 
 class RegisterController extends BaseController
 {
-    private array $errors = [];
 
 
     public function register()
     {
+        $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
 
         $this->checkSession();
         // on choisi la template à appeler
         $template = $this->twig->load('register/register.html');
 
 
-        if($this->httpRequest->isMethod('POST')){
+
+        if($this->httpRequest->isMethod('POST') && $csrf->validateRequest()){
             $nom = $this->cleanXSS($this->httpRequest->request->get('nom'));
-            if(empty($_POST['nom'])){
+            if(!$this->httpRequest->request->get('nom')){
                 $this->errors[] = 'Veuillez remplir le champ nom';
             }else{
-                $nom = $this->antiXss->xss_clean($_POST['nom']); 
-                $nom = (string) ucfirst(trim($nom)); 
+                $nom = ucfirst($this->antiXss->xss_clean($this->httpRequest->request->get('nom'))); 
             }
 
-            if(empty($_POST['prenom'])){
+            if(!$this->httpRequest->request->get('prenom')){
                 $this->errors[] = 'Veuillez remplir le champ prenom';
             }else{
-                $prenom = $this->antiXss->xss_clean($_POST['prenom']);
-                $prenom = (string) ucfirst(trim($prenom));
+                $prenom = ucfirst($this->antiXss->xss_clean($this->httpRequest->request->get('prenom')));
             }
 
-            if(empty($_POST['mail'])){
+            if(!$this->httpRequest->request->get('mail')){
                 $this->errors[] = 'Veuillez remplir le champ email ';
             }elseif(!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
                 $this->errors[] = 'Veuillez entrer un email valide';
-            }elseif(!empty($_POST['mail'])) {
+            }else {
                 $modelUser = new Users();
          
-                $mailFound = $modelUser->checkUserByEmail($_POST['mail'] );
+                $mailFound = $modelUser->checkUserByEmail($this->httpRequest->request->get('mail'));
                 if (!empty($mailFound)) {
                     $this->errors[] = 'Cet email est déjà utilisé';
                 }else{
-                    $mail = (string) $this->antiXss->xss_clean(lcfirst(trim($_POST['mail'])));
+                    $mail = (string) $this->antiXss->xss_clean(lcfirst(($this->httpRequest->request->get('mail'))));
                 }
             }
 
 
-            if(empty($_POST['pwd'])){
+            if(!$this->httpRequest->request->get('pwd')){
                 $this->errors[] = 'Veuillez remplir le champ mot de passe ';
             }else{
-                $pwd = $_POST['pwd'];
-                $pwd = (string) $this->antiXss->xss_clean(trim($pwd));
+                $pwd = $this->httpRequest->request->get('pwd');
+                $pwd = (string) $this->antiXss->xss_clean($pwd);
                 
             }
 
-            if(empty($_POST['confPwd'])){
+            if(!$this->httpRequest->request->get('confPwd')){
                 $this->errors[] = 'Veuillez remplir le champ confirmation du mot de passe ';
-            }elseif($_POST['confPwd'] != $_POST['pwd']) {
+            }elseif($this->httpRequest->request->get('confPwd') != $this->httpRequest->request->get('pwd')) {
                 $this->errors[] = 'Les mots de passe ne correspondent pas';
             }else{
-                $confpassword = $_POST['confPwd'];
-                $confpassword = (string) $this->antiXss->xss_clean(trim($confpassword));
+                $confpassword = $this->httpRequest->request->get('confPwd');
+                $confpassword = (string) $this->antiXss->xss_clean($confpassword);
                 
             }            
 
@@ -79,7 +78,6 @@ class RegisterController extends BaseController
             }
         }
         
-        
         // Puis on affiche la page avec la méthode render
         echo $template->render([
             'title' => 'Inscription',
@@ -91,7 +89,7 @@ class RegisterController extends BaseController
 
     private function checkSession()
     {
-        if (isset($_SESSION['user'])) {
+        if ($this->httpSession->get('user')) {
             header('Location: /connexion/');
             exit;
         }

@@ -16,36 +16,32 @@ class EditPostController extends BaseController
     {
 
         $this->checkSession();
+        $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
 
 
         $detailPost = $this->getPost($id);;
 
-        $userId = $_SESSION['user']['id'];
-        $userRole = $_SESSION['user']['role'];
+        $userId = $this->httpSession->get('user')['id'];
+        $userRole = $this->httpSession->get('user')['role'];
         $postUserId = $detailPost[0]['id'];
         $this->checkRole($userRole, $userId, $postUserId);
 
-        if ($this->httpRequest->isMethod('POST')) {
-            if (!empty($_POST)) {
-                if (empty($_POST['title'])) {
-                    $this->errors[] = 'Veuillez remplir le champ titre';
-                } elseif (empty($_POST['content'])) {
-                    $this->errors[] = 'Veuillez remplir le champ contenu';
-                } elseif (empty($_POST['chapo'])) {
-                    $this->errors[] = 'Veuillez remplir le champ chapo';
-                } else {
+        if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
+            if (!$this->httpRequest->request->get('title')) {
+                $this->errors[] = 'Veuillez remplir le champ titre';
+            } elseif (!$this->httpRequest->request->get('content')) {
+                $this->errors[] = 'Veuillez remplir le champ contenu';
+            } elseif (!$this->httpRequest->request->get('chapo')) {
+                $this->errors[] = 'Veuillez remplir le champ chapo';
+            } else {
 
-                    $titre = $this->cleanXSS($this->httpRequest->request->get('title'));
-                    $titre = htmlspecialchars(ucfirst(trim($titre)));
-                    $chapo = $this->cleanXSS($this->httpRequest->request->get('chapo'));
-                    $chapo = htmlspecialchars(ucfirst(trim($chapo)));
-                    $contenu = $this->cleanXSS($this->httpRequest->request->get('content'));
-                    $contenu = htmlspecialchars(ucfirst(trim($contenu)));
-                    $this->updatePostData($titre, $chapo, $contenu, $id);
+                $titre = ucfirst($this->cleanXSS($this->httpRequest->request->get('title')));
+                $chapo = ucfirst($this->cleanXSS($this->httpRequest->request->get('chapo')));
+                $contenu = ucfirst($this->cleanXSS($this->httpRequest->request->get('content')));
+                $this->updatePostData($titre, $chapo, $contenu, $id);
 
-                    header("Location: /details-posts/$id");
-                    exit;
-                }
+                header("Location: /details-posts/$id");
+                exit;
             }
         }
 
@@ -76,7 +72,7 @@ class EditPostController extends BaseController
 
     private function checkSession()
     {
-        if (!isset($_SESSION['user'])) {
+        if (!$this->httpSession->get('user')) {
             header('Location: /connexion/');
             exit;
         }

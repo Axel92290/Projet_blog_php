@@ -7,6 +7,8 @@ use Tools\Config;
 use voku\helper\AntiXSS;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use ParagonIE\AntiCSRF\AntiCSRF;
+
 
 /**
  *
@@ -40,7 +42,19 @@ class BaseController
     protected $httpSession;
 
     /**
-     *
+     * @var array 
+     */
+    protected array $errors = [];
+
+    /**
+     * @var array
+    */
+
+    protected array $successes = [];
+
+
+    /**
+     * @var 
      */
     public function __construct()
     {
@@ -60,14 +74,32 @@ class BaseController
 
         // On passe dans la vue Twig l'url de connexion
         $this->twig->addGlobal('base_url', $this->conf->get('siteUrl'));
+        $this->twig->addFunction(
+            new \Twig\TwigFunction(
+                'form_token',
+                function($lock_to = null) {
+                    static $csrf;
+                    if ($csrf === null) {
+                        $csrf = new AntiCSRF();
+                    }
+                    return $csrf->insertToken($lock_to, false);
+                },
+                ['is_safe' => ['html']]
+            )
+        );
 
 
         // Si session active, on passe les infos dans la vue Twig
-        if (isset($_SESSION['user'])) {
-            $this->twig->addGlobal('user', $_SESSION['user']);
+        if ($this->httpSession->has('user')) {
+            $this->twig->addGlobal('user', $this->httpSession->get('user'));
         }
+
+
     }
 
+    /**
+     * @var array
+     */
     protected function cleanXSS($data)
     {
         $data = trim($data);
@@ -76,5 +108,8 @@ class BaseController
         $data = $this->antiXss->xss_clean($data);
         return $data;
     }
+
+
+
 
 }

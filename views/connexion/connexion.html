@@ -16,7 +16,8 @@
     {% endfor %}
 </div>
 {% endif %}
-<form method="post">
+<form action="" method="post">
+
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -38,7 +39,7 @@
                         <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
 
                         <hr>
-                        
+
                         <a href="{{base_url}}/register/">
                             <button type="button" class="btn btn-primary btn-sm">S'inscrire</button>
                         </a>
@@ -51,6 +52,8 @@
         </div>
     </div>
     </div>
+
+    {{ form_token("") }}
 </form>
 
 
