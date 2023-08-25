@@ -161,5 +161,39 @@ class Users extends Database
         }
     }
 
+    public function forgotpwd($token, $expireAt, $email)
+    {
+        try{
+
+            $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET token = :token, expireAt = :expireAt WHERE email = :email");
+            $req->bindValue('token', $token);
+            $req->bindValue('expireAt', $expireAt);
+            $req->bindValue('email', $email);
+            return $req->execute();
+
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
+    }
+
+
+    public function checkToken($token)
+    {
+        try{
+
+            $req = self::getInstance()->getConnexion()->prepare("SELECT email, token, expireAt FROM users WHERE token = :token");
+            $req->bindValue('token', $token);
+            $req->execute();
+            $result = $req->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        }catch(\PDOException $e){
+            echo $e->getMessage();
+            die;
+        }
+    }
+
+
+
 
 }

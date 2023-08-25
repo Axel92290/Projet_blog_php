@@ -11,6 +11,7 @@ use Controllers\ForgotPwdController;
 use Controllers\ErrorController;
 use Controllers\AdminController;
 use Controllers\EditPostController;
+use Controllers\ResetPwdController;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -37,8 +38,8 @@ try {
         // Page de mot de passe oublié
         $r->addRoute(['GET', 'POST'], '/forgotpwd/', ForgotPwdController::class . '/forgotpwd');
 
-        // Page de mot de passe oublié
-        $r->addRoute(['GET', 'POST'], '/resetpwd/', ResetPwdController::class . '/resetpwd');
+        // Page de reset de mot de passe oublié
+        $r->addRoute(['GET', 'POST'], '/resetpwd/{token}', ResetPwdController::class . '/resetpwd');
 
         // Page du listing des posts
         $r->addRoute(['GET', 'POST'], '/listing-posts/', ListingController::class . '/listing');
@@ -94,6 +95,7 @@ try {
             $handler = $routeInfo[1];
             $vars = $routeInfo[2];
             list($class, $method) = explode("/", $handler, 2);
+
             // on appelle automatiquement notre controlleur, avec la bonne méthode et les bons paramètres donnés à notre fonction
             // Exemple pour la syntaxe "IndexController::class . '/index'", voici ce qui sera appelé : "IndexController->index()"
             call_user_func_array(array(new $class, $method), $vars);

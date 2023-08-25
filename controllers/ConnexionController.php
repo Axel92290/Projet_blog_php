@@ -58,10 +58,10 @@ class ConnexionController extends BaseController
                         exit;
                     } else {
 
-                        $this->errors = 'Mot de passe incorrect!';
+                        $this->errors[] = 'Mot de passe incorrect!';
                     }
                 } else {
-                    $this->errors = 'Utilisateur introuvable!';
+                    $this->errors[] = 'Utilisateur introuvable!';
                 }
             }
         }

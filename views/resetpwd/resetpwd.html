@@ -8,14 +8,7 @@
 
 {% block content %}
 <!-- Main Content-->
-{% if errors is not empty %}
 
-<div class="alert alert-danger" role="alert">
-    {% for error in errors %}
-    <p>{{error}}</p>
-    {% endfor %}
-</div>
-{% endif %}
 <form method="post">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -25,10 +18,6 @@
 
                         <h3 class="mb-5">Mot de passe oublié</h3>
 
-                        <div class="form-outline mb-4">
-                            <input type="email" id="typeEmailX-2" class="form-control form-control-lg"
-                                placeholder="Email" name="mail" />
-                        </div>
 
                         <div class="form-outline mb-4">
                             <input type="password" id="typePasswordX-2" class="form-control form-control-lg"

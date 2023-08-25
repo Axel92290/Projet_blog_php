@@ -39,14 +39,23 @@ class BaseController
      * @var Request
      */
     protected $httpRequest;
-    
     protected $httpSession;
 
+    /**
+     * @var array 
+     */
     protected array $errors = [];
+
+    /**
+     * @var array
+    */
 
     protected array $successes = [];
 
 
+    /**
+     * @var 
+     */
     public function __construct()
     {
         $this->loader = new \Twig\Loader\FilesystemLoader(APP_DIRECTORY . 'views');
@@ -88,6 +97,9 @@ class BaseController
 
     }
 
+    /**
+     * @var array
+     */
     protected function cleanXSS($data)
     {
         $data = trim($data);

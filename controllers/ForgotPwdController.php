@@ -4,7 +4,7 @@ namespace Controllers;
 
 use Models\Users;
 use Tools\Config;
-use PHPMailer\PHPMailer\PHPMailer;
+
 
 
 class ForgotPwdController extends BaseController
@@ -38,31 +38,35 @@ class ForgotPwdController extends BaseController
                 $this->errors[] = 'Veuillez entrer un email valide';
             } else{
                 $conf = new Config();  
+                $modelUser = new Users();
     
                 $mail = $this->cleanXSS($this->httpRequest->request->get('mail'));
-
+                $token = md5(time().uniqid());
+                $expireAt = date('Y-m-d H:i:s', strtotime('+2 day'));
+                $forgotpwd = $modelUser->forgotpwd($token, $expireAt, $mail);
+                if(!$forgotpwd){
+                    $this->errors[] = 'Erreur lors de la réinitialisation du mot de passe';
+                }else{
+                    $lien = $this->conf->get('siteUrl') .'/resetpwd/' . $token;
+                }
+                
     
                 // Sujet
                 $subject = 'Réinitialisation de votre mot de passe';
     
                 // message
-                $message = '
-                            <html>
-                            <body>
-                            <p>Bonjour,
+                $message = 'Bonjour,
 
-                            Vous avez fait une demande de réinitialisation de mot de passe.
+                            
                             Voici le lien vous permettant de réinitialiser votre mot de passe :
                             
-                            '. $this->conf->get('siteUrl') .'/resetpwd/
+                            '. $lien .'
                             
                             Cordialement,
                             l\'Equipe du blog
-                            </p>
-                            </body>
-                            </html>
                             ';
     
+
 
                             try{
                                 ini_set(
@@ -74,7 +78,7 @@ class ForgotPwdController extends BaseController
                                 $to = $mail ;
                                 $subject = $subject;
                                 $message = $message;
-                                $headers = 'From: ' . $this->conf->get('admin.mailhog');
+                                $headers = 'From: ' . $conf->get('admin.mailhog');
                         
                                 // Envoi de l'e-mail
                                 if (mail($to, $subject, $message,

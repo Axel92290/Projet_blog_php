@@ -5,15 +5,19 @@ namespace Controllers;
 use Models\Users;
 
 class ResetPwdController extends BaseController
-{
-    private array $errors = [];
 
-    public function resetpwd()
+{
+    protected array $errors = [];
+
+    public function resetpwd($token)
     {
 
         $template = $this->twig->load('resetpwd/resetpwd.html');
+        // var_dump($token);
+        // die;
 
-        $this->checkFormSubmit();
+
+        $this->checkFormSubmit($token);
 
         echo $template->render([
             'title' => 'Réinitialisation du mot de passe',
@@ -22,33 +26,45 @@ class ResetPwdController extends BaseController
         ]);
     }
 
-    private function checkFormSubmit()
+    private function checkFormSubmit($token)
     {
 
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
-        if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
-            if (!$this->httpRequest->request->get('mail')) {
-                $this->errors[] = 'Veuillez remplir le champ email ';
-            } elseif (filter_var(!$this->httpRequest->request->get('mail'), FILTER_VALIDATE_EMAIL)) {
-                $this->errors[] = 'Veuillez entrer un email valide';
-            } elseif (!$this->httpRequest->request->get('newPwd')) {
-                $this->errors[] = 'Veuillez remplir le champ mot de passe ';
-            } elseif (!$this->httpRequest->request->get('confNewPwd')) {
-                $this->errors[] = 'Veuillez remplir le champ confirmation du mot de passe ';
-            } elseif ($this->httpRequest->request->get('confNewPwd')!= $this->httpRequest->request->get('newPwd')) {
-                $this->errors[] = 'Les mots de passe ne correspondent pas';
-            } else{
-                $modelUser = new Users();
-                $mailFound = $modelUser->checkUserByEmail($this->httpRequest->request->get('mail'));
-                if (empty($mailFound)) {
-                    $this->errors[] = 'Cet email n\'existe pas';
+        $modelUser = new Users();
+        $tokenFound = $modelUser->checkToken($token);
+        $mail = $tokenFound['email'];
+        // var_dump($tokenFound);
+        // die;
+        
+
+        if (empty($tokenFound)) {
+            $this->errors[] = 'Ce token n\'existe pas';
+            header('Location: /error/');
+        } elseif ($tokenFound['expireAt'] < date('Y-m-d H:i:s')) {
+            $this->errors[] = 'Ce token a expiré';
+            header('Location: /error/');
+        } else {
+
+            if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
+
+                if (!$this->httpRequest->request->get('newPwd')) {
+                    $this->errors[] = 'Veuillez remplir le champ mot de passe ';
+                } elseif (!$this->httpRequest->request->get('confNewPwd')) {
+                    $this->errors[] = 'Veuillez remplir le champ confirmation du mot de passe ';
+                } elseif ($this->httpRequest->request->get('confNewPwd') != $this->httpRequest->request->get('newPwd')) {
+                    $this->errors[] = 'Les mots de passe ne correspondent pas';
                 } else {
-                    $mail = $this->cleanXSS($this->httpRequest->request->get('mail'));
-                    $newPwd = $this->cleanXSS($this->httpRequest->request->get('newPwd'));
-                    $newPwd = password_hash($newPwd, PASSWORD_ARGON2ID);
-                    $udpatePwd = $modelUser->updatePwd($mail, $newPwd);
-                    if ($udpatePwd) {
-                        header('Location: /connexion/');
+                    $mailFound = $modelUser->checkUserByEmail($mail);
+                    if (empty($mailFound)) {
+                        $this->errors[] = 'Cet email n\'existe pas';
+                    } else {
+                        $newPwd = $this->cleanXSS($this->httpRequest->request->get('newPwd'));
+                        $newPwd = password_hash($newPwd, PASSWORD_ARGON2ID);
+                        $udpatePwd = $modelUser->updatePwd($mail, $newPwd);
+                        if ($udpatePwd) {
+                            $this->successes[] = 'Votre mot de passe a bien été modifié';
+                            header('Location: /connexion/');
+                        }
                     }
                 }
             }

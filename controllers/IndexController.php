@@ -27,8 +27,6 @@ class IndexController extends BaseController
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
         if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
 
-            echo 'test';
-            die;
 
             $conf = new Config();
 
@@ -49,10 +47,10 @@ class IndexController extends BaseController
                 ini_set('smtp_port', 1025);
         
                 // Envoi d'un e-mail de test
-                $to = 'axel.chasseloup@gmail.com';
+                $to = $email ;
                 $subject = $subject;
                 $message = $message;
-                $headers = 'From: ' . $email ;
+                $headers = 'From: ' . $conf->get('admin.mailhog') ;
         
                 // Envoi de l'e-mail
                 if (mail($to, $subject, $message,
