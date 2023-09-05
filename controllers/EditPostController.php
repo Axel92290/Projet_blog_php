@@ -41,7 +41,7 @@ class EditPostController extends BaseController
                 $this->updatePostData($titre, $chapo, $contenu, $id);
 
                 $this->redirect("/details-posts/$id");
-                exit;
+                return;
             }
         }
 
