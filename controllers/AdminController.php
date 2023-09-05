@@ -49,12 +49,14 @@ class AdminController extends BaseController
 
 
         // Puis on affiche la page avec la méthode render
-        echo $template->render([
+        $render = $template->render([
             'title' => 'Page d\'administration',
             'listComments' => $comment,
             'listUsers' => $users,
-
         ]);
+
+        echo $render;
+
     }
 
 
