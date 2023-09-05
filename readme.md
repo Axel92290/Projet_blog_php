@@ -38,7 +38,7 @@ composer install
 
 Pour simuler l'envoi de courriels localement, nous vous recommandons d'installer MailHog. Vous pouvez le télécharger à partir du site officiel de MailHog et suivre les instructions d'installation appropriées pour votre système d'exploitation.
 
-4. **Configurer l'Environnement :** 
+5. **Configurer l'Environnement :** 
 
 Taper:`sudo nano /etc/hosts` et saisir le texte suivant : `127.0.0.1 blog.localhost`
 
