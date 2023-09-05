@@ -62,7 +62,8 @@ class DetailsController extends BaseController
 
 
         // Puis on affiche la page avec la méthode render
-        echo $template->render([
+
+        $render = $template->render([
             'title' => 'Détail d\'un post',
             'detailPost' => $detailPost[0],
             'listComments' => $comment,
@@ -70,6 +71,7 @@ class DetailsController extends BaseController
             'canDeletePost' => $canDeletePost,
 
         ]);
+        echo $render;
     }
 
     private function createComment($id)
