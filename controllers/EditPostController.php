@@ -40,7 +40,7 @@ class EditPostController extends BaseController
                 $contenu = ucfirst($this->cleanXSS($this->httpRequest->request->get('content')));
                 $this->updatePostData($titre, $chapo, $contenu, $id);
 
-                header("Location: /details-posts/$id");
+                $this->redirect("/details-posts/$id");
                 exit;
             }
         }
@@ -65,7 +65,7 @@ class EditPostController extends BaseController
     {
         if ($userRole === "admin" || $userId === $postUserId) {
         } else {
-            header('Location: /error/');
+            $this->redirect('/error/');
             exit;
         }
     }
@@ -73,7 +73,7 @@ class EditPostController extends BaseController
     private function checkSession()
     {
         if (!$this->httpSession->get('user')) {
-            header('Location: /connexion/');
+            $this->redirect('/connexion/');
             exit;
         }
     }

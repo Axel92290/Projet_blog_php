@@ -13,8 +13,7 @@ class ResetPwdController extends BaseController
     {
 
         $template = $this->twig->load('resetpwd/resetpwd.html');
-        // var_dump($token);
-        // die;
+
 
 
         $this->checkFormSubmit($token);
@@ -33,16 +32,15 @@ class ResetPwdController extends BaseController
         $modelUser = new Users();
         $tokenFound = $modelUser->checkToken($token);
         $mail = $tokenFound['email'];
-        // var_dump($tokenFound);
-        // die;
+
         
 
         if (empty($tokenFound)) {
             $this->errors[] = 'Ce token n\'existe pas';
-            header('Location: /error/');
+            $this->redirect('/error/');
         } elseif ($tokenFound['expireAt'] < date('Y-m-d H:i:s')) {
             $this->errors[] = 'Ce token a expiré';
-            header('Location: /error/');
+            $this->redirect('/error/');
         } else {
 
             if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
@@ -63,7 +61,7 @@ class ResetPwdController extends BaseController
                         $udpatePwd = $modelUser->updatePwd($mail, $newPwd);
                         if ($udpatePwd) {
                             $this->successes[] = 'Votre mot de passe a bien été modifié';
-                            header('Location: /connexion/');
+                            $this->redirect('/connexion/');
                         }
                     }
                 }

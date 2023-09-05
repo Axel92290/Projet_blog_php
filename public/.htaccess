@@ -1,4 +1,8 @@
+php_value SMTP localhost
+php_value smtp_port 1025
+
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule . index.php [L]
+

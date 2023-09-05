@@ -54,7 +54,7 @@ class ConnexionController extends BaseController
                         ]);
                         $modelUser->updateDateConnexion($email, $updatedAt);
 
-                        header('Location: /');
+                        $this->redirect('/');
                         exit;
                     } else {
 
@@ -70,7 +70,7 @@ class ConnexionController extends BaseController
     private function checkSession()
     {
         if ($this->httpSession->has('user')) {
-            header('Location: /');
+            $this->redirect('/');
             exit;
         }
     }

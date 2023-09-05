@@ -69,11 +69,6 @@ class ForgotPwdController extends BaseController
 
 
                             try{
-                                ini_set(
-                                    'SMTP',
-                                    'localhost'
-                                );
-                                ini_set('smtp_port', $this->conf->get('port.mailhog'));
                         
                                 $to = $mail ;
                                 $subject = $subject;

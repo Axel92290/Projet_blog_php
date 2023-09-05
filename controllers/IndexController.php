@@ -16,6 +16,7 @@ class IndexController extends BaseController
         $this->contact();
 
 
+
         // Puis on affiche la page avec la méthode render
         echo $template->render([
             'title' => 'Accueil du blog',
@@ -40,11 +41,6 @@ class IndexController extends BaseController
             $subject = 'Message de ' . $nom . ' ' . $prenom . ' ';
 
             try{
-                ini_set(
-                    'SMTP',
-                    'localhost'
-                );
-                ini_set('smtp_port', 1025);
         
                 // Envoi d'un e-mail de test
                 $to = $email ;

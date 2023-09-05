@@ -21,7 +21,7 @@ class DetailsController extends BaseController
         if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest() ) {
             if ($this->httpRequest->request->get('submitComment') === "envoyer") {
                 $this->createComment($id);
-                header('Location: /details-posts/' . $id);
+                $this->redirect("/details-posts/$id");
                 exit;
             }
         }
@@ -48,7 +48,7 @@ class DetailsController extends BaseController
 
 
         if (empty($detailPost)) {
-            header('Location: /error/');
+            $this->redirect('/error/');
             exit;
         }
 
@@ -56,7 +56,7 @@ class DetailsController extends BaseController
 
         if ($this->httpRequest->request->get('action') === "delete") {
             $this->deletePost($id);
-            header('Location: /listing-posts/');
+            $this->redirect('/listing-posts/');
             exit;
         }
 
@@ -74,10 +74,9 @@ class DetailsController extends BaseController
 
     private function createComment($id)
     {
+        $comment = $this->cleanXSS($this->httpRequest->request->get('comment'));
 
-
-        if (!empty($_POST)) {
-            $comment = $this->cleanXSS($this->httpRequest->request->get('comment'));
+        if (!empty($comment)) {
             $idUser = $this->httpSession->get('user')['id'];
             $idPost = $id;
 
