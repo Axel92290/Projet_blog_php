@@ -23,6 +23,7 @@ define('BASE_URL', 'http://blog.localhost');
 try {
 
 
+
     // on défini nos routes ici
     $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
 

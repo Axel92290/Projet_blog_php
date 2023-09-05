@@ -28,22 +28,22 @@ class AdminController extends BaseController
                 $role = $this->cleanXSS($this->httpRequest->request->get('action'));
                 $id = $this->cleanXSS($this->httpRequest->request->get('id'));
                 $this->updateRole($role, $id);
-                header('Location: /admin/');
-                exit;
+                $this->redirect('/admin/');
+
             }
 
             if ($this->httpRequest->request->get('action') === "refuser") {
                 $id = $this->cleanXSS($this->httpRequest->request->get('idComment'));
                 $statut = 'refuser';
                 $this->updateStatut($id, $statut);
-                header('Location: /admin/');
-                exit;
+                $this->redirect('/admin/');
+
             } elseif ($this->httpRequest->request->get('action') === "valider") {
                 $id = $this->cleanXSS($this->httpRequest->request->get('idComment'));
                 $statut = 'valider';
                 $this->updateStatut($id, $statut);
-                header('Location: /admin/');
-                exit;
+                $this->redirect('/admin/');
+
             }
         }
 
@@ -60,12 +60,18 @@ class AdminController extends BaseController
 
     private function verifRole()
     {
-        $getRoleUser = new Users();
-        $role = $getRoleUser->getUsers($this->httpSession->get('user')['id']);
-        if ($role[0]['role'] != "admin") {
-            header('Location: /error/');
-            exit;
+        if($this->httpSession->has('user')){
+            $getRoleUser = new Users();
+            $role = $getRoleUser->getUsers($this->httpSession->get('user')['id']);
+            if ($role[0]['role'] != "admin") {
+                $this->redirect('/error/');
+
+            }
+        }else{
+            $this->redirect('/error/');
         }
+
+        
     }
 
     private function getComment()

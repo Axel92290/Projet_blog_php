@@ -33,7 +33,7 @@ class CreatePostsController extends BaseController
                 $chapo = ucfirst($this->cleanXSS($this->httpRequest->request->get('chapo')));
                 $idUser = $this->httpSession->get('user')['id'];
                 $this->createNewPost($titre, $chapo, $contenu, $idUser);
-                header('Location: /listing-posts/');
+                $this->redirect('/listing-posts/');
                 exit;
             } else {
                 $this->errors[] = 'Veuillez remplir tous les champs';
@@ -51,7 +51,7 @@ class CreatePostsController extends BaseController
     private function checkSession()
     {
         if (!$this->httpSession->has('user')) {
-            header('Location: /connexion/');
+            $this->redirect('/connexion/');
             exit;
         }
     }

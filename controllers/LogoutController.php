@@ -7,7 +7,7 @@ class LogoutController extends BaseController
     {
         $this->httpSession->invalidate();
         $this->httpSession->clear();
-        header('Location: /');
+        $this->redirect('/');
         exit;
     }
 }

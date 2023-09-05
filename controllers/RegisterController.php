@@ -19,7 +19,7 @@ class RegisterController extends BaseController
 
         if($this->httpRequest->isMethod('POST') && $csrf->validateRequest()){
             $nom = $this->cleanXSS($this->httpRequest->request->get('nom'));
-            if(!$this->httpRequest->request->get('nom')){
+            if(!$nom){
                 $this->errors[] = 'Veuillez remplir le champ nom';
             }else{
                 $nom = ucfirst($this->antiXss->xss_clean($this->httpRequest->request->get('nom'))); 
@@ -33,7 +33,7 @@ class RegisterController extends BaseController
 
             if(!$this->httpRequest->request->get('mail')){
                 $this->errors[] = 'Veuillez remplir le champ email ';
-            }elseif(!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
+            }elseif(!filter_var($this->httpRequest->request->get('mail'), FILTER_VALIDATE_EMAIL)) {
                 $this->errors[] = 'Veuillez entrer un email valide';
             }else {
                 $modelUser = new Users();
@@ -70,7 +70,7 @@ class RegisterController extends BaseController
                 $insertUser = $modelUser->insertData($nom, $prenom, $mail, $pwd, $confpassword);
                 if ($insertUser) {
                     $url = $this->conf->get('siteUrl');
-                    header("Location: $url/connexion/");
+                    $this->redirect("$url/connexion/");
                     exit;
                 } else {
                     $this->errors[] = 'Erreur lors de l\'inscription';
@@ -90,7 +90,7 @@ class RegisterController extends BaseController
     private function checkSession()
     {
         if ($this->httpSession->get('user')) {
-            header('Location: /connexion/');
+            $this->redirect('/connexion/');
             exit;
         }
     }

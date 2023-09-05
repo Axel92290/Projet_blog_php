@@ -3,10 +3,12 @@
 namespace Controllers;
 
 
+
 use Tools\Config;
 use voku\helper\AntiXSS;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use ParagonIE\AntiCSRF\AntiCSRF;
 
 
@@ -107,6 +109,13 @@ class BaseController
         $data = htmlspecialchars($data);
         $data = $this->antiXss->xss_clean($data);
         return $data;
+    }
+
+    protected function redirect($targetUrl)
+    {
+
+        $response = new RedirectResponse($targetUrl);
+        $response->send();
     }
 
 
