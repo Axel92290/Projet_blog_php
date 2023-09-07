@@ -1,4 +1,5 @@
 <?php
+
 namespace Controllers;
 
 class LogoutController extends BaseController
@@ -8,6 +9,6 @@ class LogoutController extends BaseController
         $this->httpSession->invalidate();
         $this->httpSession->clear();
         $this->redirect('/');
-        exit;
+        return;
     }
 }

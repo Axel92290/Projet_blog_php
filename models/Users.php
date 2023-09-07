@@ -13,15 +13,13 @@ class Users extends Database
     public function loadUserByEmail($email): mixed
     {
         try {
-            // var_dump(self::getInstance());
-            // die;
             $stmt = self::getInstance()->getConnexion()->prepare('SELECT * FROM users WHERE email = :email');
             $stmt->bindParam('email', $email);
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             echo $e->getMessage();
-            die;
+            return false;
         }
     }
 
@@ -33,22 +31,20 @@ class Users extends Database
 
     public function insertData($nom, $prenom, $mail, $pwd): mixed
     {
-        try{
-        $stmt = self::getInstance()->getConnexion()->prepare('INSERT INTO users (firstname, lastname, email, pwd, createdAt) VALUES (:firstname, :lastname, :email, :pwd , NOW())');
-        $stmt->bindValue('firstname', $prenom);
-        $stmt->bindValue('lastname', $nom);
-        $stmt->bindValue('email', $mail);
-        $stmt->bindValue('pwd', $pwd);
-        return $stmt->execute();
-
-        }catch (\PDOException $e){
+        try {
+            $stmt = self::getInstance()->getConnexion()->prepare('INSERT INTO users (firstname, lastname, email, pwd, createdAt) VALUES (:firstname, :lastname, :email, :pwd , NOW())');
+            $stmt->bindValue('firstname', $prenom);
+            $stmt->bindValue('lastname', $nom);
+            $stmt->bindValue('email', $mail);
+            $stmt->bindValue('pwd', $pwd);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
             echo $e->getMessage();
-            die;
+            return false;
         }
-
     }
 
-    public function updateDateConnexion($email, $updatedAt) : mixed
+    public function updateDateConnexion($email, $updatedAt): mixed
     {
         try {
             $stmt = self::getInstance()->getConnexion()->prepare('UPDATE users SET updatedAt = :updatedAt WHERE email = :email');
@@ -57,15 +53,14 @@ class Users extends Database
             return $stmt->execute();
         } catch (\PDOException $e) {
             echo $e->getMessage();
-            die;
+            return false;
         }
-        
     }
 
 
-    public function checkUserByEmail($email) : mixed
-    {      
-        try {    
+    public function checkUserByEmail($email): mixed
+    {
+        try {
             $req = self::getInstance()->getConnexion()->prepare("SELECT id FROM users WHERE email = :email ");
             $req->bindValue('email', $email);
             $req->execute();
@@ -73,12 +68,11 @@ class Users extends Database
             return $result;
         } catch (\PDOException $e) {
             echo $e->getMessage();
-            die;
+            return false;
         }
-
     }
 
-    public function checkConnexion($email, $pwd) : mixed
+    public function checkConnexion($email, $pwd): mixed
     {
 
         try {
@@ -90,26 +84,26 @@ class Users extends Database
             return $result;
         } catch (\PDOException $e) {
             echo $e->getMessage();
-            die;
+            return false;
         }
     }
 
-    public function updatePwd($mail, $newPwd) :mixed
+    public function updatePwd($mail, $newPwd): mixed
     {
-        try{
+        try {
             $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET pwd = :pwd WHERE email = :email");
             $req->bindValue('pwd', $newPwd);
             $req->bindValue('email', $mail);
             return $req->execute();
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
-            die;
+            return false;
         }
     }
 
-    public function updateProfile($facebook, $twitter, $instagram, $linkedin, $github, $catchPhrase, $cv, $id) :mixed 
+    public function updateProfile($facebook, $twitter, $instagram, $linkedin, $github, $catchPhrase, $cv, $id): mixed
     {
-        try{
+        try {
 
             $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET facebook = :facebook, twitter = :twitter, instagram = :instagram, linkedin = :linkedin, github = :github, catchPhrase = :catchPhrase, cv = :cv WHERE id = :id");
             $req->bindValue('facebook', $facebook);
@@ -121,12 +115,10 @@ class Users extends Database
             $req->bindValue('cv', $cv);
             $req->bindValue('id', $id);
             return $req->execute();
-
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
-            die;
+            return  false;
         }
-
     }
     public function getUsers($id = null)
     {
@@ -144,56 +136,51 @@ class Users extends Database
             return $result;
         } catch (\PDOException $e) {
             echo $e->getMessage();
-            die;
+            return false;
         }
     }
 
     public function updateRole($role, $id)
     {
-        try{
+        try {
             $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET role = :role WHERE id = :id");
             $req->bindValue('role', $role);
             $req->bindValue('id', $id);
             return $req->execute();
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
-            die;
+            return false;
         }
     }
 
     public function forgotpwd($token, $expireAt, $email)
     {
-        try{
+        try {
 
             $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET token = :token, expireAt = :expireAt WHERE email = :email");
             $req->bindValue('token', $token);
             $req->bindValue('expireAt', $expireAt);
             $req->bindValue('email', $email);
             return $req->execute();
-
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
-            die;
+            return false;
         }
     }
 
 
     public function checkToken($token)
     {
-        try{
+        try {
 
             $req = self::getInstance()->getConnexion()->prepare("SELECT email, token, expireAt FROM users WHERE token = :token");
             $req->bindValue('token', $token);
             $req->execute();
             $result = $req->fetch(PDO::FETCH_ASSOC);
             return $result;
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             echo $e->getMessage();
-            die;
+            return false;
         }
     }
-
-
-
-
 }

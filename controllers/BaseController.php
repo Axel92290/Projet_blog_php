@@ -105,7 +105,6 @@ class BaseController
     protected function cleanXSS($data)
     {
         $data = trim($data);
-        $data = stripslashes($data);
         $data = htmlspecialchars($data);
         $data = $this->antiXss->xss_clean($data);
         return $data;
