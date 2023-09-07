@@ -117,6 +117,12 @@ class BaseController
         $response->send();
     }
 
+    // protected function render($template, $data = [])
+    // {
+    //     $template = $this->twig->load($template);
+    //     $render = $template->render($data);
+    //     echo htmlspecialchars($render, ENT_QUOTES, 'UTF-8');
+    // }
 
 
 
