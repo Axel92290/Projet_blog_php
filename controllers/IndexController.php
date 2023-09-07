@@ -18,9 +18,12 @@ class IndexController extends BaseController
 
 
         // Puis on affiche la page avec la méthode render
-        echo $template->render([
+        
+        $render = $template->render([
             'title' => 'Accueil du blog',
         ]);
+
+        echo $render;
     }
 
     private function contact()

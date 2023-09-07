@@ -24,7 +24,7 @@ class CreatePostsController extends BaseController
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
 
 
-        if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest() ) {
+        if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
 
             $this->checkFields($this->httpRequest->request->get('title'), $this->httpRequest->request->get('chapo'), $this->httpRequest->request->get('content'));
             if (empty($this->errors)) {
@@ -34,25 +34,27 @@ class CreatePostsController extends BaseController
                 $idUser = $this->httpSession->get('user')['id'];
                 $this->createNewPost($titre, $chapo, $contenu, $idUser);
                 $this->redirect('/listing-posts/');
-                exit;
+                return;
             } else {
                 $this->errors[] = 'Veuillez remplir tous les champs';
             }
         }
         // on choisi la template à appeler
         $template = $this->twig->load('admin/create.html');
-        echo $template->render([
+
+        $render = $template->render([
             'title' => 'Création d\'un post',
             'errors' => $this->errors,
 
         ]);
+        echo $render;
     }
 
     private function checkSession()
     {
         if (!$this->httpSession->has('user')) {
             $this->redirect('/connexion/');
-            exit;
+            return;
         }
     }
 

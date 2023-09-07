@@ -16,14 +16,19 @@ class ForgotPwdController extends BaseController
 
         
         $this->checkFormSubmit();
+
         $template = $this->twig->load('forgotpwd/forgotpwd.html');
-        echo $template->render([
+
+
+        $render = $template->render([
             'title' => 'Mot de passe oublié',
             'errors' => $this->errors,
             'successes' => $this->successes
 
 
         ]);
+
+        echo $render;
 
     }
 

@@ -20,7 +20,7 @@ class Post extends Database
 
         }catch(\PDOException $e){
             echo $e->getMessage();
-            die;
+            return false;
         }
     }
 
@@ -28,8 +28,6 @@ class Post extends Database
     {
 
         try{
-            // var_dump(self::getInstance()->getConnexion());
-            // die;
         $sql = "SELECT p.id, p.titre, p.chapo, p.contenu, p.dateCreation, p.dateModification, u.firstname FROM posts p INNER JOIN users u ON u.id = p.idUser";
 
         if($idPost){
@@ -50,7 +48,7 @@ class Post extends Database
 
         }catch(\PDOException $e){
             echo $e->getMessage();
-            die;
+            return false;
         }
 
     }
@@ -69,7 +67,7 @@ class Post extends Database
         return $result;
         }catch(\PDOException $e){
             echo $e->getMessage();
-            die;
+            return false;
         }
     }
 
@@ -82,7 +80,7 @@ class Post extends Database
 
         }catch(\PDOException $e){
             echo $e->getMessage();
-            die;
+            return false;
         }
 
     }
@@ -97,7 +95,8 @@ class Post extends Database
             return $req->execute();
         }catch(\PDOException $e){
             echo $e->getMessage();
-            die;
+            return false;
+            
         }
 
     }
@@ -132,7 +131,7 @@ class Post extends Database
     
         }catch(\PDOException $e){
             echo $e->getMessage();
-            die;
+            return false;
         }
     }
 
@@ -151,7 +150,7 @@ class Post extends Database
             $req->execute();
         }catch(\PDOException $e){
             echo $e->getMessage();
-            die;
+            return false;
         }
     }
 

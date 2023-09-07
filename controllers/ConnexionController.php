@@ -18,10 +18,12 @@ class ConnexionController extends BaseController
         $template = $this->twig->load('connexion/connexion.html');
 
         // Puis on affiche la page avec la méthode render
-        echo $template->render([
+
+        $render = $template->render([
             'title' => 'Connexion',
             'errors' => $this->errors,
         ]);
+        echo $render;
     }
 
     /**
@@ -55,7 +57,7 @@ class ConnexionController extends BaseController
                         $modelUser->updateDateConnexion($email, $updatedAt);
 
                         $this->redirect('/');
-                        exit;
+                        return;
                     } else {
 
                         $this->errors[] = 'Mot de passe incorrect!';
@@ -71,7 +73,7 @@ class ConnexionController extends BaseController
     {
         if ($this->httpSession->has('user')) {
             $this->redirect('/');
-            exit;
+            return;
         }
     }
 }

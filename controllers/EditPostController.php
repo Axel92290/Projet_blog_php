@@ -51,13 +51,16 @@ class EditPostController extends BaseController
 
 
         // Puis on affiche la page avec la méthode render
-        echo $template->render([
+        
+        $render = $template->render([
             'title' => 'Edition du post',
             'detailPost' => $detailPost[0],
             'errors' => $this->errors,
 
 
         ]);
+
+        echo $render;
     }
 
 
@@ -66,7 +69,7 @@ class EditPostController extends BaseController
         if ($userRole === "admin" || $userId === $postUserId) {
         } else {
             $this->redirect('/error/');
-            exit;
+            return;
         }
     }
 
@@ -74,7 +77,7 @@ class EditPostController extends BaseController
     {
         if (!$this->httpSession->get('user')) {
             $this->redirect('/connexion/');
-            exit;
+            return;
         }
     }
 

@@ -18,21 +18,21 @@ class DetailsController extends BaseController
         $detailPost = $post->getPosts($id);
 
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
-        if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest() ) {
+        if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
             if ($this->httpRequest->request->get('submitComment') === "envoyer") {
                 $this->createComment($id);
                 $this->redirect("/details-posts/$id");
-                exit;
+                return;
             }
         }
 
         $comment = $this->getComment($id);
 
 
-        if($this->httpSession->has('user')){
+        if ($this->httpSession->has('user')) {
             $userId = $this->httpSession->get('user')['id'];
             $userRole = $this->httpSession->get('user')['role'];
-        }else{
+        } else {
             $userId = null;
             $userRole = null;
         }
@@ -49,7 +49,7 @@ class DetailsController extends BaseController
 
         if (empty($detailPost)) {
             $this->redirect('/error/');
-            exit;
+            return;
         }
 
 
@@ -57,7 +57,7 @@ class DetailsController extends BaseController
         if ($this->httpRequest->request->get('action') === "delete") {
             $this->deletePost($id);
             $this->redirect('/listing-posts/');
-            exit;
+            return;
         }
 
 
