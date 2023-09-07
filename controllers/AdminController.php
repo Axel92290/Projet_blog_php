@@ -55,7 +55,7 @@ class AdminController extends BaseController
             'listUsers' => $users,
         ]);
 
-        echo $render;
+        echo htmlspecialchars($render, ENT_QUOTES, 'UTF-8');
 
     }
 
