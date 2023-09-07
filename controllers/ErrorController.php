@@ -7,7 +7,7 @@ class ErrorController extends BaseController
     public function error()
     {
 
-        // on choisi la template à appeler
+        // On choisi la template à appeler
         $template = $this->twig->load('error/error.html');
 
 
@@ -16,7 +16,7 @@ class ErrorController extends BaseController
             'title' => '404 Error',
         ]);
 
-        echo $render;
+        print_r($render);
     }
 
 

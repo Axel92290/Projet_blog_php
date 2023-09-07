@@ -71,7 +71,8 @@ class DetailsController extends BaseController
             'canDeletePost' => $canDeletePost,
 
         ]);
-        echo $render;
+        
+        print_r($render);
     }
 
     private function createComment($id)

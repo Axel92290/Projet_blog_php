@@ -26,7 +26,7 @@ class ListingController extends BaseController
 
         ]);
 
-        echo $render;
+        print_r($render);
 
 
     }

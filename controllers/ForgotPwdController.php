@@ -28,7 +28,7 @@ class ForgotPwdController extends BaseController
 
         ]);
 
-        echo $render;
+        print_r($render);
 
     }
 
@@ -90,7 +90,8 @@ class ForgotPwdController extends BaseController
                                     $this->errors[] = 'Erreur lors de l\'envoi de l\'email';
                                 }
                             } catch(\Exception $e){
-                                echo $e->getMessage();
+                                $errorMessage = $e->getMessage();
+                                $this->errors[] = $errorMessage;
                             }
             }
         }
