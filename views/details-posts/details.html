@@ -83,18 +83,6 @@
                     {{comment.dateModification|date("H:i:s")}}
                 </div>
             </div>
-
-            <!-- <div class="input-group">
-                <span class="input-group-text">
-                    Posté par {{comment.firstname}} <br> 
-                    le {{comment.dateModification|date("d/m/Y")}} à
-                    {{comment.dateModification|date("H:i:s")}}
-                </span>
-                <textarea class="form-control text-center" aria-label="With textarea" disabled style="background-color: white;">
-                    {{comment.contenu}}
-                </textarea>
-              </div>
-              <br> -->
             {% endfor %}
 
         </div>
@@ -120,6 +108,8 @@
                         <button class="btn btn-primary text-uppercase" type="submit"
                             name="submitComment" value="envoyer">Envoyer</button>
                         </br>
+
+                        {{ form_token("") }}
                     </form>
                 </div>
 

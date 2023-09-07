@@ -112,7 +112,7 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <ul class="list-inline text-center">
                     <li class="list-inline-item">
-                        {% if user.role is not empty %}
+                        {% if user.role == 'admin'%}
                         <a href="{{base_url}}/admin/">
                             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
                                 class="bi bi-person-lock" viewBox="0 0 16 16">

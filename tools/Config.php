@@ -2,17 +2,23 @@
 namespace Tools;
 
 
-class Config {
-
+class Config
+{
     /**
      * @var array|false
      */
     private $iniConfFile = [];
 
+    /**
+     * Constructeur de la classe Config.
+     *
+     * Initialise la configuration en chargeant un fichier INI.
+     */
     public function __construct()
     {
         $this->iniConfFile = parse_ini_file(dirname(__FILE__)."/../config/dev.ini", false);
     }
+
 
     /**
      * @param $name
@@ -26,5 +32,4 @@ class Config {
         }
         return $result;
     }
-
 }

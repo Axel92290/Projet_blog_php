@@ -41,12 +41,14 @@
             <!-- Submit Button-->
             <button class="btn btn-primary text-uppercase"  type="submit" name="creer">Créer un
                 post</button>
+
+                {{ form_token("") }}
         </form>
 
     </div>
 </div>
 
 
-
+{{ form_token("") }}
 
 {% endblock %}
