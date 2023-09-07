@@ -18,11 +18,13 @@ class ResetPwdController extends BaseController
 
         $this->checkFormSubmit($token);
 
-        echo $template->render([
+        $render = $template->render([
             'title' => 'Réinitialisation du mot de passe',
             'errors' => $this->errors
 
         ]);
+
+        print_r($render);
     }
 
     private function checkFormSubmit($token)
