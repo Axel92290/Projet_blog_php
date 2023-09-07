@@ -7,6 +7,7 @@ use Models\Users;
 class ConnexionController extends BaseController
 {
 
+
     /**
      * Gère la connexion de l'utilisateur.
      *
@@ -32,7 +33,6 @@ class ConnexionController extends BaseController
 
         print_r($render);
     }
-
 
     /**
      * Vérifie le formulaire de soumission.

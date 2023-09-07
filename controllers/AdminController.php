@@ -8,6 +8,8 @@ use Models\Users;
 
 class AdminController extends BaseController
 {
+
+
     /**
      * Affiche la page d'administration.
      *
@@ -16,26 +18,26 @@ class AdminController extends BaseController
      */
     public function admin()
     {
-        // On choisi la template à appeler
+        // On choisi la template à appeler.
         $template = $this->twig->load('admin/admin.html');
 
-        // Vérifie le rôle de l'utilisateur connecté
+        // Vérifie le rôle de l'utilisateur connecté.
         $this->verifRole();
 
-        // Récupère la liste des commentaires
+        // Récupère la liste des commentaires.
         $comment = $this->getComment();
 
-        // Récupère la liste des utilisateurs
+        // Récupère la liste des utilisateurs.
         $users = $this->getUsers();
 
-        // Crée une instance du système de protection CSRF
+        // Crée une instance du système de protection CSRF.
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
 
-        // Vérifie si une requête POST a été soumise et que le jeton CSRF est valide
+        // Vérifie si une requête POST a été soumise et que le jeton CSRF est valide.
         if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
-            // Gestion des actions en fonction de la demande
+            // Gestion des actions en fonction de la demande.
 
-            // Si l'action est de changer le rôle d'un utilisateur
+            // Si l'action est de changer le rôle d'un utilisateur.
             if ($this->httpRequest->request->get('action') === "newRole") {
                 $role = $this->cleanXSS($this->httpRequest->request->get('role'));
                 $id = $this->cleanXSS($this->httpRequest->request->get('id'));
@@ -43,7 +45,7 @@ class AdminController extends BaseController
                 $this->redirect('/admin/');
             }
 
-            // Si l'action est de refuser un commentaire
+            // Si l'action est de refuser un commentaire.
             if ($this->httpRequest->request->get('action') === "refuser") {
                 $id = $this->cleanXSS($this->httpRequest->request->get('idComment'));
                 $statut = 'refuser';
@@ -51,7 +53,7 @@ class AdminController extends BaseController
                 $this->redirect('/admin/');
             }
 
-            // Si l'action est de valider un commentaire
+            // Si l'action est de valider un commentaire.
             elseif ($this->httpRequest->request->get('action') === "valider") {
                 $id = $this->cleanXSS($this->httpRequest->request->get('idComment'));
                 $statut = 'valider';
@@ -60,17 +62,15 @@ class AdminController extends BaseController
             }
         }
 
-        // Puis on affiche la page avec la méthode render
+        // Puis on affiche la page avec la méthode render.
         $render = $template->render([
-            'title' => 'Page d\'administration',
+            'title'        => 'Page d\'administration',
             'listComments' => $comment,
-            'listUsers' => $users,
+            'listUsers'    => $users,
         ]);
 
         print_r($render);
     }
-
-
 
     /**
      * Vérifie le rôle de l'utilisateur et redirige en cas de non-administrateur.
@@ -91,7 +91,6 @@ class AdminController extends BaseController
         }
     }
 
-
     /**
      * Récupère les commentaires pour la page d'administration.
      *
@@ -107,7 +106,6 @@ class AdminController extends BaseController
         return $getComment->getComments($idPost, $adminPage);
     }
 
-
     /**
      * Récupère la liste des utilisateurs.
      *
@@ -120,7 +118,6 @@ class AdminController extends BaseController
         $getUsers = new Users();
         return $getUsers->getUsers();
     }
-
 
     /**
      * Met à jour le rôle d'un utilisateur.
@@ -136,7 +133,6 @@ class AdminController extends BaseController
         $updateRole = new Users();
         return $updateRole->updateRole($role, $id);
     }
-
 
     /**
      * Met à jour le statut d'un commentaire.

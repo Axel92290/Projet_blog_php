@@ -5,6 +5,7 @@ namespace Controllers;
 class LogoutController extends BaseController
 {
 
+    
     /**
      * Gère la déconnexion de l'utilisateur.
      *
@@ -19,7 +20,5 @@ class LogoutController extends BaseController
         $this->httpSession->clear();
         $this->redirect('/');
         return;
-    } // End logout()
-
-    
+    } // End logout().
 }

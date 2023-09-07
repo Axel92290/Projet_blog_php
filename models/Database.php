@@ -7,6 +7,8 @@ use Tools\Config;
 
 class Database
 {
+    
+    
     private static ?Database $instance = null;
     protected PDO $connexion;
 
