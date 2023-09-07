@@ -21,9 +21,10 @@ class IndexController extends BaseController
         
         $render = $template->render([
             'title' => 'Accueil du blog',
+            'successes' => $this->successes
         ]);
 
-        echo $render;
+        print_r($render);
     }
 
     private function contact()
@@ -55,9 +56,9 @@ class IndexController extends BaseController
                 if (mail($to, $subject, $message,
                     $headers
                 )) {
-                    echo 'Email sent successfully!';
+                    $this->successes[] = 'Email envoyé !';
                 } else {
-                    echo 'Failed to send email.';
+                    $this->successes[] =  'Erreur lors de l\'envoi de l\'email';
                 }
             } catch(\Exception $e){
                 echo $e->getMessage();
