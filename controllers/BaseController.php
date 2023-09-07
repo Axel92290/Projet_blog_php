@@ -2,8 +2,6 @@
 
 namespace Controllers;
 
-
-
 use Tools\Config;
 use voku\helper\AntiXSS;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,9 +9,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use ParagonIE\AntiCSRF\AntiCSRF;
 
-
 /**
- *
+ * Classe de base pour les contrôleurs.
  */
 class BaseController
 {
@@ -33,7 +30,7 @@ class BaseController
     protected $twig;
 
     /**
-     * @var \AntiXSS;
+     * @var AntiXSS;
      */
     protected $antiXss;
 
@@ -41,45 +38,50 @@ class BaseController
      * @var Request
      */
     protected $httpRequest;
+
+    /**
+     * @var Session
+     */
     protected $httpSession;
 
     /**
-     * @var array 
+     * @var array
      */
     protected array $errors = [];
 
     /**
      * @var array
-    */
-
+     */
     protected array $successes = [];
 
-
     /**
-     * @var 
+     * Constructeur de la classe BaseController.
      */
     public function __construct()
     {
+        // Initialisation du chargeur de templates Twig
         $this->loader = new \Twig\Loader\FilesystemLoader(APP_DIRECTORY . 'views');
         $this->twig = new \Twig\Environment($this->loader);
 
-        // classe de chargement du fichier de config dans config/dev.ini
+        // Classe de chargement du fichier de configuration dev.ini
         $this->conf = new Config();
 
-        // classe de protection contre les failles XSS
+        // Classe de protection contre les failles XSS
         $this->antiXss = new AntiXSS();
 
-        // classe de gestion des requêtes HTTP
+        // Classe de gestion des requêtes HTTP
         $this->httpRequest = Request::createFromGlobals();
         $this->httpSession = new Session();
         $this->httpSession->start();
 
-        // On passe dans la vue Twig l'url de connexion
+        // Passage de l'URL de base à la vue Twig
         $this->twig->addGlobal('base_url', $this->conf->get('siteUrl'));
+
+        // Ajout de la fonction form_token à Twig pour la gestion CSRF
         $this->twig->addFunction(
             new \Twig\TwigFunction(
                 'form_token',
-                function($lock_to = null) {
+                function ($lock_to = null) {
                     static $csrf;
                     if ($csrf === null) {
                         $csrf = new AntiCSRF();
@@ -90,17 +92,17 @@ class BaseController
             )
         );
 
-
-        // Si session active, on passe les infos dans la vue Twig
+        // Si une session est active, passage des informations de l'utilisateur à la vue Twig
         if ($this->httpSession->has('user')) {
             $this->twig->addGlobal('user', $this->httpSession->get('user'));
         }
-
-
     }
 
     /**
-     * @var array
+     * Nettoie les données d'entrée pour prévenir les attaques XSS (Cross-Site Scripting).
+     *
+     * @param string $data Les données à nettoyer.
+     * @return string Les données nettoyées.
      */
     protected function cleanXSS($data)
     {
@@ -110,20 +112,17 @@ class BaseController
         return $data;
     }
 
+    /**
+     * Redirige vers l'URL cible.
+     *
+     * Cette fonction effectue une redirection vers l'URL spécifiée en utilisant une réponse de redirection.
+     *
+     * @param string $targetUrl L'URL vers laquelle effectuer la redirection.
+     * @return void
+     */
     protected function redirect($targetUrl)
     {
-
         $response = new RedirectResponse($targetUrl);
         $response->send();
     }
-
-    // protected function render($template, $data = [])
-    // {
-    //     $template = $this->twig->load($template);
-    //     $render = $template->render($data);
-    //     echo htmlspecialchars($render, ENT_QUOTES, 'UTF-8');
-    // }
-
-
-
 }
