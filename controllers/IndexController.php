@@ -61,7 +61,8 @@ class IndexController extends BaseController
                     $this->successes[] =  'Erreur lors de l\'envoi de l\'email';
                 }
             } catch(\Exception $e){
-                echo $e->getMessage();
+                $errorMessage = $e->getMessage();
+                $this->errors[] = $errorMessage;
             }
     
         }

@@ -46,7 +46,7 @@ class EditPostController extends BaseController
         }
 
 
-        // on choisi la template à appeler
+        // On choisi la template à appeler
         $template = $this->twig->load('admin/edit.html');
 
 
@@ -60,7 +60,7 @@ class EditPostController extends BaseController
 
         ]);
 
-        echo $render;
+        print_r($render);
     }
 
 

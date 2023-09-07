@@ -18,7 +18,8 @@ class Users extends Database
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $errorMessage = $e->getMessage();
+            print_r($errorMessage);
             return false;
         }
     }
@@ -39,7 +40,8 @@ class Users extends Database
             $stmt->bindValue('pwd', $pwd);
             return $stmt->execute();
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $errorMessage = $e->getMessage();
+            print_r($errorMessage);
             return false;
         }
     }
@@ -52,7 +54,8 @@ class Users extends Database
             $stmt->bindValue('email', $email);
             return $stmt->execute();
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $errorMessage = $e->getMessage();
+            print_r($errorMessage);
             return false;
         }
     }
@@ -67,7 +70,8 @@ class Users extends Database
             $result = $req->fetch(PDO::FETCH_ASSOC);
             return $result;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $errorMessage = $e->getMessage();
+            print_r($errorMessage);
             return false;
         }
     }
@@ -83,7 +87,8 @@ class Users extends Database
             $result = $req->fetch(PDO::FETCH_ASSOC);
             return $result;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $errorMessage = $e->getMessage();
+            print_r($errorMessage);
             return false;
         }
     }
@@ -96,7 +101,8 @@ class Users extends Database
             $req->bindValue('email', $mail);
             return $req->execute();
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $errorMessage = $e->getMessage();
+            print_r($errorMessage);
             return false;
         }
     }
@@ -116,7 +122,8 @@ class Users extends Database
             $req->bindValue('id', $id);
             return $req->execute();
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $errorMessage = $e->getMessage();
+            print_r($errorMessage);
             return  false;
         }
     }
@@ -135,7 +142,8 @@ class Users extends Database
             $result = $req->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $errorMessage = $e->getMessage();
+            print_r($errorMessage);
             return false;
         }
     }
@@ -148,7 +156,8 @@ class Users extends Database
             $req->bindValue('id', $id);
             return $req->execute();
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $errorMessage = $e->getMessage();
+            print_r($errorMessage);
             return false;
         }
     }
@@ -163,7 +172,8 @@ class Users extends Database
             $req->bindValue('email', $email);
             return $req->execute();
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $errorMessage = $e->getMessage();
+            print_r($errorMessage);
             return false;
         }
     }
@@ -179,7 +189,8 @@ class Users extends Database
             $result = $req->fetch(PDO::FETCH_ASSOC);
             return $result;
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $errorMessage = $e->getMessage();
+            print_r($errorMessage);
             return false;
         }
     }

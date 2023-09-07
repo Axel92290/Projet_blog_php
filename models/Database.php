@@ -24,7 +24,8 @@ class Database
                 )
             );
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $errorMessage = $e->getMessage();
+            print_r($errorMessage);
             return false;
         }
     }

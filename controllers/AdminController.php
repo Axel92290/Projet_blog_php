@@ -11,7 +11,7 @@ class AdminController extends BaseController
     public function admin()
     {
 
-        // on choisi la template à appeler
+        // On choisi la template à appeler
         $template = $this->twig->load('admin/admin.html');
 
 
@@ -55,7 +55,7 @@ class AdminController extends BaseController
             'listUsers' => $users,
         ]);
 
-        echo $render;
+        print_r($render);
 
     }
 

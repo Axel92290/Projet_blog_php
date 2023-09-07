@@ -47,7 +47,7 @@ class CreatePostsController extends BaseController
             'errors' => $this->errors,
 
         ]);
-        echo $render;
+        print_r($render);
     }
 
     private function checkSession()
