@@ -8,7 +8,16 @@ class Post extends Database
 {
 
 
-    public function createPost($titre, $chapo, $contenu, $idUser)
+    /**
+     * Crée un nouveau post dans la base de données.
+     *
+     * @param string $titre Le titre du post.
+     * @param string $chapo Le chapo du post.
+     * @param string $contenu Le contenu du post.
+     * @param int $idUser L'ID de l'utilisateur associé au post.
+     * @return mixed Retourne true si le post a été créé avec succès, ou false en cas d'erreur.
+     */
+    public function createPost($titre, $chapo, $contenu, $idUser): mixed
     {
         try {
 
@@ -26,7 +35,13 @@ class Post extends Database
         }
     }
 
-    public function getPosts($idPost = null)
+    /**
+     * Récupère la liste des posts de la base de données.
+     *
+     * @param int|null $idPost L'ID du post à récupérer (optionnel).
+     * @return mixed Retourne un tableau associatif des posts si $idPost est null, ou un tableau associatif du post spécifié par $idPost s'il est fourni. Retourne false en cas d'erreur.
+     */
+    public function getPosts($idPost = null): mixed
     {
 
         try {
@@ -54,8 +69,16 @@ class Post extends Database
         }
     }
 
-
-    public function updatePost($titre, $chapo, $contenu, $id)
+    /**
+     * Met à jour un post dans la base de données.
+     *
+     * @param string $titre Le nouveau titre du post.
+     * @param string $chapo Le nouveau chapo du post.
+     * @param string $contenu Le nouveau contenu du post.
+     * @param int $id L'ID du post à mettre à jour.
+     * @return mixed Retourne true si la mise à jour réussit, ou false en cas d'erreur.
+     */
+    public function updatePost($titre, $chapo, $contenu, $id): mixed
     {
         try {
             $req = self::getInstance()->getConnexion()->prepare("UPDATE posts SET titre = :titre, chapo = :chapo, contenu = :contenu WHERE id = :id");
@@ -73,7 +96,13 @@ class Post extends Database
         }
     }
 
-    public function deletePost($id)
+    /**
+     * Supprime un post de la base de données.
+     *
+     * @param int $id L'ID du post à supprimer.
+     * @return mixed Retourne true si la suppression réussit, ou false en cas d'erreur.
+     */
+    public function deletePost($id): mixed
     {
         try {
             $req = self::getInstance()->getConnexion()->prepare("DELETE FROM posts WHERE id = :id");
@@ -86,6 +115,14 @@ class Post extends Database
         }
     }
 
+    /**
+     * Crée un commentaire dans la base de données.
+     *
+     * @param string $comment Le contenu du commentaire.
+     * @param int $idUser L'ID de l'utilisateur qui a créé le commentaire.
+     * @param int $idPost L'ID du post auquel le commentaire est associé.
+     * @return bool Retourne true si la création réussit, ou false en cas d'erreur.
+     */
     public function createComment($comment, $idUser, $idPost)
     {
         try {
@@ -101,6 +138,13 @@ class Post extends Database
         }
     }
 
+    /**
+     * Récupère les commentaires de la base de données.
+     *
+     * @param int|null $idPost L'ID du post auquel les commentaires sont associés (optionnel).
+     * @param bool|null $adminPage Indique si c'est une page d'administration (optionnel).
+     * @return array|bool Retourne un tableau de commentaires si la récupération réussit, ou false en cas d'erreur.
+     */
     public function getComments($idPost = null, $adminPage = null)
     {
         try {
@@ -136,7 +180,14 @@ class Post extends Database
         }
     }
 
-    public function updateStatut($idComment, $statut)
+    /**
+     * Met à jour le statut d'un commentaire dans la base de données.
+     *
+     * @param int $idComment L'ID du commentaire à mettre à jour.
+     * @param string $statut Le nouveau statut du commentaire ('approuver' ou 'refuser').
+     * @return bool Retourne true si la mise à jour réussit, sinon false.
+     */
+    public function updateStatut($idComment, $statut): mixed
     {
 
         try {

@@ -6,6 +6,8 @@ use Models\Post;
 
 class CreatePostsController extends BaseController
 {
+
+    
     /**
      * Gère la création d'un nouveau post.
      *

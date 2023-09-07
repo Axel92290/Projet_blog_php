@@ -7,23 +7,31 @@ use Tools\Config;
 
 class IndexController extends BaseController
 {
+
+    
+    /**
+     * Affiche la page d'accueil.
+     *
+     * Cette fonction affiche la page d'accueil du site.
+     * Elle permet à un utilisateur de prendre contact avec les administrateurs du site.
+     */
     public function index()
     {
-
-        // on choisi la template à appeler
+        // Chargement du template de la page d'accueil.
         $template = $this->twig->load('index/index.html');
+
+        // Appel de la méthode "contact" pour effectuer des actions supplémentaires.
 
         $this->contact();
 
-
-
-        // Puis on affiche la page avec la méthode render
+        // Rendu de la page avec la méthode render.
 
         $render = $template->render([
             'title' => 'Accueil du blog',
             'successes' => $this->successes
         ]);
 
+        // Affichage du rendu.
         print_r($render);
     }
 
@@ -41,17 +49,17 @@ class IndexController extends BaseController
         $email = lcfirst($this->cleanXSS($this->httpRequest->request->get('email')));
         $message = $this->cleanXSS($this->httpRequest->request->get('message'));
 
-        // Sujet
+        // Sujet.
         $subject = 'Message de ' . $nom . ' ' . $prenom . ' ';
 
         try {
-            // Envoi d'un e-mail de test
+            // Envoi d'un e-mail de test.
             $to = $email;
             $subject = $subject;
             $message = $message;
             $headers = 'From: ' . $conf->get('admin.mailhog');
 
-            // Envoi de l'e-mail
+            // Envoi de l'e-mail.
             if (mail($to, $subject, $message, $headers)) {
                 $this->successes[] = 'Email envoyé !';
             } else {

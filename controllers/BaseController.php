@@ -59,25 +59,25 @@ class BaseController
      */
     public function __construct()
     {
-        // Initialisation du chargeur de templates Twig
+        // Initialisation du chargeur de templates Twig.
         $this->loader = new \Twig\Loader\FilesystemLoader(APP_DIRECTORY . 'views');
         $this->twig = new \Twig\Environment($this->loader);
 
-        // Classe de chargement du fichier de configuration dev.ini
+        // Classe de chargement du fichier de configuration dev.ini.
         $this->conf = new Config();
 
-        // Classe de protection contre les failles XSS
+        // Classe de protection contre les failles XSS.
         $this->antiXss = new AntiXSS();
 
-        // Classe de gestion des requêtes HTTP
+        // Classe de gestion des requêtes HTTP.
         $this->httpRequest = Request::createFromGlobals();
         $this->httpSession = new Session();
         $this->httpSession->start();
 
-        // Passage de l'URL de base à la vue Twig
+        // Passage de l'URL de base à la vue Twig.
         $this->twig->addGlobal('base_url', $this->conf->get('siteUrl'));
 
-        // Ajout de la fonction form_token à Twig pour la gestion CSRF
+        // Ajout de la fonction form_token à Twig pour la gestion CSRF.
         $this->twig->addFunction(
             new \Twig\TwigFunction(
                 'form_token',
@@ -92,7 +92,7 @@ class BaseController
             )
         );
 
-        // Si une session est active, passage des informations de l'utilisateur à la vue Twig
+        // Si une session est active, passage des informations de l'utilisateur à la vue Twig.
         if ($this->httpSession->has('user')) {
             $this->twig->addGlobal('user', $this->httpSession->get('user'));
         }

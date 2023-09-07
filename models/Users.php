@@ -6,9 +6,13 @@ use PDO;
 
 class Users extends Database
 {
+
+
     /**
-     * @param $email
-     * @return mixed
+     * Charge un utilisateur à partir de son adresse email.
+     *
+     * @param string $email L'adresse email de l'utilisateur à charger.
+     * @return mixed Retourne un tableau associatif contenant les informations de l'utilisateur si trouvé, sinon retourne faux en cas d'erreur ou si l'utilisateur n'existe pas.
      */
     public function loadUserByEmail($email): mixed
     {
@@ -25,11 +29,14 @@ class Users extends Database
     }
 
     /**
-     * @param $email
-     * @param $pwd
-     * @return bool
+     * Insère un nouvel utilisateur dans la base de données.
+     *
+     * @param string $nom Le nom de l'utilisateur.
+     * @param string $prenom Le prénom de l'utilisateur.
+     * @param string $mail L'adresse email de l'utilisateur.
+     * @param string $pwd Le mot de passe de l'utilisateur.
+     * @return mixed Retourne vrai si l'insertion a réussi, sinon retourne faux en cas d'erreur.
      */
-
     public function insertData($nom, $prenom, $mail, $pwd): mixed
     {
         try {
@@ -46,6 +53,13 @@ class Users extends Database
         }
     }
 
+    /**
+     * Met à jour la date de connexion d'un utilisateur dans la base de données.
+     *
+     * @param string $email L'adresse email de l'utilisateur.
+     * @param string $updatedAt La nouvelle date de connexion à enregistrer.
+     * @return mixed Retourne vrai si la mise à jour a réussi, sinon retourne faux en cas d'erreur.
+     */
     public function updateDateConnexion($email, $updatedAt): mixed
     {
         try {
@@ -60,7 +74,12 @@ class Users extends Database
         }
     }
 
-
+    /**
+     * Vérifie si un utilisateur existe déjà en recherchant son adresse email.
+     *
+     * @param string $email L'adresse email à vérifier.
+     * @return mixed Retourne un tableau associatif contenant l'ID de l'utilisateur s'il existe, sinon retourne faux en cas d'erreur ou si l'utilisateur n'existe pas.
+     */
     public function checkUserByEmail($email): mixed
     {
         try {
@@ -76,6 +95,13 @@ class Users extends Database
         }
     }
 
+    /**
+     * Vérifie les informations de connexion d'un utilisateur.
+     *
+     * @param string $email L'adresse email de l'utilisateur.
+     * @param string $pwd Le mot de passe de l'utilisateur.
+     * @return mixed Retourne un tableau associatif contenant les informations de l'utilisateur en cas de succès de la vérification, sinon retourne faux en cas d'erreur ou si les informations sont incorrectes.
+     */
     public function checkConnexion($email, $pwd): mixed
     {
 
@@ -93,6 +119,13 @@ class Users extends Database
         }
     }
 
+    /**
+     * Met à jour le mot de passe d'un utilisateur dans la base de données.
+     *
+     * @param string $mail L'adresse email de l'utilisateur.
+     * @param string $newPwd Le nouveau mot de passe à enregistrer.
+     * @return mixed Retourne vrai en cas de succès de la mise à jour, sinon retourne faux en cas d'erreur.
+     */
     public function updatePwd($mail, $newPwd): mixed
     {
         try {
@@ -107,27 +140,13 @@ class Users extends Database
         }
     }
 
-    public function updateProfile($facebook, $twitter, $instagram, $linkedin, $github, $catchPhrase, $cv, $id): mixed
-    {
-        try {
-
-            $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET facebook = :facebook, twitter = :twitter, instagram = :instagram, linkedin = :linkedin, github = :github, catchPhrase = :catchPhrase, cv = :cv WHERE id = :id");
-            $req->bindValue('facebook', $facebook);
-            $req->bindValue('twitter', $twitter);
-            $req->bindValue('instagram', $instagram);
-            $req->bindValue('linkedin', $linkedin);
-            $req->bindValue('github', $github);
-            $req->bindValue('catchPhrase', $catchPhrase);
-            $req->bindValue('cv', $cv);
-            $req->bindValue('id', $id);
-            return $req->execute();
-        } catch (\PDOException $e) {
-            $errorMessage = $e->getMessage();
-            print_r($errorMessage);
-            return  false;
-        }
-    }
-    public function getUsers($id = null)
+    /**
+     * Récupère les informations des utilisateurs dans la base de données.
+     *
+     * @param int|null $id L'identifiant de l'utilisateur à récupérer (facultatif).
+     * @return mixed Retourne un tableau associatif des informations des utilisateurs ou un utilisateur spécifique si l'identifiant est fourni.
+     */
+    public function getUsers($id = null): mixed
     {
         try {
             $sql = "SELECT id, firstname, lastname, email, role FROM users";
@@ -148,7 +167,14 @@ class Users extends Database
         }
     }
 
-    public function updateRole($role, $id)
+    /**
+     * Met à jour le rôle d'un utilisateur dans la base de données.
+     *
+     * @param string $role Le nouveau rôle de l'utilisateur.
+     * @param int $id L'identifiant de l'utilisateur à mettre à jour.
+     * @return mixed Retourne true en cas de succès ou false en cas d'erreur.
+     */
+    public function updateRole($role, $id): mixed
     {
         try {
             $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET role = :role WHERE id = :id");
@@ -162,7 +188,15 @@ class Users extends Database
         }
     }
 
-    public function forgotpwd($token, $expireAt, $email)
+    /**
+     * Met à jour le token de réinitialisation de mot de passe et sa date d'expiration dans la base de données.
+     *
+     * @param string $token Le nouveau token.
+     * @param string $expireAt La date d'expiration du token.
+     * @param string $email L'adresse email de l'utilisateur.
+     * @return mixed Retourne true en cas de succès ou false en cas d'erreur.
+     */
+    public function forgotpwd($token, $expireAt, $email): mixed
     {
         try {
 
@@ -178,8 +212,13 @@ class Users extends Database
         }
     }
 
-
-    public function checkToken($token)
+    /**
+     * Vérifie l'existence d'un token de réinitialisation de mot de passe dans la base de données.
+     *
+     * @param string $token Le token à vérifier.
+     * @return mixed Retourne un tableau associatif contenant les informations du token s'il existe, ou false s'il n'existe pas ou en cas d'erreur.
+     */
+    public function checkToken($token): mixed
     {
         try {
 

@@ -7,15 +7,25 @@ use Tools\Config;
 
 class ForgotPwdController extends BaseController
 {
+
+    
+    /**
+     * Affiche la page de réinitialisation du mot de passe.
+     *
+     * Cette fonction affiche la page de réinitialisation du mot de passe.
+     * Elle permet à un utilisateur de faire une demande de réinitialisation du mot de passe.
+     * @return void
+     * 
+     */
     public function forgotpwd()
     {
-        // Vérifie si le formulaire a été soumis
+        // Vérifie si le formulaire a été soumis.
         $this->checkFormSubmit();
 
         // Charge la template
         $template = $this->twig->load('forgotpwd/forgotpwd.html');
 
-        // Affiche la page avec la méthode render
+        // Affiche la page avec la méthode render.
         $render = $template->render([
             'title' => 'Mot de passe oublié',
             'errors' => $this->errors,
@@ -27,7 +37,7 @@ class ForgotPwdController extends BaseController
 
     private function checkFormSubmit()
     {
-        // Vérifie le jeton CSRF
+        // Vérifie le jeton CSRF.
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
 
         if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
@@ -43,7 +53,7 @@ class ForgotPwdController extends BaseController
                 $token = md5(time() . uniqid());
                 $expireAt = date('Y-m-d H:i:s', strtotime('+2 day'));
 
-                // Demande de réinitialisation du mot de passe
+                // Demande de réinitialisation du mot de passe.
                 $forgotpwd = $modelUser->forgotpwd($token, $expireAt, $mail);
 
                 if (!$forgotpwd) {
@@ -52,10 +62,10 @@ class ForgotPwdController extends BaseController
                     $lien = $conf->get('siteUrl') . '/resetpwd/' . $token;
                 }
 
-                // Sujet de l'email
+                // Sujet de l'email.
                 $subject = 'Réinitialisation de votre mot de passe';
 
-                // Corps de l'email
+                // Corps de l'email.
                 $message = 'Bonjour,
 
 Voici le lien vous permettant de réinitialiser votre mot de passe :
@@ -65,7 +75,7 @@ Cordialement,
 l\'Equipe du blog';
 
                 try {
-                    // Envoi de l'e-mail
+                    // Envoi de l'e-mail.
                     $to = $mail;
                     $subject = $subject;
                     $message = $message;
