@@ -46,3 +46,8 @@ Accéder à votre site en tapant l'URl suivante : http://blog.localhost/
 
 Importer la base de données directement dans sur phpmyadmin
 
+5. **Codacy :** 
+
+Voici le badge certifiant la qualité du code.
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2e8a09b45dfc4fbbaf6fe153edec760b)](https://app.codacy.com/gh/Axel92290/Projet_blog_php/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
