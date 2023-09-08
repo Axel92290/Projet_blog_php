@@ -68,6 +68,7 @@ class CreatePostsController extends BaseController
 
     } // End checkSession().
 
+
     /**
      * Crée un nouveau post en utilisant les données fournies.
      *
@@ -83,6 +84,7 @@ class CreatePostsController extends BaseController
         $post->createPost($titre, $chapo, $contenu, $idUser);
 
     } // End createNewPost().
+
 
     /**
      * Vérifie les champs du formulaire pour s'assurer qu'ils ne sont pas vides.
@@ -103,4 +105,4 @@ class CreatePostsController extends BaseController
         }
         
     } // End checkFields().
-}
+} // End CreatePostsController().

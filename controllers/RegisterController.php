@@ -60,6 +60,7 @@ class RegisterController extends BaseController
         
     } // End register().
 
+    
     /**
      * Valide un champ de formulaire et retourne sa valeur nettoyée.
      *
@@ -88,6 +89,7 @@ class RegisterController extends BaseController
         return $fieldValue;
 
     } // End validateFormField().
+
 
     /**
      * Valide un champ de formulaire d'adresse e-mail et retourne sa valeur nettoyée.
@@ -129,6 +131,7 @@ class RegisterController extends BaseController
 
     }  // End validateEmailFormField().
 
+
     /**
      * Insère les données d'un nouvel utilisateur dans la base de données.
      *
@@ -149,8 +152,9 @@ class RegisterController extends BaseController
         $modelUser = new Users();
         return $modelUser->insertData($nom, $prenom, $mail, $pwd, $confpassword);
 
-    }
+    } // End insertUserData().
     
+
     /**
      * Vérifie la session utilisateur.
      *
@@ -165,5 +169,5 @@ class RegisterController extends BaseController
             return;
         }
         
-    }
-}
+    } // End checkSession().
+} // End RegisterController().

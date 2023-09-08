@@ -72,6 +72,7 @@ class EditPostController extends BaseController
         print_r($render);
     } // End editPost().
 
+    
     /**
      * Vérifie le rôle de l'utilisateur pour l'édition et la suppression d'un post.
      *
@@ -96,6 +97,7 @@ class EditPostController extends BaseController
         }
     } // End checkRole().
 
+
     /**
      * Vérifie si la session de l'utilisateur est active.
      *
@@ -114,6 +116,7 @@ class EditPostController extends BaseController
         }
     } // End checkSession().
 
+
     /**
      * Récupère les détails d'un post.
      *
@@ -131,6 +134,7 @@ class EditPostController extends BaseController
         return $detailPost;
 
     } // End getPost().
+
 
     /**
      * Met à jour les données d'un post.
@@ -151,4 +155,4 @@ class EditPostController extends BaseController
         $post->updatePost($titre, $chapo, $contenu, $id);
         
     } // End updatePostData().
-}
+} // End EditPostController().

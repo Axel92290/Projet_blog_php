@@ -71,6 +71,7 @@ class ConnexionController extends BaseController
 
     } // End checkFormSubmit().
 
+
     /**
      * Vérifie si la requête est de type POST.
      *
@@ -81,6 +82,7 @@ class ConnexionController extends BaseController
         return $this->httpRequest->isMethod('POST');
 
     } // End isPostRequest().
+
 
     /**
      * Valide le jeton CSRF pour la sécurité.
@@ -94,6 +96,7 @@ class ConnexionController extends BaseController
 
     } // End validateCSRF().
 
+
     /**
      * Récupère une valeur de la requête en la nettoyant contre les attaques XSS.
      *
@@ -105,6 +108,7 @@ class ConnexionController extends BaseController
         return $this->cleanXSS($this->httpRequest->request->get($key));
 
     } // End getRequestValue().
+
 
     /**
      * Charge un utilisateur en utilisant son adresse e-mail.
@@ -118,6 +122,7 @@ class ConnexionController extends BaseController
         return $modelUser->loadUserByEmail($email);
 
     } // End loadUserByEmail().
+
 
     /**
      * Traite la connexion de l'utilisateur après avoir validé ses informations.
@@ -148,6 +153,7 @@ class ConnexionController extends BaseController
 
     } // End processUserLogin().
 
+
     /**
      * Met à jour la date de connexion de l'utilisateur dans la base de données.
      *
@@ -162,6 +168,7 @@ class ConnexionController extends BaseController
 
     } // End updateUserLoginDate().
 
+
     /**
      * Vérifie si l'utilisateur est déjà connecté et le redirige le cas échéant.
      *
@@ -174,4 +181,4 @@ class ConnexionController extends BaseController
         }
         
     } // End checkSession().
-}
+} // End ConnexionController().

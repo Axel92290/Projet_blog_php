@@ -111,6 +111,7 @@ class DetailsController extends BaseController
 
     } // End createComment().
 
+
     /**
      * Récupère les commentaires pour un post spécifique.
      *
@@ -128,6 +129,7 @@ class DetailsController extends BaseController
         return $getComment;
 
     } // End getComment().
+
 
     /**
      * Vérifie les autorisations de l'utilisateur pour l'édition et la suppression d'un post.
@@ -159,6 +161,7 @@ class DetailsController extends BaseController
 
     } // End verifRole().
 
+
     /**
      * Supprime un post avec l'ID spécifié.
      *
@@ -174,4 +177,4 @@ class DetailsController extends BaseController
         $deletePost->deletePost($id);
         
     } // End deletePost().
-}
+} // End DetailsController().

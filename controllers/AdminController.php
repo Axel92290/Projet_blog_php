@@ -94,6 +94,7 @@ class AdminController extends BaseController
         
     } // End verifRole().
 
+    
     /**
      * Récupère les commentaires pour la page d'administration.
      *
@@ -110,6 +111,7 @@ class AdminController extends BaseController
 
     } // End getComment().
 
+
     /**
      * Récupère la liste des utilisateurs.
      *
@@ -123,6 +125,7 @@ class AdminController extends BaseController
         return $getUsers->getUsers();
 
     }   // End getUsers().
+
 
     /**
      * Cette fonction met à jour le rôle d'un utilisateur spécifié dans la base de données.
@@ -139,6 +142,7 @@ class AdminController extends BaseController
 
     } // End updateRole().
 
+    
     /**
      * Met à jour le statut d'un commentaire.
      *
@@ -154,4 +158,4 @@ class AdminController extends BaseController
         return $updateStatut->updateStatut($id, $action);
 
     } // End updateStatut().
-}
+} // End AdminController().
