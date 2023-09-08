@@ -27,10 +27,11 @@ class ListingController extends BaseController
 
         // Puis on affiche la page avec la méthode render.
         $render = $template->render([
-            'title'     => 'Liste des posts',
-            'listPosts' => $listPosts,
-        ]);        
+                    'title'     => 'Liste des posts',
+                    'listPosts' => $listPosts,
+                  ]);        
 
         print_r($render);
-    }
+        
+    } // End listing().
 }

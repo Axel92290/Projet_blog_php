@@ -8,7 +8,7 @@ use Tools\Config;
 class IndexController extends BaseController
 {
 
-    
+
     /**
      * Affiche la page d'accueil.
      *
@@ -27,14 +27,26 @@ class IndexController extends BaseController
         // Rendu de la page avec la méthode render.
 
         $render = $template->render([
-            'title' => 'Accueil du blog',
-            'successes' => $this->successes
-        ]);
+                    'title' => 'Accueil du blog',
+                    'successes' => $this->successes,
+                  ]);
 
         // Affichage du rendu.
         print_r($render);
-    }
+        
+    } // End index().
+    
 
+    /**
+     * Traite le formulaire de contact et envoie un e-mail.
+     *
+     * Cette fonction vérifie si le formulaire a été soumis correctement en utilisant le jeton CSRF.
+     * Elle récupère les données du formulaire, telles que le nom, le prénom, l'e-mail et le message,
+     * puis elle crée un e-mail avec ces informations et tente de l'envoyer.
+     * Les erreurs et les succès de l'opération sont gérés et enregistrés.
+     *
+     * @return void
+     */
     private function contact()
     {
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;

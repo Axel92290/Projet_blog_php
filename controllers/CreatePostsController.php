@@ -7,7 +7,7 @@ use Models\Post;
 class CreatePostsController extends BaseController
 {
 
-    
+
     /**
      * Gère la création d'un nouveau post.
      *
@@ -46,11 +46,13 @@ class CreatePostsController extends BaseController
 
         // Puis on affiche la page avec la méthode render.
         $render = $template->render([
-            'title' => 'Création d\'un post',
-            'errors' => $this->errors,
-        ]);
+                    'title' => 'Création d\'un post',
+                    'errors' => $this->errors,
+                  ]);
         print_r($render);
-    }
+
+    } // End createPost().
+
 
     /**
      * Vérifie si l'utilisateur est connecté, sinon le redirige vers la page de connexion.
@@ -68,10 +70,10 @@ class CreatePostsController extends BaseController
     /**
      * Crée un nouveau post en utilisant les données fournies.
      *
-     * @param string $titre Le titre du post.
-     * @param string $chapo Le chapo du post.
-     * @param string $contenu Le contenu du post.
-     * @param int $idUser L'ID de l'utilisateur créant le post.
+     * @param string $titre    Le titre du post.
+     * @param string $chapo    Le chapo du post.
+     * @param string $contenu  Le contenu du post.
+     * @param int    $idUser   L'ID de l'utilisateur créant le post.
      * @return void
      */
     private function createNewPost($titre, $chapo, $contenu, $idUser)
@@ -83,9 +85,9 @@ class CreatePostsController extends BaseController
     /**
      * Vérifie les champs du formulaire pour s'assurer qu'ils ne sont pas vides.
      *
-     * @param string $titre Le titre du post.
-     * @param string $chapo Le chapo du post.
-     * @param string $contenu Le contenu du post.
+     * @param string $titre    Le titre du post.
+     * @param string $chapo    Le chapo du post.
+     * @param string $contenu  Le contenu du post.
      * @return void
      */
     private function checkFields($titre, $chapo, $contenu)

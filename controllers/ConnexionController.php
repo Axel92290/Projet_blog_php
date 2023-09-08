@@ -25,14 +25,15 @@ class ConnexionController extends BaseController
         $template = $this->twig->load('connexion/connexion.html');
 
         // Puis on affiche la page avec la méthode render.
-
         $render = $template->render([
-            'title'  => 'Connexion',
-            'errors' => $this->errors,
-        ]);
+                    'title'  => 'Connexion',
+                    'errors' => $this->errors,
+                  ]);        
 
         print_r($render);
-    }
+        
+    } // End connexion().
+
 
     /**
      * Vérifie le formulaire de soumission.
@@ -127,12 +128,12 @@ class ConnexionController extends BaseController
         if (password_verify($password, $passwordHash)) {
             $updatedAt = date('Y-m-d H:i:s');
             $this->httpSession->set('user', [
-                'id'        => $userFound['id'],
-                'email'     => $userFound['email'],
-                'firstname' => $userFound['firstname'],
-                'lastname'  => $userFound['lastname'],
-                'role'      => $userFound['role'],
-            ]);
+                     'id'        => $userFound['id'],
+                     'email'     => $userFound['email'],
+                     'firstname' => $userFound['firstname'],
+                     'lastname'  => $userFound['lastname'],
+                     'role'      => $userFound['role'],
+                   ]);
 
             $this->updateUserLoginDate($userFound['email'], $updatedAt);
             $this->redirect('/');
@@ -144,7 +145,7 @@ class ConnexionController extends BaseController
     /**
      * Met à jour la date de connexion de l'utilisateur dans la base de données.
      *
-     * @param string $email L'adresse e-mail de l'utilisateur.
+     * @param string $email     L'adresse e-mail de l'utilisateur.
      * @param string $updatedAt La date de mise à jour.
      * @return void
      */

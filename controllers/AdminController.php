@@ -64,13 +64,15 @@ class AdminController extends BaseController
 
         // Puis on affiche la page avec la méthode render.
         $render = $template->render([
-            'title'        => 'Page d\'administration',
-            'listComments' => $comment,
-            'listUsers'    => $users,
-        ]);
+                    'title'        => 'Page d\'administration',
+                    'listComments' => $comment,
+                    'listUsers'    => $users,
+                  ]);
 
         print_r($render);
-    }
+
+    }// End admin().
+
 
     /**
      * Vérifie le rôle de l'utilisateur et redirige en cas de non-administrateur.
@@ -83,7 +85,7 @@ class AdminController extends BaseController
         if ($this->httpSession->has('user')) {
             $getRoleUser = new Users();
             $role = $getRoleUser->getUsers($this->httpSession->get('user')['id']);
-            if ($role[0]['role'] != "admin") {
+            if ($role[0]['role'] !== "admin") {
                 $this->redirect('/error/');
             }
         } else {
@@ -120,14 +122,13 @@ class AdminController extends BaseController
     }
 
     /**
-     * Met à jour le rôle d'un utilisateur.
-     *
      * Cette fonction met à jour le rôle d'un utilisateur spécifié dans la base de données.
      *
-     * @param string $role Le nouveau rôle de l'utilisateur.
-     * @param int $id L'identifiant de l'utilisateur à mettre à jour.
-     * @return bool True si la mise à jour a réussi, sinon False.
+     * @param string $role   Le nouveau rôle de l'utilisateur.
+     * @param int    $id     L'identifiant de l'utilisateur à mettre à jour.
+     * @return bool          True si la mise à jour a réussi, sinon False.
      */
+
     private function updateRole($role, $id)
     {
         $updateRole = new Users();
@@ -139,9 +140,9 @@ class AdminController extends BaseController
      *
      * Cette fonction met à jour le statut (valider ou refuser) d'un commentaire dans la base de données.
      *
-     * @param int $id L'identifiant du commentaire à mettre à jour.
-     * @param string $action L'action à effectuer (valider ou refuser).
-     * @return bool True si la mise à jour a réussi, sinon False.
+     * @param int    $id      L'identifiant du commentaire à mettre à jour.
+     * @param string $action  L'action à effectuer (valider ou refuser).
+     * @return bool           True si la mise à jour a réussi, sinon False.
      */
     private function updateStatut($id, $action)
     {

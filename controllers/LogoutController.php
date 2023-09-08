@@ -20,5 +20,6 @@ class LogoutController extends BaseController
         $this->httpSession->clear();
         $this->redirect('/');
         return;
+        
     } // End logout().
 }

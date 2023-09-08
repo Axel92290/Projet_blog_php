@@ -33,7 +33,9 @@ class Post extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+        
+    } // End createPost().
+
 
     /**
      * Récupère la liste des posts de la base de données.
@@ -67,7 +69,9 @@ class Post extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End getPosts().
+
 
     /**
      * Met à jour un post dans la base de données.
@@ -94,7 +98,9 @@ class Post extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End updatePost().
+
 
     /**
      * Supprime un post de la base de données.
@@ -113,7 +119,9 @@ class Post extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End deletePost().
+
 
     /**
      * Crée un commentaire dans la base de données.
@@ -136,7 +144,9 @@ class Post extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    }  // End createComment().
+
 
     /**
      * Récupère les commentaires de la base de données.
@@ -150,7 +160,7 @@ class Post extends Database
         try {
             $sql = "SELECT c.id, c.contenu, c.dateModification, c.idPost, c.statut, u.firstname FROM comments c INNER JOIN users u ON u.id = c.idUser";
 
-            if ($adminPage == true) {
+            if ($adminPage === true) {
                 if ($idPost) {
                     $sql .= " WHERE c.idPost = :idPost ORDER BY c.dateModification DESC";
                 } else {
@@ -178,7 +188,9 @@ class Post extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End getComments().
+    
 
     /**
      * Met à jour le statut d'un commentaire dans la base de données.
@@ -205,5 +217,6 @@ class Post extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End updateStatut().
 }

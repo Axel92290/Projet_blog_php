@@ -54,6 +54,7 @@ class BaseController
      */
     protected array $successes = [];
 
+
     /**
      * Constructeur de la classe BaseController.
      */
@@ -96,7 +97,7 @@ class BaseController
         if ($this->httpSession->has('user')) {
             $this->twig->addGlobal('user', $this->httpSession->get('user'));
         }
-    }
+    } // End __construct().
 
     /**
      * Nettoie les données d'entrée pour prévenir les attaques XSS (Cross-Site Scripting).
@@ -111,7 +112,7 @@ class BaseController
         $data = $this->antiXss->xss_clean($data);
         return $data;
     }
-
+    
     /**
      * Redirige vers l'URL cible.
      *
