@@ -65,7 +65,8 @@ class CreatePostsController extends BaseController
             $this->redirect('/connexion/');
             return;
         }
-    }
+
+    } // End checkSession().
 
     /**
      * Crée un nouveau post en utilisant les données fournies.
@@ -80,7 +81,8 @@ class CreatePostsController extends BaseController
     {
         $post = new Post();
         $post->createPost($titre, $chapo, $contenu, $idUser);
-    }
+
+    } // End createNewPost().
 
     /**
      * Vérifie les champs du formulaire pour s'assurer qu'ils ne sont pas vides.
@@ -99,5 +101,6 @@ class CreatePostsController extends BaseController
         } elseif (empty($contenu)) {
             $this->errors[] = 'Veuillez remplir le champ contenu';
         }
-    }
+        
+    } // End checkFields().
 }

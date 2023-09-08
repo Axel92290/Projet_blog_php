@@ -94,7 +94,7 @@ class EditPostController extends BaseController
             $this->redirect('/error/');
             return;
         }
-    }
+    } // End checkRole().
 
     /**
      * Vérifie si la session de l'utilisateur est active.
@@ -112,7 +112,7 @@ class EditPostController extends BaseController
             $this->redirect('/connexion/');
             return;
         }
-    }
+    } // End checkSession().
 
     /**
      * Récupère les détails d'un post.
@@ -129,7 +129,8 @@ class EditPostController extends BaseController
         $post = new Post();
         $detailPost = $post->getPosts($id);
         return $detailPost;
-    }
+
+    } // End getPost().
 
     /**
      * Met à jour les données d'un post.
@@ -148,5 +149,6 @@ class EditPostController extends BaseController
         // Met à jour les données du post.
         $post = new Post();
         $post->updatePost($titre, $chapo, $contenu, $id);
-    }
+        
+    } // End updatePostData().
 }

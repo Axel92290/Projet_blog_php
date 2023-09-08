@@ -77,6 +77,7 @@ class ResetPwdController extends BaseController
 
         // Traitement de la réinitialisation du mot de passe.
         $this->handlePasswordReset($mail);
+
     }
 
     /**
@@ -88,6 +89,7 @@ class ResetPwdController extends BaseController
     {
         // Vérification de la méthode HTTP (POST).
         return $this->httpRequest->isMethod('POST');
+
     }
 
     /**
@@ -128,6 +130,7 @@ class ResetPwdController extends BaseController
                 }
             }
         }
+
     }
 
     /**
@@ -144,6 +147,7 @@ class ResetPwdController extends BaseController
         // Recherche de l'utilisateur par email dans la base de données.
         $modelUser = new Users();
         return $modelUser->checkUserByEmail($email);
+        
     }
     
     /**
@@ -161,5 +165,6 @@ class ResetPwdController extends BaseController
         // Mise à jour du mot de passe dans la base de données.
         $modelUser = new Users();
         return $modelUser->updatePwd($email, $newPwd);
+
     }
 }

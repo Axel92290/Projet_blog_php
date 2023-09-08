@@ -41,6 +41,7 @@ class Database
             print_r($errorMessage);
             return false;
         }
+        
     } // End __construct().
 
 

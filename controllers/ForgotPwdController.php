@@ -103,5 +103,6 @@ class ForgotPwdController extends BaseController
                 }
             }
         }
-    }
+        
+    } // End checkFormSubmit().
 }
