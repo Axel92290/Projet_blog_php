@@ -81,5 +81,6 @@ class IndexController extends BaseController
             $errorMessage = $e->getMessage();
             $this->errors[] = $errorMessage;
         }
-    }
+        
+    } // End contact().
 }

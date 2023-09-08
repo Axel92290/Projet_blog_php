@@ -97,6 +97,7 @@ class BaseController
         if ($this->httpSession->has('user')) {
             $this->twig->addGlobal('user', $this->httpSession->get('user'));
         }
+        
     } // End __construct().
 
     /**
@@ -111,7 +112,8 @@ class BaseController
         $data = htmlspecialchars($data);
         $data = $this->antiXss->xss_clean($data);
         return $data;
-    }
+
+    } // End cleanXSS().
     
     /**
      * Redirige vers l'URL cible.
@@ -125,5 +127,6 @@ class BaseController
     {
         $response = new RedirectResponse($targetUrl);
         $response->send();
-    }
+
+    } // End redirect().
 }
