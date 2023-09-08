@@ -8,7 +8,7 @@ use Tools\Config;
 class ForgotPwdController extends BaseController
 {
 
-    
+
     /**
      * Affiche la page de réinitialisation du mot de passe.
      *
@@ -27,14 +27,25 @@ class ForgotPwdController extends BaseController
 
         // Affiche la page avec la méthode render.
         $render = $template->render([
-            'title' => 'Mot de passe oublié',
-            'errors' => $this->errors,
-            'successes' => $this->successes,
-        ]);
+                    'title' => 'Mot de passe oublié',
+                    'errors' => $this->errors,
+                    'successes' => $this->successes,
+                  ]);
 
         print_r($render);
-    }
+        
+    } // End forgotpwd().
+    
 
+    /**
+     * Vérifie et traite la soumission du formulaire de réinitialisation de mot de passe.
+     *
+     * Cette fonction vérifie la méthode de soumission, valide le jeton CSRF, et traite la réinitialisation
+     * du mot de passe si les conditions sont remplies, en envoyant un e-mail avec un lien de réinitialisation.
+     * Elle gère également les erreurs et les succès de l'opération.
+     *
+     * @return void
+     */
     private function checkFormSubmit()
     {
         // Vérifie le jeton CSRF.
@@ -68,11 +79,11 @@ class ForgotPwdController extends BaseController
                 // Corps de l'email.
                 $message = 'Bonjour,
 
-Voici le lien vous permettant de réinitialiser votre mot de passe :
-' . $lien . '
+                            Voici le lien vous permettant de réinitialiser votre mot de passe :
+                            ' . $lien . '
 
-Cordialement,
-l\'Equipe du blog';
+                            Cordialement,
+                            l\'Equipe du blog';
 
                 try {
                     // Envoi de l'e-mail.

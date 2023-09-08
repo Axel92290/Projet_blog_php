@@ -7,7 +7,7 @@ use Models\Post;
 class EditPostController extends BaseController
 {
 
-    
+
     /**
      * Affiche la page d'édition d'un post.
      *
@@ -21,7 +21,7 @@ class EditPostController extends BaseController
     {
         // Vérifie la session de l'utilisateur.
         $this->checkSession();
-        
+
         // Vérifie le jeton CSRF.
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
 
@@ -53,7 +53,7 @@ class EditPostController extends BaseController
 
             // Met à jour les données du post.
             $this->updatePostData($titre, $chapo, $contenu, $id);
-            
+
             // Redirige vers la page des détails du post.
             $this->redirect("/details-posts/$id");
             return;
@@ -70,8 +70,20 @@ class EditPostController extends BaseController
         ]);
 
         print_r($render);
-    }
+    } // End editPost().
 
+    /**
+     * Vérifie le rôle de l'utilisateur pour l'édition et la suppression d'un post.
+     *
+     * Cette fonction vérifie si l'utilisateur actuel a le droit d'éditer ou de supprimer un post
+     * en se basant sur son rôle et l'ID du post. Si l'utilisateur n'a pas les autorisations nécessaires,
+     * il est redirigé vers une page d'erreur.
+     *
+     * @param string $userRole   Le rôle de l'utilisateur actuel.
+     * @param int    $userId     L'identifiant de l'utilisateur actuel.
+     * @param int    $postUserId L'identifiant de l'auteur du post.
+     * @return void
+     */
     private function checkRole($userRole, $userId, $postUserId)
     {
         // Vérifie si l'utilisateur a le rôle "admin" ou est l'auteur du post.
@@ -84,6 +96,14 @@ class EditPostController extends BaseController
         }
     }
 
+    /**
+     * Vérifie si la session de l'utilisateur est active.
+     *
+     * Cette fonction vérifie si la session de l'utilisateur est active. Si l'utilisateur n'est pas connecté,
+     * elle le redirige vers la page de connexion.
+     *
+     * @return void
+     */
     private function checkSession()
     {
         // Vérifie si la session de l'utilisateur est active.
@@ -94,6 +114,15 @@ class EditPostController extends BaseController
         }
     }
 
+    /**
+     * Récupère les détails d'un post.
+     *
+     * Cette fonction récupère les détails d'un post à partir de son ID en utilisant la classe Post.
+     *
+     * @param int $id L'identifiant du post à récupérer.
+     * @return array|null Un tableau contenant les détails du post ou null si aucun post n'est trouvé.
+     */
+
     private function getPost($id)
     {
         // Récupère les détails du post avec l'ID donné.
@@ -102,6 +131,18 @@ class EditPostController extends BaseController
         return $detailPost;
     }
 
+    /**
+     * Met à jour les données d'un post.
+     *
+     * Cette fonction utilise la classe Post pour mettre à jour les données d'un post
+     * en utilisant les nouvelles valeurs de titre, chapo et contenu.
+     *
+     * @param string $titre   Le nouveau titre du post.
+     * @param string $chapo   Le nouveau chapo du post.
+     * @param string $contenu Le nouveau contenu du post.
+     * @param int    $id      L'identifiant du post à mettre à jour.
+     * @return void
+     */
     private function updatePostData($titre, $chapo, $contenu, $id)
     {
         // Met à jour les données du post.

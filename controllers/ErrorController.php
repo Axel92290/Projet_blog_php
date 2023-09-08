@@ -22,10 +22,9 @@ class ErrorController extends BaseController
 
 
         // Puis on affiche la page avec la méthode render.
-        $render = $template->render([
-            'title' => '404 Error',
-        ]);
+        $render = $template->render(['title' => '404 Error',]);
 
         print_r($render);
-    }
+        
+    } // End error().
 }

@@ -26,7 +26,9 @@ class Users extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End loadUserByEmail().
+    
 
     /**
      * Insère un nouvel utilisateur dans la base de données.
@@ -51,7 +53,9 @@ class Users extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End insertData().
+
 
     /**
      * Met à jour la date de connexion d'un utilisateur dans la base de données.
@@ -72,7 +76,9 @@ class Users extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End updateDateConnexion().
+
 
     /**
      * Vérifie si un utilisateur existe déjà en recherchant son adresse email.
@@ -93,7 +99,9 @@ class Users extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End checkUserByEmail().
+
 
     /**
      * Vérifie les informations de connexion d'un utilisateur.
@@ -117,7 +125,9 @@ class Users extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End checkConnexion().
+
 
     /**
      * Met à jour le mot de passe d'un utilisateur dans la base de données.
@@ -138,7 +148,9 @@ class Users extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End updatePwd().
+
 
     /**
      * Récupère les informations des utilisateurs dans la base de données.
@@ -165,7 +177,9 @@ class Users extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End getUsers().
+
 
     /**
      * Met à jour le rôle d'un utilisateur dans la base de données.
@@ -186,7 +200,9 @@ class Users extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End updateRole().
+
 
     /**
      * Met à jour le token de réinitialisation de mot de passe et sa date d'expiration dans la base de données.
@@ -210,7 +226,9 @@ class Users extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+
+    } // End forgotpwd().
+
 
     /**
      * Vérifie l'existence d'un token de réinitialisation de mot de passe dans la base de données.
@@ -232,5 +250,6 @@ class Users extends Database
             print_r($errorMessage);
             return false;
         }
-    }
+        
+    } // End checkToken().
 }
