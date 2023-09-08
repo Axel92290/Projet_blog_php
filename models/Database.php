@@ -76,4 +76,4 @@ class Database
         return self::$instance;
         
     } // End getInstance().
-}
+} // End Database().

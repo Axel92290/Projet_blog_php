@@ -100,6 +100,7 @@ class BaseController
         
     } // End __construct().
 
+
     /**
      * Nettoie les données d'entrée pour prévenir les attaques XSS (Cross-Site Scripting).
      *
@@ -114,6 +115,7 @@ class BaseController
         return $data;
 
     } // End cleanXSS().
+    
     
     /**
      * Redirige vers l'URL cible.
