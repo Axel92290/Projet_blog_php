@@ -15,7 +15,7 @@ class Post extends Database
      * @param string $chapo Le chapo du post.
      * @param string $contenu Le contenu du post.
      * @param int $idUser L'ID de l'utilisateur associé au post.
-     * @return mixed Retourne true si le post a été créé avec succès, ou false en cas d'erreur.
+     * @return bool Retourne true si le post a été créé avec succès, ou false en cas d'erreur.
      */
     public function createPost($titre, $chapo, $contenu, $idUser): mixed
     {
@@ -27,7 +27,8 @@ class Post extends Database
             $req->bindValue('chapo', $chapo);
             $req->bindValue('contenu', $contenu);
             $req->bindValue('idUser', $idUser);
-            return $req->execute();
+            $req->execute();
+            return true;
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
@@ -41,9 +42,9 @@ class Post extends Database
      * Récupère la liste des posts de la base de données.
      *
      * @param int|null $idPost L'ID du post à récupérer (optionnel).
-     * @return mixed Retourne un tableau associatif des posts si $idPost est null, ou un tableau associatif du post spécifié par $idPost s'il est fourni. Retourne false en cas d'erreur.
+     * @return array Retourne un tableau associatif des posts si $idPost est null, ou un tableau associatif du post spécifié par $idPost s'il est fourni. Retourne false en cas d'erreur.
      */
-    public function getPosts($idPost = null): mixed
+    public function getPosts($idPost = null): array
     {
 
         try {
@@ -67,7 +68,7 @@ class Post extends Database
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
-            return false;
+            return array();
         }
 
     } // End getPosts().
@@ -80,9 +81,9 @@ class Post extends Database
      * @param string $chapo Le nouveau chapo du post.
      * @param string $contenu Le nouveau contenu du post.
      * @param int $id L'ID du post à mettre à jour.
-     * @return mixed Retourne true si la mise à jour réussit, ou false en cas d'erreur.
+     * @return bool Retourne true si la mise à jour réussit, ou false en cas d'erreur.
      */
-    public function updatePost($titre, $chapo, $contenu, $id): mixed
+    public function updatePost($titre, $chapo, $contenu, $id): bool
     {
         try {
             $req = self::getInstance()->getConnexion()->prepare("UPDATE posts SET titre = :titre, chapo = :chapo, contenu = :contenu WHERE id = :id");
@@ -91,8 +92,7 @@ class Post extends Database
             $req->bindValue('chapo', $chapo);
             $req->bindValue('contenu', $contenu);
             $req->execute();
-            $result = $req->fetch(PDO::FETCH_ASSOC);
-            return $result;
+            return true;
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
@@ -106,14 +106,15 @@ class Post extends Database
      * Supprime un post de la base de données.
      *
      * @param int $id L'ID du post à supprimer.
-     * @return mixed Retourne true si la suppression réussit, ou false en cas d'erreur.
+     * @return bool Retourne true si la suppression réussit, ou false en cas d'erreur.
      */
-    public function deletePost($id): mixed
+    public function deletePost($id): bool
     {
         try {
             $req = self::getInstance()->getConnexion()->prepare("DELETE FROM posts WHERE id = :id");
             $req->bindValue('id', $id);
-            return $req->execute();
+            $req->execute();
+            return true;
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
@@ -138,7 +139,9 @@ class Post extends Database
             $req->bindValue('comment', $comment);
             $req->bindValue('idUser', $idUser);
             $req->bindValue('idPost', $idPost);
-            return $req->execute();
+            $req->execute();
+
+            return true;
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
@@ -186,7 +189,7 @@ class Post extends Database
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
-            return false;
+            return array();
         }
 
     } // End getComments().
@@ -199,7 +202,7 @@ class Post extends Database
      * @param string $statut Le nouveau statut du commentaire ('approuver' ou 'refuser').
      * @return bool Retourne true si la mise à jour réussit, sinon false.
      */
-    public function updateStatut($idComment, $statut): mixed
+    public function updateStatut($idComment, $statut): bool
     {
 
         try {
@@ -212,6 +215,8 @@ class Post extends Database
             $req = self::getInstance()->getConnexion()->prepare($sql);
             $req->bindValue('idComment', $idComment);
             $req->execute();
+
+            return true;
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);

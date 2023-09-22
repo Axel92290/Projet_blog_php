@@ -12,9 +12,9 @@ class Users extends Database
      * Charge un utilisateur à partir de son adresse email.
      *
      * @param string $email L'adresse email de l'utilisateur à charger.
-     * @return mixed Retourne un tableau associatif contenant les informations de l'utilisateur si trouvé, sinon retourne faux en cas d'erreur ou si l'utilisateur n'existe pas.
+     * @return array Retourne un tableau associatif contenant les informations de l'utilisateur si trouvé, sinon retourne faux en cas d'erreur ou si l'utilisateur n'existe pas.
      */
-    public function loadUserByEmail($email): mixed
+    public function loadUserByEmail($email): array
     {
         try {
             $stmt = self::getInstance()->getConnexion()->prepare('SELECT * FROM users WHERE email = :email');
@@ -24,7 +24,7 @@ class Users extends Database
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
-            return false;
+            return array();
         }
 
     } // End loadUserByEmail().
@@ -37,9 +37,9 @@ class Users extends Database
      * @param string $prenom Le prénom de l'utilisateur.
      * @param string $mail L'adresse email de l'utilisateur.
      * @param string $pwd Le mot de passe de l'utilisateur.
-     * @return mixed Retourne vrai si l'insertion a réussi, sinon retourne faux en cas d'erreur.
+     * @return bool Retourne vrai si l'insertion a réussi, sinon retourne faux en cas d'erreur.
      */
-    public function insertData($nom, $prenom, $mail, $pwd): mixed
+    public function insertData($nom, $prenom, $mail, $pwd): bool
     {
         try {
             $stmt = self::getInstance()->getConnexion()->prepare('INSERT INTO users (firstname, lastname, email, pwd, createdAt) VALUES (:firstname, :lastname, :email, :pwd , NOW())');
@@ -47,7 +47,9 @@ class Users extends Database
             $stmt->bindValue('lastname', $nom);
             $stmt->bindValue('email', $mail);
             $stmt->bindValue('pwd', $pwd);
-            return $stmt->execute();
+            $stmt->execute();
+
+            return true;
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
@@ -62,15 +64,16 @@ class Users extends Database
      *
      * @param string $email L'adresse email de l'utilisateur.
      * @param string $updatedAt La nouvelle date de connexion à enregistrer.
-     * @return mixed Retourne vrai si la mise à jour a réussi, sinon retourne faux en cas d'erreur.
+     * @return bool Retourne vrai si la mise à jour a réussi, sinon retourne faux en cas d'erreur.
      */
-    public function updateDateConnexion($email, $updatedAt): mixed
+    public function updateDateConnexion($email, $updatedAt): bool
     {
         try {
             $stmt = self::getInstance()->getConnexion()->prepare('UPDATE users SET updatedAt = :updatedAt WHERE email = :email');
             $stmt->bindValue('updatedAt', $updatedAt);
             $stmt->bindValue('email', $email);
-            return $stmt->execute();
+            $stmt->execute();
+            return true;
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
@@ -84,9 +87,9 @@ class Users extends Database
      * Vérifie si un utilisateur existe déjà en recherchant son adresse email.
      *
      * @param string $email L'adresse email à vérifier.
-     * @return mixed Retourne un tableau associatif contenant l'ID de l'utilisateur s'il existe, sinon retourne faux en cas d'erreur ou si l'utilisateur n'existe pas.
+     * @return array Retourne un tableau associatif contenant l'ID de l'utilisateur s'il existe, sinon retourne faux en cas d'erreur ou si l'utilisateur n'existe pas.
      */
-    public function checkUserByEmail($email): mixed
+    public function checkUserByEmail($email): array
     {
         try {
             $req = self::getInstance()->getConnexion()->prepare("SELECT id FROM users WHERE email = :email ");
@@ -97,7 +100,7 @@ class Users extends Database
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
-            return false;
+            return array();
         }
 
     } // End checkUserByEmail().
@@ -108,9 +111,9 @@ class Users extends Database
      *
      * @param string $email L'adresse email de l'utilisateur.
      * @param string $pwd Le mot de passe de l'utilisateur.
-     * @return mixed Retourne un tableau associatif contenant les informations de l'utilisateur en cas de succès de la vérification, sinon retourne faux en cas d'erreur ou si les informations sont incorrectes.
+     * @return array Retourne un tableau associatif contenant les informations de l'utilisateur en cas de succès de la vérification, sinon retourne faux en cas d'erreur ou si les informations sont incorrectes.
      */
-    public function checkConnexion($email, $pwd): mixed
+    public function checkConnexion($email, $pwd): array
     {
 
         try {
@@ -123,7 +126,7 @@ class Users extends Database
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
-            return false;
+            return array();
         }
 
     } // End checkConnexion().
@@ -134,15 +137,16 @@ class Users extends Database
      *
      * @param string $mail L'adresse email de l'utilisateur.
      * @param string $newPwd Le nouveau mot de passe à enregistrer.
-     * @return mixed Retourne vrai en cas de succès de la mise à jour, sinon retourne faux en cas d'erreur.
+     * @return bool Retourne vrai en cas de succès de la mise à jour, sinon retourne faux en cas d'erreur.
      */
-    public function updatePwd($mail, $newPwd): mixed
+    public function updatePwd($mail, $newPwd): bool
     {
         try {
             $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET pwd = :pwd WHERE email = :email");
             $req->bindValue('pwd', $newPwd);
             $req->bindValue('email', $mail);
-            return $req->execute();
+            $req->execute();
+            return true;
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
@@ -156,9 +160,9 @@ class Users extends Database
      * Récupère les informations des utilisateurs dans la base de données.
      *
      * @param int|null $id L'identifiant de l'utilisateur à récupérer (facultatif).
-     * @return mixed Retourne un tableau associatif des informations des utilisateurs ou un utilisateur spécifique si l'identifiant est fourni.
+     * @return array Retourne un tableau associatif des informations des utilisateurs ou un utilisateur spécifique si l'identifiant est fourni.
      */
-    public function getUsers($id = null): mixed
+    public function getUsers($id = null): array
     {
         try {
             $sql = "SELECT id, firstname, lastname, email, role FROM users";
@@ -175,7 +179,7 @@ class Users extends Database
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
-            return false;
+            return array();
         }
 
     } // End getUsers().
@@ -186,15 +190,16 @@ class Users extends Database
      *
      * @param string $role Le nouveau rôle de l'utilisateur.
      * @param int $id L'identifiant de l'utilisateur à mettre à jour.
-     * @return mixed Retourne true en cas de succès ou false en cas d'erreur.
+     * @return bool Retourne true en cas de succès ou false en cas d'erreur.
      */
-    public function updateRole($role, $id): mixed
+    public function updateRole($role, $id): bool
     {
         try {
             $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET role = :role WHERE id = :id");
             $req->bindValue('role', $role);
             $req->bindValue('id', $id);
-            return $req->execute();
+            $req->execute();
+            return true;
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
@@ -210,9 +215,9 @@ class Users extends Database
      * @param string $token Le nouveau token.
      * @param string $expireAt La date d'expiration du token.
      * @param string $email L'adresse email de l'utilisateur.
-     * @return mixed Retourne true en cas de succès ou false en cas d'erreur.
+     * @return bool Retourne true en cas de succès ou false en cas d'erreur.
      */
-    public function forgotpwd($token, $expireAt, $email): mixed
+    public function forgotpwd($token, $expireAt, $email): bool
     {
         try {
 
@@ -220,7 +225,9 @@ class Users extends Database
             $req->bindValue('token', $token);
             $req->bindValue('expireAt', $expireAt);
             $req->bindValue('email', $email);
-            return $req->execute();
+            $req->execute();
+
+            return true;
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
@@ -234,9 +241,9 @@ class Users extends Database
      * Vérifie l'existence d'un token de réinitialisation de mot de passe dans la base de données.
      *
      * @param string $token Le token à vérifier.
-     * @return mixed Retourne un tableau associatif contenant les informations du token s'il existe, ou false s'il n'existe pas ou en cas d'erreur.
+     * @return array Retourne un tableau associatif contenant les informations du token s'il existe, ou false s'il n'existe pas ou en cas d'erreur.
      */
-    public function checkToken($token): mixed
+    public function checkToken($token): array
     {
         try {
 
@@ -248,7 +255,7 @@ class Users extends Database
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
-            return false;
+            return array();
         }
         
     } // End checkToken().
