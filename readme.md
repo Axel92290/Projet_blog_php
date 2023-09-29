@@ -27,7 +27,7 @@ Avant d'installer les dépendances, assurez-vous de mettre à jour Composer en u
 
 
 composer self-update
-Installer les Dépendances
+
 
 3. **Installez les dépendances PHP du projet en utilisant Composer :**
 
@@ -65,3 +65,9 @@ User :
 username :  Axel@gmail.com
 
 password : Axel123!
+
+Phpmyadmin :
+
+username : adminOC
+
+password : CVf(puPb38FSjCm
