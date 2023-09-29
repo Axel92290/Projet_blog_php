@@ -22,7 +22,6 @@ class EditPostController extends BaseController
         // Vérifie la session de l'utilisateur.
         $this->checkSession();
 
-
         // Vérifie le jeton CSRF.
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
 
@@ -87,10 +86,16 @@ class EditPostController extends BaseController
      */
     private function checkRole($userRole, $userId, $postUserId)
     {
+
         // Vérifie si l'utilisateur a le rôle "admin" ou est l'auteur du post.
         if ($userRole === "admin" || $userId === $postUserId) {
+            return;
             // L'utilisateur a les permissions nécessaires.
-        } else {
+        } elseif ($userRole === "user") {
+            // Redirige vers une page d'erreur.
+            $this->redirect('/error/');
+            return;
+        }else{
             // Redirige vers une page d'erreur.
             $this->redirect('/error/');
             return;
