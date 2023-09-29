@@ -53,10 +53,15 @@ Voici le badge certifiant la qualité du code.
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/2e8a09b45dfc4fbbaf6fe153edec760b)](https://app.codacy.com/gh/Axel92290/Projet_blog_php/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 7. **Comptes :** 
+
 Admin :
-Admin@blog.com
-Admin123!
+
+username : Admin@blog.com
+
+password : Admin123!
 
 User : 
-Axel@gmail.com
-Axel123!
+
+username :  Axel@gmail.com
+
+password : Axel123!
