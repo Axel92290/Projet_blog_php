@@ -35,44 +35,41 @@ class EditPostController extends BaseController
         // Vérifie le rôle de l'utilisateur.
         $this->checkRole($userRole, $userId, $postUserId);
 
-
-        if (!$this->httpRequest->isMethod('POST') || !$csrf->validateRequest()) {
+        if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
             // Gère la méthode HTTP invalide ou le jeton CSRF incorrect ici.
 
-
-            // Choisi la template à appeler.
-            $template = $this->twig->load('admin/edit.html');
-
-            // Affiche la page avec la méthode render.
-            $render = $template->render([
-                'title' => 'Edition du post',
-                'detailPost' => $detailPost[0],
-                'errors' => $this->errors,
-            ]);
+            $title = $this->httpRequest->request->get('title');
+            $chapo = $this->httpRequest->request->get('chapo');
+            $content = $this->httpRequest->request->get('content');
 
 
-            print_r($render);
+            $this->checkFields($title, $chapo, $content);
 
-            if (!$this->httpRequest->request->get('title')) {
-                $this->errors[] = 'Veuillez remplir le champ titre';
-            } elseif (!$this->httpRequest->request->get('content')) {
-                $this->errors[] = 'Veuillez remplir le champ contenu';
-            } elseif (!$this->httpRequest->request->get('chapo')) {
-                $this->errors[] = 'Veuillez remplir le champ chapo';
-            } else {
-                // Nettoie et récupère les données du formulaire.
+
+            if (empty($this->errors)) {
                 $titre = ucfirst($this->cleanXSS($this->httpRequest->request->get('title')));
-                $chapo = ucfirst($this->cleanXSS($this->httpRequest->request->get('chapo')));
                 $contenu = ucfirst($this->cleanXSS($this->httpRequest->request->get('content')));
+                $chapo = ucfirst($this->cleanXSS($this->httpRequest->request->get('chapo')));
 
                 // Met à jour les données du post.
                 $this->updatePostData($titre, $chapo, $contenu, $id);
-
-                // Redirige vers la page des détails du post.
-                $this->redirect("/details-posts/$id");
+                $this->redirect('/listing-posts/');
                 return;
-            }
+            } 
         }
+
+        // Choisi la template à appeler.
+        $template = $this->twig->load('admin/edit.html');
+
+        // Affiche la page avec la méthode render.
+        $render = $template->render([
+            'title' => 'Edition du post',
+            'detailPost' => $detailPost[0],
+            'errors' => $this->errors,
+        ]);
+
+
+        print_r($render);
     } // End editPost().
 
 
@@ -156,4 +153,23 @@ class EditPostController extends BaseController
         $post = new Post();
         $post->updatePost($titre, $chapo, $contenu, $id);
     } // End updatePostData().
+
+    /**
+     * Vérifie les champs du formulaire pour s'assurer qu'ils ne sont pas vides.
+     *
+     * @param string $titre    Le titre du post.
+     * @param string $chapo    Le chapo du post.
+     * @param string $contenu  Le contenu du post.
+     * @return void
+     */
+    private function checkFields($titre, $chapo, $contenu)
+    {
+        if (empty($titre)) {
+            $this->errors[] = 'Veuillez remplir le champ titre';
+        } elseif (empty($chapo)) {
+            $this->errors[] = 'Veuillez remplir le champ chapo';
+        } elseif (empty($contenu)) {
+            $this->errors[] = 'Veuillez remplir le champ contenu';
+        }
+    } // End checkFields().
 } // End EditPostController().

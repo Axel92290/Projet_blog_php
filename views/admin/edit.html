@@ -29,17 +29,9 @@
                 <label for="message">Message</label>
             </div>
 
-        </br>
-            {% if errors is not empty %}
-            <div class="alert alert-danger" role="alert">
-                {% for error in errors %}
-                <p>{{error}}</p>
-                {% endfor %}
-            </div>
-            {% endif %}
             <br />
             <!-- Submit Button-->
-            <button class="btn btn-primary text-uppercase"  type="submit" name="creer">Modifier le
+            <button class="btn btn-primary text-uppercase"  type="submit" name="editer">Modifier le
                 post</button>
 
                 {{ form_token("") }}
