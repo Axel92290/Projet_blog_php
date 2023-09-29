@@ -20,7 +20,14 @@ class Users extends Database
             $stmt = self::getInstance()->getConnexion()->prepare('SELECT * FROM users WHERE email = :email');
             $stmt->bindParam('email', $email);
             $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Vérifiez si un utilisateur a été trouvé
+            if ($result !== false) {
+                return $result; // Retourne les données de l'utilisateur sous forme de tableau
+            } else {
+                return array(); // Aucun utilisateur trouvé, retourne un tableau vide
+            }
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
@@ -96,7 +103,11 @@ class Users extends Database
             $req->bindValue('email', $email);
             $req->execute();
             $result = $req->fetch(PDO::FETCH_ASSOC);
-            return $result;
+            if ($result !== false) {
+                return $result; // Retourne les données de l'utilisateur sous forme de tableau
+            } else {
+                return array(); // Aucun utilisateur trouvé, retourne un tableau vide
+            }
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);
