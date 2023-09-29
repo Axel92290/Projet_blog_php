@@ -55,7 +55,7 @@ try {
         $r->addRoute(['GET', 'POST'], '/admin/create-posts/', CreatePostsController::class . '/createPost');
 
         // Page de modification d'un post
-        $r->addRoute(['GET', 'POST'], '/admin/edit-post/{id:\d+}', EditPostController::class . '/editPost');
+        $r->addRoute(['GET', 'POST'], '/admin/edit/{id:\d+}', EditPostController::class . '/editPost');
 
         // Page d'erreur
         $r->addRoute('GET', '/error/', ErrorController::class . '/error');
