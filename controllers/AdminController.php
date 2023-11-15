@@ -2,8 +2,10 @@
 
 namespace Controllers;
 
+use Models\Comment;
 use Models\Post;
 use Models\Users;
+
 
 
 class AdminController extends BaseController
@@ -64,14 +66,14 @@ class AdminController extends BaseController
 
         // Puis on affiche la page avec la méthode render.
         $render = $template->render([
-                    'title'        => 'Page d\'administration',
-                    'listComments' => $comment,
-                    'listUsers'    => $users,
-                  ]);
+            'title' => 'Page d\'administration',
+            'listComments' => $comment,
+            'listUsers' => $users,
+        ]);
 
         print_r($render);
 
-    }// End admin().
+    } // End admin().
 
 
     /**
@@ -91,10 +93,10 @@ class AdminController extends BaseController
         } else {
             $this->redirect('/error/');
         }
-        
+
     } // End verifRole().
 
-    
+
     /**
      * Récupère les commentaires pour la page d'administration.
      *
@@ -106,7 +108,7 @@ class AdminController extends BaseController
     {
         $adminPage = true;
         $idPost = null;
-        $getComment = new Post();
+        $getComment = new Comment();
         return $getComment->getComments($idPost, $adminPage);
 
     } // End getComment().
@@ -124,7 +126,7 @@ class AdminController extends BaseController
         $getUsers = new Users();
         return $getUsers->getUsers();
 
-    }   // End getUsers().
+    } // End getUsers().
 
 
     /**
@@ -142,7 +144,7 @@ class AdminController extends BaseController
 
     } // End updateRole().
 
-    
+
     /**
      * Met à jour le statut d'un commentaire.
      *
@@ -154,7 +156,7 @@ class AdminController extends BaseController
      */
     private function updateStatut($id, $action)
     {
-        $updateStatut = new Post();
+        $updateStatut = new Comment();
         return $updateStatut->updateStatut($id, $action);
 
     } // End updateStatut().

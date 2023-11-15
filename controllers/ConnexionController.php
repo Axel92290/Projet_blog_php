@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Models\Users;
 
+
 class ConnexionController extends BaseController
 {
 
@@ -26,12 +27,12 @@ class ConnexionController extends BaseController
 
         // Puis on affiche la page avec la méthode render.
         $render = $template->render([
-                    'title'  => 'Connexion',
-                    'errors' => $this->errors,
-                  ]);        
+            'title' => 'Connexion',
+            'errors' => $this->errors,
+        ]);
 
         print_r($render);
-        
+
     } // End connexion().
 
 
@@ -138,12 +139,12 @@ class ConnexionController extends BaseController
         if (password_verify($password, $passwordHash)) {
             $updatedAt = date('Y-m-d H:i:s');
             $this->httpSession->set('user', [
-                     'id'        => $userFound['id'],
-                     'email'     => $userFound['email'],
-                     'firstname' => $userFound['firstname'],
-                     'lastname'  => $userFound['lastname'],
-                     'role'      => $userFound['role'],
-                   ]);
+                'id' => $userFound['id'],
+                'email' => $userFound['email'],
+                'firstname' => $userFound['firstname'],
+                'lastname' => $userFound['lastname'],
+                'role' => $userFound['role'],
+            ]);
 
             $this->updateUserLoginDate($userFound['email'], $updatedAt);
             $this->redirect('/');
@@ -179,6 +180,6 @@ class ConnexionController extends BaseController
         if ($this->httpSession->has('user')) {
             $this->redirect('/');
         }
-        
+
     } // End checkSession().
 } // End ConnexionController().

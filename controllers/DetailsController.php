@@ -3,6 +3,8 @@
 namespace Controllers;
 
 use Models\Post;
+use Models\Comment;
+
 
 class DetailsController extends BaseController
 {
@@ -72,15 +74,15 @@ class DetailsController extends BaseController
 
         // Puis on affiche la page avec la méthode render.
         $render = $template->render([
-                    'title' => 'Détail d\'un post',
-                    'detailPost' => $detailPost[0],
-                    'listComments' => $comment,
-                    'canEditPost' => $canEditPost,
-                    'canDeletePost' => $canDeletePost,
-                  ]);
+            'title' => 'Détail d\'un post',
+            'detailPost' => $detailPost[0],
+            'listComments' => $comment,
+            'canEditPost' => $canEditPost,
+            'canDeletePost' => $canDeletePost,
+        ]);
 
         print_r($render);
-        
+
     } // End details().
 
 
@@ -105,7 +107,7 @@ class DetailsController extends BaseController
             $idPost = $id;
 
             // Crée un nouveau commentaire avec les informations fournies.
-            $createComment = new Post();
+            $createComment = new Comment();
             $createComment->createComment($comment, $idUser, $idPost);
         }
 
@@ -124,7 +126,7 @@ class DetailsController extends BaseController
     private function getComment($id)
     {
         // Récupère les commentaires pour le post avec l'ID donné.
-        $getComment = new Post();
+        $getComment = new Comment();
         $getComment = $getComment->getComments($id);
         return $getComment;
 
@@ -175,6 +177,6 @@ class DetailsController extends BaseController
         // Supprime le post avec l'ID donné.
         $deletePost = new Post();
         $deletePost->deletePost($id);
-        
+
     } // End deletePost().
 } // End DetailsController().

@@ -9,7 +9,7 @@ class Config
      * @var array|false
      */
     private $iniConfFile = [];
-    
+
 
     /**
      * Constructeur de la classe Config.
@@ -19,7 +19,6 @@ class Config
     public function __construct()
     {
         $this->iniConfFile = parse_ini_file(dirname(__FILE__) . "/../config/dev.ini", false);
-        
     } // End __construct().
 
 
@@ -36,6 +35,5 @@ class Config
             $result = $this->iniConfFile[$name];
         }
         return $result;
-
     } // End get().
-}
+} // End class.
