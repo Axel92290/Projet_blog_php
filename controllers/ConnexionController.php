@@ -68,7 +68,7 @@ class ConnexionController extends BaseController
             return;
         }
 
-        $this->processUserLogin($userFound, $password);
+        $this->processUserLogin($userFound->toArray(), $password);
 
     } // End checkFormSubmit().
 

@@ -236,4 +236,20 @@ class UserModel
     {
         $this->expireAt = $expireAt;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'firstname' => $this->getFirstname(),
+            'lastname' => $this->getLastname(),
+            'email' => $this->getEmail(),
+            'pwd' => $this->getPwd(),
+            'role' => $this->getRole(),
+            'createdAt' => $this->getCreatedAt(),
+            'updatedAt' => $this->getUpdatedAt(),
+            'token' => $this->getToken(),
+            'expireAt' => $this->getExpireAt(),
+        ];
+    }
 }

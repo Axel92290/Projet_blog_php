@@ -15,11 +15,11 @@ class Comment extends Database
      * @param int $idPost L'ID du post auquel le commentaire est associé.
      * @return bool Retourne true si la création réussit, ou false en cas d'erreur.
      */
-    public function createComment($comment, $idUser, $idPost)
+    public function createComment($contenu, $idUser, $idPost): mixed
     {
         try {
             $comment = new CommentModel();
-            $comment->setContenu($comment);
+            $comment->setContenu($contenu);
             $comment->setIdUser($idUser);
             $comment->setIdPost($idPost);
 
@@ -45,7 +45,7 @@ class Comment extends Database
      * @param bool|null $adminPage Indique si c'est une page d'administration (optionnel).
      * @return array|bool Retourne un tableau de commentaires si la récupération réussit, ou false en cas d'erreur.
      */
-    public function getComments($idPost = null, $adminPage = null)
+    public function getComments($idPost = null, $adminPage = null): mixed
     {
         try {
 
@@ -116,6 +116,8 @@ class Comment extends Database
             $req = self::getInstance()->getConnexion()->prepare($sql);
             $req->bindValue('idComment', $comment->getId());
             $req->execute();
+
+            return true;
         } catch (\PDOException $e) {
             $errorMessage = $e->getMessage();
             print_r($errorMessage);

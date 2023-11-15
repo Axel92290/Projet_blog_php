@@ -34,6 +34,19 @@ class EditPostController extends BaseController
         // Vérifie le rôle de l'utilisateur.
         $this->checkRole($userRole, $userId, $postUserId);
 
+        // Choisi la template à appeler.
+        $template = $this->twig->load('admin/edit.html');
+
+        // Affiche la page avec la méthode render.
+        $render = $template->render([
+            'title' => 'Edition du post',
+            'detailPost' => $detailPost[0],
+            'errors' => $this->errors,
+        ]);
+
+
+        print_r($render);
+
         if (!$this->httpRequest->isMethod('POST') || !$csrf->validateRequest()) {
             // Gère la méthode HTTP invalide ou le jeton CSRF incorrect ici.
             return;
@@ -59,20 +72,9 @@ class EditPostController extends BaseController
             return;
         }
 
-        // Choisi la template à appeler.
-        $template = $this->twig->load('admin/edit.html');
-
-        // Affiche la page avec la méthode render.
-        $render = $template->render([
-            'title' => 'Edition du post',
-            'detailPost' => $detailPost[0],
-            'errors' => $this->errors,
-        ]);
-
-        print_r($render);
     } // End editPost().
 
-    
+
     /**
      * Vérifie le rôle de l'utilisateur pour l'édition et la suppression d'un post.
      *
@@ -133,6 +135,7 @@ class EditPostController extends BaseController
         $detailPost = $post->getPosts($id);
         return $detailPost;
 
+
     } // End getPost().
 
 
@@ -153,6 +156,6 @@ class EditPostController extends BaseController
         // Met à jour les données du post.
         $post = new Post();
         $post->updatePost($titre, $chapo, $contenu, $id);
-        
+
     } // End updatePostData().
 } // End EditPostController().
