@@ -34,29 +34,6 @@ class EditPostController extends BaseController
         // Vérifie le rôle de l'utilisateur.
         $this->checkRole($userRole, $userId, $postUserId);
 
-        if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
-            // Gère la méthode HTTP invalide ou le jeton CSRF incorrect ici.
-
-            $title = $this->httpRequest->request->get('title');
-            $chapo = $this->httpRequest->request->get('chapo');
-            $content = $this->httpRequest->request->get('content');
-
-
-            $this->checkFields($title, $chapo, $content);
-
-
-            if (empty($this->errors)) {
-                $titre = ucfirst($this->cleanXSS($this->httpRequest->request->get('title')));
-                $contenu = ucfirst($this->cleanXSS($this->httpRequest->request->get('content')));
-                $chapo = ucfirst($this->cleanXSS($this->httpRequest->request->get('chapo')));
-
-                // Met à jour les données du post.
-                $this->updatePostData($titre, $chapo, $contenu, $id);
-                $this->redirect('/listing-posts/');
-                return;
-            } 
-        }
-
         // Choisi la template à appeler.
         $template = $this->twig->load('admin/edit.html');
 
@@ -69,6 +46,32 @@ class EditPostController extends BaseController
 
 
         print_r($render);
+
+        if (!$this->httpRequest->isMethod('POST') || !$csrf->validateRequest()) {
+            // Gère la méthode HTTP invalide ou le jeton CSRF incorrect ici.
+            return;
+        }
+
+        if (!$this->httpRequest->request->get('title')) {
+            $this->errors[] = 'Veuillez remplir le champ titre';
+        } elseif (!$this->httpRequest->request->get('content')) {
+            $this->errors[] = 'Veuillez remplir le champ contenu';
+        } elseif (!$this->httpRequest->request->get('chapo')) {
+            $this->errors[] = 'Veuillez remplir le champ chapo';
+        } else {
+            // Nettoie et récupère les données du formulaire.
+            $titre = ucfirst($this->cleanXSS($this->httpRequest->request->get('title')));
+            $chapo = ucfirst($this->cleanXSS($this->httpRequest->request->get('chapo')));
+            $contenu = ucfirst($this->cleanXSS($this->httpRequest->request->get('content')));
+
+            // Met à jour les données du post.
+            $this->updatePostData($titre, $chapo, $contenu, $id);
+
+            // Redirige vers la page des détails du post.
+            $this->redirect("/details-posts/$id");
+            return;
+        }
+
     } // End editPost().
 
 
@@ -86,16 +89,10 @@ class EditPostController extends BaseController
      */
     private function checkRole($userRole, $userId, $postUserId)
     {
-
         // Vérifie si l'utilisateur a le rôle "admin" ou est l'auteur du post.
         if ($userRole === "admin" || $userId === $postUserId) {
-            return;
             // L'utilisateur a les permissions nécessaires.
-        } elseif ($userRole === "user") {
-            // Redirige vers une page d'erreur.
-            $this->redirect('/error/');
-            return;
-        }else{
+        } else {
             // Redirige vers une page d'erreur.
             $this->redirect('/error/');
             return;
@@ -137,6 +134,8 @@ class EditPostController extends BaseController
         $post = new Post();
         $detailPost = $post->getPosts($id);
         return $detailPost;
+
+
     } // End getPost().
 
 
@@ -157,24 +156,6 @@ class EditPostController extends BaseController
         // Met à jour les données du post.
         $post = new Post();
         $post->updatePost($titre, $chapo, $contenu, $id);
-    } // End updatePostData().
 
-    /**
-     * Vérifie les champs du formulaire pour s'assurer qu'ils ne sont pas vides.
-     *
-     * @param string $titre    Le titre du post.
-     * @param string $chapo    Le chapo du post.
-     * @param string $contenu  Le contenu du post.
-     * @return void
-     */
-    private function checkFields($titre, $chapo, $contenu)
-    {
-        if (empty($titre)) {
-            $this->errors[] = 'Veuillez remplir le champ titre';
-        } elseif (empty($chapo)) {
-            $this->errors[] = 'Veuillez remplir le champ chapo';
-        } elseif (empty($contenu)) {
-            $this->errors[] = 'Veuillez remplir le champ contenu';
-        }
-    } // End checkFields().
+    } // End updatePostData().
 } // End EditPostController().
