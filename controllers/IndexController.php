@@ -15,7 +15,7 @@ class IndexController extends BaseController
      * Cette fonction affiche la page d'accueil du site.
      * Elle permet à un utilisateur de prendre contact avec les administrateurs du site.
      */
-    public function index()
+    public function index(): void
     {
         // Chargement du template de la page d'accueil.
         $template = $this->twig->load('index/index.html');
@@ -47,7 +47,7 @@ class IndexController extends BaseController
      *
      * @return void
      */
-    private function contact()
+    private function contact(): void
     {
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
         if (!$this->httpRequest->isMethod('POST') || !$csrf->validateRequest()) {

@@ -10,12 +10,12 @@ class Comment extends Database
     /**
      * Crée un commentaire dans la base de données.
      *
-     * @param string $comment Le contenu du commentaire.
+     * @param string $contenu Le contenu du commentaire.
      * @param int $idUser L'ID de l'utilisateur qui a créé le commentaire.
      * @param int $idPost L'ID du post auquel le commentaire est associé.
      * @return bool Retourne true si la création réussit, ou false en cas d'erreur.
      */
-    public function createComment($contenu, $idUser, $idPost): mixed
+    public function createComment(string $contenu, int $idUser, int $idPost): bool
     {
         try {
             $comment = new CommentModel();
@@ -45,7 +45,7 @@ class Comment extends Database
      * @param bool|null $adminPage Indique si c'est une page d'administration (optionnel).
      * @return array|bool Retourne un tableau de commentaires si la récupération réussit, ou false en cas d'erreur.
      */
-    public function getComments($idPost = null, $adminPage = null): mixed
+    public function getComments(int $idPost = null, bool $adminPage = null): array|bool
     {
         try {
 
@@ -94,7 +94,7 @@ class Comment extends Database
      * @param string $statut Le nouveau statut du commentaire ('approuver' ou 'refuser').
      * @return bool Retourne true si la mise à jour réussit, sinon false.
      */
-    public function updateStatut($idComment, $statut): mixed
+    public function updateStatut(int $idComment, string $statut): bool
     {
 
         try {

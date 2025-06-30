@@ -14,7 +14,7 @@ class LogoutController extends BaseController
      *
      * @return void
      */
-    public function logout()
+    public function logout(): void
     {
         $this->httpSession->invalidate();
         $this->httpSession->clear();

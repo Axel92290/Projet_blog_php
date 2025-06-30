@@ -14,7 +14,7 @@ class Users extends Database
      * @param string $email L'adresse email de l'utilisateur à charger.
      * @return array Retourne un tableau associatif contenant les informations de l'utilisateur si trouvé, sinon retourne faux en cas d'erreur ou si l'utilisateur n'existe pas.
      */
-    public function loadUserByEmail($email): array
+    public function loadUserByEmail(string $email): array
     {
         try {
             $stmt = self::getInstance()->getConnexion()->prepare('SELECT * FROM users WHERE email = :email');
@@ -46,7 +46,7 @@ class Users extends Database
      * @param string $pwd Le mot de passe de l'utilisateur.
      * @return bool Retourne vrai si l'insertion a réussi, sinon retourne faux en cas d'erreur.
      */
-    public function insertData($nom, $prenom, $mail, $pwd): bool
+    public function insertData(string $nom, string $prenom, string $mail, string $pwd): bool
     {
         try {
             $stmt = self::getInstance()->getConnexion()->prepare('INSERT INTO users (firstname, lastname, email, pwd, createdAt) VALUES (:firstname, :lastname, :email, :pwd , NOW())');
@@ -73,7 +73,7 @@ class Users extends Database
      * @param string $updatedAt La nouvelle date de connexion à enregistrer.
      * @return bool Retourne vrai si la mise à jour a réussi, sinon retourne faux en cas d'erreur.
      */
-    public function updateDateConnexion($email, $updatedAt): bool
+    public function updateDateConnexion(string $email, string $updatedAt): bool
     {
         try {
             $stmt = self::getInstance()->getConnexion()->prepare('UPDATE users SET updatedAt = :updatedAt WHERE email = :email');
@@ -96,7 +96,7 @@ class Users extends Database
      * @param string $email L'adresse email à vérifier.
      * @return array Retourne un tableau associatif contenant l'ID de l'utilisateur s'il existe, sinon retourne faux en cas d'erreur ou si l'utilisateur n'existe pas.
      */
-    public function checkUserByEmail($email): array
+    public function checkUserByEmail(string $email): array
     {
         try {
             $req = self::getInstance()->getConnexion()->prepare("SELECT id FROM users WHERE email = :email ");
@@ -124,7 +124,7 @@ class Users extends Database
      * @param string $pwd Le mot de passe de l'utilisateur.
      * @return array Retourne un tableau associatif contenant les informations de l'utilisateur en cas de succès de la vérification, sinon retourne faux en cas d'erreur ou si les informations sont incorrectes.
      */
-    public function checkConnexion($email, $pwd): array
+    public function checkConnexion(string $email, string $pwd): array
     {
 
         try {
@@ -150,7 +150,7 @@ class Users extends Database
      * @param string $newPwd Le nouveau mot de passe à enregistrer.
      * @return bool Retourne vrai en cas de succès de la mise à jour, sinon retourne faux en cas d'erreur.
      */
-    public function updatePwd($mail, $newPwd): bool
+    public function updatePwd(string $mail, string $newPwd): bool
     {
         try {
             $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET pwd = :pwd WHERE email = :email");
@@ -173,7 +173,7 @@ class Users extends Database
      * @param int|null $id L'identifiant de l'utilisateur à récupérer (facultatif).
      * @return array Retourne un tableau associatif des informations des utilisateurs ou un utilisateur spécifique si l'identifiant est fourni.
      */
-    public function getUsers($id = null): array
+    public function getUsers(int $id = null): array
     {
         try {
             $sql = "SELECT id, firstname, lastname, email, role FROM users";
@@ -203,7 +203,7 @@ class Users extends Database
      * @param int $id L'identifiant de l'utilisateur à mettre à jour.
      * @return bool Retourne true en cas de succès ou false en cas d'erreur.
      */
-    public function updateRole($role, $id): bool
+    public function updateRole(string $role, int $id): bool
     {
         try {
             $req = self::getInstance()->getConnexion()->prepare("UPDATE users SET role = :role WHERE id = :id");
@@ -228,7 +228,7 @@ class Users extends Database
      * @param string $email L'adresse email de l'utilisateur.
      * @return bool Retourne true en cas de succès ou false en cas d'erreur.
      */
-    public function forgotpwd($token, $expireAt, $email): bool
+    public function forgotpwd(string $token, string $expireAt, string $email): bool
     {
         try {
 
@@ -254,7 +254,7 @@ class Users extends Database
      * @param string $token Le token à vérifier.
      * @return array Retourne un tableau associatif contenant les informations du token s'il existe, ou false s'il n'existe pas ou en cas d'erreur.
      */
-    public function checkToken($token): array
+    public function checkToken(string $token): array
     {
         try {
 

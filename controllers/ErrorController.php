@@ -12,9 +12,9 @@ class ErrorController extends BaseController
      * Cette fonction affiche la page d'erreur du site.
      * Elle permet à un utilisateur de voir une page d'erreur.
      * @return void
-     * 
+     *
      */
-    public function error()
+    public function error(): void
     {
 
         // On choisi la template à appeler.
@@ -27,6 +27,6 @@ class ErrorController extends BaseController
                   ]);
 
         print_r($render);
-        
+
     } // End error().
 } // End ErrorController().

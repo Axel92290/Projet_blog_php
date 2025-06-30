@@ -16,7 +16,7 @@ class RegisterController extends BaseController
      * @return void
      * 
      */
-    public function register()
+    public function register(): void
     {
         // Vérification du jeton CSRF.
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
@@ -73,7 +73,7 @@ class RegisterController extends BaseController
      * @param string $errorMsg  Le message d'erreur à afficher en cas de champ vide.
      * @return string|null      La valeur nettoyée du champ ou null en cas d'erreur.
      */
-    private function validateFormField($fieldName, $errorMsg)
+    private function validateFormField(string $fieldName, string $errorMsg): ?string
     {
         // Récupération de la valeur du champ depuis la requête HTTP.
         $fieldValue = $this->httpRequest->request->get($fieldName);
@@ -104,7 +104,7 @@ class RegisterController extends BaseController
      * @param string $errorMsg  Le message d'erreur à afficher en cas de champ vide ou d'adresse e-mail invalide.
      * @return string|null      La valeur nettoyée du champ d'adresse e-mail ou null en cas d'erreur.
      */
-    private function validateEmailFormField($fieldName, $errorMsg)
+    private function validateEmailFormField(string $fieldName, string $errorMsg): ?string
     {
         // Récupération de la valeur du champ depuis la requête HTTP.
         $fieldValue = $this->httpRequest->request->get($fieldName);
@@ -146,7 +146,7 @@ class RegisterController extends BaseController
      * @param string $confpassword La confirmation du mot de passe de l'utilisateur.
      * @return bool                True si l'insertion réussit, sinon False.
      */
-    private function insertUserData($nom, $prenom, $mail, $pwd, $confpassword)
+    private function insertUserData(string $nom, string $prenom, string $mail, string $pwd, string $confpassword): bool
     {
         // Création d'un nouvel utilisateur dans la base de données.
         $modelUser = new Users();
@@ -160,7 +160,7 @@ class RegisterController extends BaseController
      *
      * Si un utilisateur est déjà connecté, cette fonction redirige vers la page de connexion.
      */
-    private function checkSession()
+    private function checkSession(): void
     {
         // Vérification de la session utilisateur.
         if ($this->httpSession->get('user')) {

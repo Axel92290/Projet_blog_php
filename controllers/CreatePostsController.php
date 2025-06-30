@@ -3,23 +3,17 @@
 namespace Controllers;
 
 use Models\Post;
+use ParagonIE\AntiCSRF\AntiCSRF;
 
 class CreatePostsController extends BaseController
 {
-
-
     /**
-     * Gère la création d'un nouveau post.
-     *
-     * Cette méthode vérifie la session de l'utilisateur et le formulaire de soumission,
-     * puis affiche la page de création de post.
-     *
-     * @return void
+     * Affiche et gère le formulaire de création d'un post.
      */
-    public function createPost()
+    public function createPost(): void
     {
         $this->checkSession();
-        $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
+        $csrf = new AntiCSRF();
 
         if ($this->httpRequest->isMethod('POST') && $csrf->validateRequest()) {
             $this->checkFields(
@@ -30,79 +24,60 @@ class CreatePostsController extends BaseController
 
             if (empty($this->errors)) {
                 $titre = ucfirst($this->cleanXSS($this->httpRequest->request->get('title')));
-                $contenu = ucfirst($this->cleanXSS($this->httpRequest->request->get('content')));
                 $chapo = ucfirst($this->cleanXSS($this->httpRequest->request->get('chapo')));
-                $idUser = $this->httpSession->get('user')['id'];
+                $contenu = ucfirst($this->cleanXSS($this->httpRequest->request->get('content')));
+                $idUser = (int) $this->httpSession->get('user')['id'];
+
                 $this->createNewPost($titre, $chapo, $contenu, $idUser);
                 $this->redirect('/listing-posts/');
                 return;
-            } else {
-                $this->errors[] = 'Veuillez remplir tous les champs';
             }
+
+            $this->errors[] = 'Veuillez remplir tous les champs';
         }
 
-        // On choisit la template à appeler.
         $template = $this->twig->load('admin/create.html');
 
-        // Puis on affiche la page avec la méthode render.
-        $render = $template->render([
-                    'title' => 'Création d\'un post',
-                    'errors' => $this->errors,
-                  ]);
-        print_r($render);
-
-    } // End createPost().
-
+        echo $template->render([
+            'title'  => 'Création d\'un post',
+            'errors' => $this->errors,
+        ]);
+    }
 
     /**
-     * Vérifie si l'utilisateur est connecté, sinon le redirige vers la page de connexion.
-     *
-     * @return void
+     * Vérifie si l'utilisateur est connecté, sinon redirige vers la page de connexion.
      */
-    private function checkSession()
+    private function checkSession(): void
     {
         if (!$this->httpSession->has('user')) {
             $this->redirect('/connexion/');
-            return;
         }
-
-    } // End checkSession().
-
+    }
 
     /**
-     * Crée un nouveau post en utilisant les données fournies.
-     *
-     * @param string $titre    Le titre du post.
-     * @param string $chapo    Le chapo du post.
-     * @param string $contenu  Le contenu du post.
-     * @param int    $idUser   L'ID de l'utilisateur créant le post.
-     * @return void
+     * Enregistre un nouveau post en base de données.
      */
-    private function createNewPost($titre, $chapo, $contenu, $idUser)
+    private function createNewPost(string $titre, string $chapo, string $contenu, int $idUser): void
     {
-        $post = new Post();
-        $post->createPost($titre, $chapo, $contenu, $idUser);
-
-    } // End createNewPost().
-
+        $postModel = new Post();
+        $postModel->createPost($titre, $chapo, $contenu, $idUser);
+    }
 
     /**
-     * Vérifie les champs du formulaire pour s'assurer qu'ils ne sont pas vides.
-     *
-     * @param string $titre    Le titre du post.
-     * @param string $chapo    Le chapo du post.
-     * @param string $contenu  Le contenu du post.
-     * @return void
+     * Vérifie que les champs du formulaire ne sont pas vides.
      */
-    private function checkFields($titre, $chapo, $contenu)
+    private function checkFields(?string $titre, ?string $chapo, ?string $contenu): void
     {
         if (empty($titre)) {
             $this->errors[] = 'Veuillez remplir le champ titre';
-        } elseif (empty($chapo)) {
+        }
+
+        if (empty($chapo)) {
             $this->errors[] = 'Veuillez remplir le champ chapo';
-        } elseif (empty($contenu)) {
+        }
+
+        if (empty($contenu)) {
             $this->errors[] = 'Veuillez remplir le champ contenu';
         }
-        
-    } // End checkFields().
-} // End CreatePostsController().
+    }
+}

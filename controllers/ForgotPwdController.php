@@ -17,7 +17,7 @@ class ForgotPwdController extends BaseController
      * @return void
      * 
      */
-    public function forgotpwd()
+    public function forgotpwd(): void
     {
         // Vérifie si le formulaire a été soumis.
         $this->checkFormSubmit();
@@ -46,7 +46,7 @@ class ForgotPwdController extends BaseController
      *
      * @return void
      */
-    private function checkFormSubmit()
+    private function checkFormSubmit(): void
     {
         // Vérifie le jeton CSRF.
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;

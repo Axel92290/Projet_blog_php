@@ -78,7 +78,7 @@ class ConnexionController extends BaseController
      *
      * @return bool True si la requête est de type POST, sinon False.
      */
-    private function isPostRequest()
+    private function isPostRequest(): bool
     {
         return $this->httpRequest->isMethod('POST');
 
@@ -90,7 +90,7 @@ class ConnexionController extends BaseController
      *
      * @return bool True si le jeton CSRF est valide, sinon False.
      */
-    private function validateCSRF()
+    private function validateCSRF(): bool
     {
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
         return $csrf->validateRequest();
@@ -104,7 +104,7 @@ class ConnexionController extends BaseController
      * @param string $key La clé de la valeur à récupérer.
      * @return string|null La valeur nettoyée ou null si non présente.
      */
-    private function getRequestValue($key)
+    private function getRequestValue(string $key): ?string
     {
         return $this->cleanXSS($this->httpRequest->request->get($key));
 
@@ -117,7 +117,7 @@ class ConnexionController extends BaseController
      * @param string $email L'adresse e-mail de l'utilisateur.
      * @return array|null Les données de l'utilisateur ou null si non trouvé.
      */
-    private function loadUserByEmail($email)
+    private function loadUserByEmail(string $email): ?array
     {
         $modelUser = new Users();
         return $modelUser->loadUserByEmail($email);
@@ -132,7 +132,7 @@ class ConnexionController extends BaseController
      * @param string $password Le mot de passe saisi par l'utilisateur.
      * @return void
      */
-    private function processUserLogin($userFound, $password)
+    private function processUserLogin(array $userFound, string $password)
     {
         $passwordHash = $userFound['pwd'];
 
@@ -162,7 +162,7 @@ class ConnexionController extends BaseController
      * @param string $updatedAt La date de mise à jour.
      * @return void
      */
-    private function updateUserLoginDate($email, $updatedAt)
+    private function updateUserLoginDate(string $email, string $updatedAt)
     {
         $modelUser = new Users();
         $modelUser->updateDateConnexion($email, $updatedAt);

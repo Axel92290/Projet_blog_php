@@ -1,173 +1,85 @@
 <?php
 
+
 namespace Models;
 
-use PDO;
-
-/**
- * Class PostModel
- */
 class PostModel
 {
-    /**
-     * @var int The post ID.
-     */
-    private $id;
+    private int $id;
+    private string $titre;
+    private string $chapo;
+    private string $contenu;
+    private \DateTime $dateCreation;
+    private \DateTime $dateModification;
+    private int $idUser;
 
-    /**
-     * @var string The post title.
-     */
-    private $titre;
-
-    /**
-     * @var string The post summary.
-     */
-    private $chapo;
-
-    /**
-     * @var string The post content.
-     */
-    private $contenu;
-
-    /**
-     * @var DateTime The date and time the post was created.
-     */
-    private $dateCreation;
-
-    /**
-     * @var DateTime The date and time the post was last modified.
-     */
-    private $dateModification;
-
-    /**
-     * @var int The ID of the user who created the post.
-     */
-    private $idUser;
-
-    /**
-     * Get the post ID.
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set the post ID.
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * Get the post title.
-     * @return string
-     */
-    public function getTitre()
+    public function getTitre(): string
     {
         return $this->titre;
     }
 
-    /**
-     * Set the post title.
-     * @param string $titre
-     */
-    public function setTitre($titre)
+    public function setTitre(string $titre): void
     {
         $this->titre = $titre;
     }
 
-    /**
-     * Get the post summary.
-     * @return string
-     */
-    public function getChapo()
+    public function getChapo(): string
     {
         return $this->chapo;
     }
 
-    /**
-     * Set the post summary.
-     * @param string $chapo
-     */
-    public function setChapo($chapo)
+    public function setChapo(string $chapo): void
     {
         $this->chapo = $chapo;
     }
 
-    /**
-     * Get the post content.
-     * @return string
-     */
-    public function getContenu()
+    public function getContenu(): string
     {
         return $this->contenu;
     }
 
-    /**
-     * Set the post content.
-     * @param string $contenu
-     */
-    public function setContenu($contenu)
+    public function setContenu(string $contenu): void
     {
         $this->contenu = $contenu;
     }
 
-    /**
-     * Get the date and time the post was created.
-     * @return DateTime
-     */
-    public function getDateCreation()
+    public function getDateCreation(): \DateTime
     {
         return $this->dateCreation;
     }
 
-    /**
-     * Set the date and time the post was created.
-     * @param DateTime $dateCreation
-     */
-    public function setDateCreation($dateCreation)
+    public function setDateCreation(\DateTime $dateCreation): void
     {
         $this->dateCreation = $dateCreation;
     }
 
-    /**
-     * Get the date and time the post was last modified.
-     * @return DateTime
-     */
-    public function getDateModification()
+    public function getDateModification(): \DateTime
     {
         return $this->dateModification;
     }
 
-    /**
-     * Set the date and time the post was last modified.
-     * @param DateTime $dateModification
-     */
-    public function setDateModification($dateModification)
+    public function setDateModification(\DateTime $dateModification): void
     {
         $this->dateModification = $dateModification;
     }
 
-    /**
-     * Get the ID of the user who created the post.
-     * @return int
-     */
-    public function getIdUser()
+    public function getIdUser(): int
     {
         return $this->idUser;
     }
 
-    /**
-     * Set the ID of the user who created the post.
-     * @param int $idUser
-     */
-    public function setIdUser($idUser)
+    public function setIdUser(int $idUser): void
     {
         $this->idUser = $idUser;
     }
 }
-?>

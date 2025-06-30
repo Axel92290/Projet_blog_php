@@ -17,7 +17,7 @@ class ResetPwdController extends BaseController
      * @param string $token Le jeton de réinitialisation du mot de passe.
      * @return void
      */
-    public function resetpwd($token)
+    public function resetpwd(string $token): void
     {
         // Chargement du template
         $template = $this->twig->load('resetpwd/resetpwd.html');
@@ -43,8 +43,9 @@ class ResetPwdController extends BaseController
      * vérifie l'expiration du jeton, et traite la réinitialisation du mot de passe si tout est valide.
      *
      * @param string $token Le jeton de réinitialisation de mot de passe.
+     * @return void
      */
-    private function checkFormSubmit($token)
+    private function checkFormSubmit(string $token): void
     {
         // Vérification du jeton CSRF.
         $csrf = new \ParagonIE\AntiCSRF\AntiCSRF;
@@ -86,7 +87,7 @@ class ResetPwdController extends BaseController
      *
      * @return bool True si la requête est de type POST, sinon False.
      */
-    private function isPostRequest()
+    private function isPostRequest(): bool
     {
         // Vérification de la méthode HTTP (POST).
         return $this->httpRequest->isMethod('POST');
@@ -103,7 +104,7 @@ class ResetPwdController extends BaseController
      * @param string $mail L'adresse e-mail de l'utilisateur.
      * @return void
      */
-    private function handlePasswordReset($mail)
+    private function handlePasswordReset(string $mail): void
     {
         // Vérification du champ "newPwd".
         if (!$this->httpRequest->request->get('newPwd')) {
@@ -142,9 +143,9 @@ class ResetPwdController extends BaseController
      * Elle utilise le modèle Users pour effectuer la recherche dans la base de données.
      *
      * @param string $email L'adresse e-mail de l'utilisateur à vérifier.
-     * @return mixed        Les données de l'utilisateur si l'utilisateur existe, sinon false.
+     * @return array|false        Les données de l'utilisateur si l'utilisateur existe, sinon false.
      */
-    private function checkUserByEmail($email)
+    private function checkUserByEmail(string $email): array|false
     {
         // Recherche de l'utilisateur par email dans la base de données.
         $modelUser = new Users();
@@ -161,9 +162,9 @@ class ResetPwdController extends BaseController
      *
      * @param string $email  L'adresse e-mail de l'utilisateur dont le mot de passe doit être mis à jour.
      * @param string $newPwd Le nouveau mot de passe haché.
-     * @return mixed         True si la mise à jour réussit, sinon False.
+     * @return array|false         True si la mise à jour réussit, sinon False.
      */
-    private function updatePwd($email, $newPwd)
+    private function updatePwd(string $email, string $newPwd): array|false
     {
         // Mise à jour du mot de passe dans la base de données.
         $modelUser = new Users();

@@ -2,158 +2,96 @@
 
 namespace Models;
 
-use PDO;
-
 class CommentModel
 {
-    // Propriétés de la classe    
-    /**
-     * id
-     *
-     * @var mixed
-     */
-    private $id;
-    /**
-     * contenu
-     *
-     * @var mixed
-     */
-    private $contenu;
-    /**
-     * dateCreation
-     *
-     * @var mixed
-     */
-    private $dateCreation;
-    /**
-     * dateModification
-     *
-     * @var mixed
-     */
-    private $dateModification;
-    /**
-     * idUser
-     *
-     * @var mixed
-     */
-    private $idUser;
-    /**
-     * idPost
-     *
-     * @var mixed
-     */
-    private $idPost;
-    /**
-     * statut
-     *
-     * @var mixed
-     */
-    private $statut;
-
-    /**
-     * adminPage
-     *
-     * @var mixed
-     */
-    private $adminPage;
-
+    private int $id;
+    private string $contenu;
+    private \DateTime $dateCreation;
+    private \DateTime $dateModification;
+    private int $idUser;
+    private int $idPost;
+    private string $statut;
+    private bool $adminPage;
 
     // Getters et Setters
 
-    // Getter pour l'ID
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    // Setter pour l'ID
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    // Getter pour le contenu
-    public function getContenu()
+    public function getContenu(): string
     {
         return $this->contenu;
     }
 
-    // Setter pour le contenu
-    public function setContenu($contenu)
+    public function setContenu(string $contenu): void
     {
         $this->contenu = $contenu;
     }
 
-    // Getter pour la date de création
-    public function getDateCreation()
+    public function getDateCreation(): \DateTime
     {
         return $this->dateCreation;
     }
 
-    // Setter pour la date de création
-    public function setDateCreation($dateCreation)
+    public function setDateCreation(\DateTime $dateCreation): void
     {
         $this->dateCreation = $dateCreation;
     }
 
-    // Getter pour la date de modification
-    public function getDateModification()
+    public function getDateModification(): \DateTime
     {
         return $this->dateModification;
     }
 
-    // Setter pour la date de modification
-    public function setDateModification($dateModification)
+    public function setDateModification(\DateTime $dateModification): void
     {
         $this->dateModification = $dateModification;
     }
 
-    // Getter pour l'ID de l'utilisateur
-    public function getIdUser()
+    public function getIdUser(): int
     {
         return $this->idUser;
     }
 
-    // Setter pour l'ID de l'utilisateur
-    public function setIdUser($idUser)
+    public function setIdUser(int $idUser): void
     {
         $this->idUser = $idUser;
     }
 
-    // Getter pour l'ID du post
-    public function getIdPost()
+    public function getIdPost(): int
     {
         return $this->idPost;
     }
 
-    // Setter pour l'ID du post
-    public function setIdPost($idPost)
+    public function setIdPost(int $idPost): void
     {
         $this->idPost = $idPost;
     }
 
-    // Getter pour le statut
-    public function getStatut()
+    public function getStatut(): string
     {
         return $this->statut;
     }
 
-    // Setter pour le statut
-    public function setStatut($statut)
+    public function setStatut(string $statut): void
     {
         $this->statut = $statut;
     }
 
-    // Getter pour la page d'administration
-    public function getAdminPage()
+    public function getAdminPage(): bool
     {
         return $this->adminPage;
     }
 
-    // Setter pour la page d'administration
-    public function setAdminPage($adminPage)
+    public function setAdminPage(bool $adminPage): void
     {
         $this->adminPage = $adminPage;
     }
 }
-?>

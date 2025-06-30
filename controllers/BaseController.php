@@ -107,12 +107,11 @@ class BaseController
      * @param string $data Les données à nettoyer.
      * @return string Les données nettoyées.
      */
-    protected function cleanXSS($data)
+    protected function cleanXSS(string $data): string
     {
         $data = trim($data);
         $data = htmlspecialchars($data);
-        $data = $this->antiXss->xss_clean($data);
-        return $data;
+        return $this->antiXss->xss_clean($data);
 
     } // End cleanXSS().
     
@@ -125,7 +124,7 @@ class BaseController
      * @param string $targetUrl L'URL vers laquelle effectuer la redirection.
      * @return void
      */
-    protected function redirect($targetUrl)
+    protected function redirect(string $targetUrl): void
     {
         $response = new RedirectResponse($targetUrl);
         $response->send();

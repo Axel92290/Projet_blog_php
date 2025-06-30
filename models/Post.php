@@ -16,7 +16,8 @@ class Post extends Database
      * @param string $contenu Le contenu du post.
      * @param int $idUser L'ID de l'utilisateur associé au post.
      * @return mixed Retourne true si le post a été créé avec succès, ou false en cas d'erreur.
-     */public function createPost($titre, $chapo, $contenu, $idUser): bool
+     */
+    public function createPost(string $titre, string $chapo, string $contenu, int $idUser): bool
     {
         try {
             // Crée une instance de PostModel
@@ -50,9 +51,9 @@ class Post extends Database
      * Récupère la liste des posts de la base de données.
      *
      * @param int|null $idPost L'ID du post à récupérer (optionnel).
-     * @return mixed Retourne un tableau associatif des posts si $idPost est null, ou un tableau associatif du post spécifié par $idPost s'il est fourni. Retourne false en cas d'erreur.
+     * @return array|false Retourne un tableau associatif des posts si $idPost est null, ou un tableau associatif du post spécifié par $idPost s'il est fourni. Retourne false en cas d'erreur.
      */
-    public function getPosts($idPost = null): mixed
+    public function getPosts(int $idPost = null): array|false
     {
         try {
 
@@ -103,9 +104,9 @@ class Post extends Database
      * @param string $chapo Le nouveau chapo du post.
      * @param string $contenu Le nouveau contenu du post.
      * @param int $id L'ID du post à mettre à jour.
-     * @return mixed Retourne true si la mise à jour réussit, ou false en cas d'erreur.
+     * @return bool Retourne true si la mise à jour réussit, ou false en cas d'erreur.
      */
-    public function updatePost($titre, $chapo, $contenu, $id): mixed
+    public function updatePost(string $titre, string $chapo, string $contenu, int $id): bool
     {
         try {
             $post = new PostModel();
@@ -115,27 +116,20 @@ class Post extends Database
             $post->setContenu($contenu);
             $post->setId($id);
 
-            // Prépare la requête SQL pour mettre à jour les informations du post
-            $req = self::getInstance()->getConnexion()->prepare("UPDATE posts SET titre = :titre, chapo = :chapo, contenu = :contenu WHERE id = :id");
+            $req = self::getInstance()->getConnexion()->prepare("
+            UPDATE posts 
+            SET titre = :titre, chapo = :chapo, contenu = :contenu 
+            WHERE id = :id
+        ");
 
-            // Lie les valeurs des paramètres de la requête SQL
             $req->bindValue('id', $post->getId());
             $req->bindValue('titre', $post->getTitre());
             $req->bindValue('chapo', $post->getChapo());
             $req->bindValue('contenu', $post->getContenu());
 
-            // Exécute la requête SQL
-            $req->execute();
-
-            // Récupère les nouvelles informations du post après la mise à jour
-            $result = $req->fetch(PDO::FETCH_ASSOC);
-
-            // Retourne les nouvelles informations du post
-            return $result;
+            return $req->execute();
         } catch (\PDOException $e) {
-            // Gère l'erreur PDO (journalisation, traitement, etc.)
-            $errorMessage = $e->getMessage();
-            print_r($errorMessage);
+            print_r($e->getMessage());
             return false;
         }
     } // End updatePost().
@@ -145,23 +139,24 @@ class Post extends Database
      * Supprime un post de la base de données.
      *
      * @param int $id L'ID du post à supprimer.
-     * @return mixed Retourne true si la suppression réussit, ou false en cas d'erreur.
+     * @return bool Retourne true si la suppression réussit, ou false en cas d'erreur.
      */
-    public function deletePost($id): mixed
+    public function deletePost(int $id): bool
     {
         try {
-
             $post = new PostModel();
             $post->setId($id);
 
-            $req = self::getInstance()->getConnexion()->prepare("DELETE FROM posts WHERE id = :id");
+            $req = self::getInstance()->getConnexion()->prepare(
+                "DELETE FROM posts WHERE id = :id"
+            );
             $req->bindValue('id', $post->getId());
+
             return $req->execute();
         } catch (\PDOException $e) {
-            $errorMessage = $e->getMessage();
-            print_r($errorMessage);
+            print_r($e->getMessage());
             return false;
         }
+    }
 
-    } // End deletePost().
 } // End class.

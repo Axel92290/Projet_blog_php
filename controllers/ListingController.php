@@ -15,7 +15,7 @@ class ListingController extends BaseController
      * @return void
      * 
      */
-    public function listing()
+    public function listing(): void
     {
 
         // On choisi la template à appeler.
